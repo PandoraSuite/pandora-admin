@@ -85,3 +85,15 @@
     color: var(--text-primary)
   }
 }
+
+.theme-btn {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  padding: 2px;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-tertiary);
+}
