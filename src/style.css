@@ -1,82 +1,87 @@
 @import "tailwindcss";
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"); */
+
 @plugin "daisyui";
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@theme {
+  --font-titles: "Source Code Pro", "monospace";
+  --font-texts: "Roboto Mono", "monospace";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --color-primary: #660099;
+  --color-background: #FFFFFF;
+  --color-secondary: #9900cc;
+  --color-tertiary: #cc66ff;
+  --color-success: #66bb6a;
+  --color-warning: #ffcc80;
+  --color-error: #e57373;
+  --color-quick-action: #5c85d6;
+  --text-primary: #1a1a1a;
+  --text-secondary: #1a1a1a;
+  --border: #e5e5e5;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) {
+  /* Aquí puedes definir estilos específicos para el modo oscuro si es necesario */
+}
+.color {
+  color: #660099;
+  color: #926ca5;
+  color: #c150fa;
+  color: #73647a;
+  color: #4b4150;
+  color: #2d2133;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+[data-theme="light"] {
+  --color-primary: #660099;
+  --color-background: #ebe7e7;
+  --color-secondary: #cc66ff;
+  --color-tertiary: #9900cc;
+  --color-success: #66bb6a;
+  --color-warning: #ffcc80;
+  --color-error: #e57373;
+  --color-quick-action: #5c85d6;
+  --text-primary: #1a1a1a;
+  --text-secondary: #1a1a1a;
+  --border: #e5e5e5;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+[data-theme="dark"] {
+  --color-primary: #660099;
+  --color-background: #2d2133;
+  --color-secondary: #c150fa;
+  --color-tertiary: #926ca5;
+  --color-success: #4caf50;
+  --color-warning: #ffa726;
+  --color-error: #ef5350;
+  --color-quick-action: #3a66d6;
+  --text-primary: #ffffff;
+  --text-secondary: #ebdddd;
+  --border: #73647a;
 }
 
-.card {
-  padding: 2em;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer components {
+  body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    background-color: var(--color-background);
   }
-  a:hover {
-    color: #747bff;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-titles);
+    color: var(--text-primary)
   }
-  button {
-    background-color: #f9f9f9;
+
+  p {
+    font-family: var(--font-texts);
+    line-height: 1.5;
+    color: var(--text-primary)
   }
 }
