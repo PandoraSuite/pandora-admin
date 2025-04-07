@@ -6,8 +6,10 @@ import {
   faSignOutAlt,
   faMoon,
   faSun,
+  faUserGroup,
+  faServer,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faLock, faSignOutAlt, faMoon, faSun);
+library.add(faUser, faLock, faSignOutAlt, faMoon, faSun, faUserGroup, faServer);
 
 export default FontAwesomeIcon;
