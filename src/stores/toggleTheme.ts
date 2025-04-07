@@ -21,15 +21,14 @@ export const useThemeStore = defineStore("theme", {
       const htmlElement = document.documentElement;
       const currentTheme = htmlElement.getAttribute("data-theme");
 
-      // Alternar tema
+      // Toggle theme
       this.theme = currentTheme === "light" ? "dark" : "light";
       this.icon = currentTheme === "light" ? "sun" : "moon"
       htmlElement.setAttribute("data-theme", this.theme);
 
-      // Almacenar en localStorage para persistir aún con refresco de página
-      const themIcon: string = this.getIcon;
+      // Store in localStorage to persist even with page refresh
       localStorage.setItem("data-theme", this.theme);
-      localStorage.setItem("theme-icon", themIcon);
+      localStorage.setItem("theme-icon", this.getIcon);
     },
   },
 });

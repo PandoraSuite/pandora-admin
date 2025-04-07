@@ -24,7 +24,7 @@ const toggleTheme = (): void => {
   themeStore.toggleTheme();
 };
 
-// Computed para obtener el icono actual
+// Computed to get the current icon
 const iconClass = computed<string[]>(() => ['fa', themeStore.icon]);
 </script>
 
