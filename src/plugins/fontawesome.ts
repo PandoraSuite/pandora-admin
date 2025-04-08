@@ -10,9 +10,10 @@ import {
   faEye,
   faEyeSlash,
   faFile,
-  faCodeBranch
+  faCodeBranch,
+  faLockOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faLock, faSignOutAlt, faMoon, faSun, faBars, faEye, faEyeSlash, faFile, faCodeBranch);
+library.add(faUser, faLock, faSignOutAlt, faMoon, faSun, faBars, faEye, faEyeSlash, faFile, faCodeBranch, faLockOpen);
 
 export default FontAwesomeIcon;
