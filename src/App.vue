@@ -10,7 +10,8 @@ const toggleTheme = () => {
 </script>
 
 <template>
-  <Navbar />
+  <!-- <Navbar /> -->
+  <router-view />
   <h1 class="text">Hello Pandora</h1>
 
   <div class="text-text p-4 rounded">

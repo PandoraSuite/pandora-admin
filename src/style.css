@@ -35,8 +35,9 @@
 [data-theme="light"] {
   --color-primary: #660099;
   --color-background: #ebe7e7;
-  --color-secondary: #cc66ff;
-  --color-tertiary: #9900cc;
+  --color-secondary: #00d1bc;
+  --color-tertiary: #cc66ff;
+  --color-quaternary: #9900cc;
   --color-success: #66bb6a;
   --color-warning: #ffcc80;
   --color-error: #e57373;
@@ -65,7 +66,7 @@
     width: 100%;
     min-height: 100vh;
     margin: 0;
-    display: flex;
+    /* display: flex; */
     background-color: var(--color-background);
   }
 
@@ -79,7 +80,8 @@
     color: var(--text-primary)
   }
 
-  p {
+  p,
+  label {
     font-family: var(--font-texts);
     line-height: 1.5;
     color: var(--text-primary)

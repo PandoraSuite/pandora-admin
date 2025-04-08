@@ -4,8 +4,13 @@ import {
   faUser,
   faLock,
   faSignOutAlt,
+  faBars,
+  faEye,
+  faEyeSlash,
+  faFile,
+  faCodeBranch
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faLock, faSignOutAlt);
+library.add(faUser, faLock, faSignOutAlt, faBars, faEye, faEyeSlash, faFile, faCodeBranch);
 
 export default FontAwesomeIcon;
