@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { RouterView } from "vue-router";
+
 import Header from "./components/Header.vue";
 import Sidebar from "./components/Sidebar.vue";
-import { RouterView } from "vue-router";
 
 onMounted(() => {
   const currentTheme = localStorage.getItem("data-theme") || "light";
