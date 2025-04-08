@@ -15,6 +15,7 @@
   --color-warning: #ffcc80;
   --color-error: #e57373;
   --color-quick-action: #5c85d6;
+  --color-accent: #00d1bc;
   --text-primary: #1a1a1a;
   --text-secondary: #1a1a1a;
   --border: #e5e5e5;
@@ -35,13 +36,13 @@
 [data-theme="light"] {
   --color-primary: #660099;
   --color-background: #ebe7e7;
-  --color-secondary: #00d1bc;
-  --color-tertiary: #cc66ff;
-  --color-quaternary: #9900cc;
+  --color-secondary: #cc66ff;
+  --color-tertiary: #9900cc;
   --color-success: #66bb6a;
   --color-warning: #ffcc80;
   --color-error: #e57373;
   --color-quick-action: #5c85d6;
+  --color-accent: #00d1bc;
   --text-primary: #1a1a1a;
   --text-secondary: #1a1a1a;
   --border: #e5e5e5;
@@ -56,6 +57,7 @@
   --color-warning: #ffa726;
   --color-error: #ef5350;
   --color-quick-action: #3a66d6;
+  --color-accent: #00d1bc;
   --text-primary: #ffffff;
   --text-secondary: #ebdddd;
   --border: #73647a;
