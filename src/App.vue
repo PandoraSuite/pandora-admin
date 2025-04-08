@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import Navbar from "./components/Navbar.vue";
+import Header from "./components/Header.vue";
 import Sidebar from "./components/Sidebar.vue";
 import { RouterView } from "vue-router";
 
@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar  />
+  <Header  />
   <Sidebar />
   
   <RouterView />
