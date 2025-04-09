@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import Navbar from "./components/Navbar.vue";
+import { RouterView } from "vue-router";
+
+import Header from "./components/Header.vue";
+import Sidebar from "./components/Sidebar.vue";
 
 onMounted(() => {
   const currentTheme = localStorage.getItem("data-theme") || "light";
@@ -9,14 +12,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar  />
+  <Header  />
+  <Sidebar />
   
-  <h1 class="text">Hello Pandora</h1>
-
-  <div class="text-text p-4 rounded">
-    <h1 class="text-text">Título</h1>
-    <p class="text-text">Contenido del párrafo.</p>
-  </div>
+  <RouterView />
 </template>
 
 <style scoped></style>

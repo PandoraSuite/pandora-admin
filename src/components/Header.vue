@@ -2,9 +2,10 @@
   <div
     class="navbar bg-primary shadow-sm w-screen flex flex-row justify-between"
   >
-    <div class="flex flex-row gap-5 ml-6">
-      <h1 class="text-2xl text-white mx-3.5 font-semibold">Pandora</h1>
-    </div>
+    <RouterLink to="/#" class="flex flex-row gap-3 ml-6 justify-center items-center">
+      <img src="../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[20]">
+      <h1 class="text-2xl text-white font-semibold">Pandora</h1>
+    </RouterLink>
     <div class="flex flex-row mr-6 gap-6">
       <button class="cursor-pointer hover:bg-tertiary py-1 px-2 rounded-xl text-white">Admin</button>
       <button class="theme-btn btn-circle" @click="toggleTheme()">
@@ -16,6 +17,8 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { RouterLink } from "vue-router";
+
 import { useThemeStore } from "../stores/toggleTheme";
 
 const themeStore = useThemeStore();
