@@ -38,10 +38,10 @@ import { ref } from 'vue';
 import AppHeader from './header.vue';
 import PasswordInput from './passwordInput.vue';
 
-const username = ref('');
-const password = ref('');
+const username = ref<string>('');
+const password = ref<string>('');
 
-const handleLogin = () => {
+const handleLogin = (): void => {
   console.log('Login attempt with:', {
     username: username.value,
     password: password.value,

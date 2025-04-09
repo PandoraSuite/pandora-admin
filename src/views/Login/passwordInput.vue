@@ -21,18 +21,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-const isPasswordVisible = ref(false);
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
-  placeholder: {
-    type: String,
-    required: false
-  }
-});
+const isPasswordVisible = ref<boolean>(false);
+
+const props = defineProps<{
+  modelValue: string;
+  placeholder?: string;
+}>();
 
 // Password input type
 const fieldType = computed<'password' | 'text'>(() =>
@@ -45,7 +40,7 @@ const iconName = computed(() =>
 );
 
 // Function to toggle password visibility
-const togglePasswordVisibility = () => {
+const togglePasswordVisibility = (): void => {
   isPasswordVisible.value = !isPasswordVisible.value;
 };
 
