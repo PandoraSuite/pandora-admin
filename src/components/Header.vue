@@ -3,7 +3,7 @@
     class="navbar bg-primary shadow-sm w-screen flex flex-row justify-between"
   >
     <RouterLink to="/#" class="flex flex-row gap-3 ml-6 justify-center items-center">
-      <img src="../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[20]">
+      <img src="../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[60px]">
       <h1 class="text-2xl text-white font-semibold">Pandora</h1>
     </RouterLink>
     <div class="flex flex-row mr-6 gap-6">
@@ -19,7 +19,7 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 
-import { useThemeStore } from "../stores/toggleTheme";
+import { useThemeStore } from "../store/modules/toggleTheme";
 
 const themeStore = useThemeStore();
 
