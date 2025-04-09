@@ -4,9 +4,11 @@
     <div class="flex-grow flex items-center justify-center bg-background-color">
       <div class="w-full max-w-md p-6 shadow-lg rounded-xl bg-white">
         <div class="flex flex-col items-center justify-center">
-          <div class="h-48 w-24">
-            <img :src="pandoraLogo" alt="Pandora Logo" />
-          </div>
+          <img
+            src="../../../public/assets/color-logo-only.svg"
+            alt="Pandora Logo"
+            class="w-[90px] h-[170px] mb-2"
+          />
           <h1 class="text-2xl mb-8 font-bold text-primary">Please Sing in</h1>
         </div>
         <form @submit.prevent="handleLogin">
@@ -35,7 +37,6 @@
 import { ref } from 'vue';
 import AppHeader from './header.vue';
 import PasswordInput from './passwordInput.vue';
-import pandoraLogo from '../../../public/assets/white-logo.png';
 
 const username = ref('');
 const password = ref('');

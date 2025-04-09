@@ -1,8 +1,8 @@
 <template>
   <div class="navbar bg-primary shadow-sm px-4">
     <div class="flex-1 flex items-center gap-3">
-      <img :src="pandoraLogo" alt="Pandora Logo" class="h-11 logo-filtered" />
-      <h1 class="text-3xl font-bold text-white">Pandora</h1>
+      <img src="../../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[60px]">
+      <h1 class="text-2xl text-white font-semibold">Pandora</h1>
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import pandoraLogo from '../../../public/assets/white-logo.png';
 </script>
 
 <style scoped></style>
