@@ -8,7 +8,7 @@
   --font-texts: "Roboto Mono", "monospace";
 
   --color-primary: #660099;
-  --color-background: #FFFFFF;
+  --color-background: #ffffff;
   --color-secondary: #9900cc;
   --color-tertiary: #cc66ff;
   --color-success: #66bb6a;
@@ -18,7 +18,8 @@
   --color-accent: #00d1bc;
   --text-primary: #1a1a1a;
   --text-secondary: #1a1a1a;
-  --border: #e5e5e5;
+  --color-border: #e5e5e5;
+  --color-sidebar: #ffffff;
 }
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) {
@@ -45,7 +46,8 @@
   --color-accent: #00d1bc;
   --text-primary: #1a1a1a;
   --text-secondary: #1a1a1a;
-  --border: #e5e5e5;
+  --color-border: #e5e5e5;
+  --color-sidebar: #ffffff;
 }
 
 [data-theme="dark"] {
@@ -60,7 +62,8 @@
   --color-accent: #00d1bc;
   --text-primary: #ffffff;
   --text-secondary: #ebdddd;
-  --border: #73647a;
+  --color-border: #73647a;
+  --color-sidebar: #432153;
 }
 
 @layer components {
@@ -70,6 +73,7 @@
     margin: 0;
     /* display: flex; */
     background-color: var(--color-background);
+    overflow: hidden;
   }
 
   h1,
@@ -79,14 +83,15 @@
   h5,
   h6 {
     font-family: var(--font-titles);
-    color: var(--text-primary)
+    color: var(--text-primary);
   }
 
   p,
-  label {
+  a {
     font-family: var(--font-texts);
     line-height: 1.5;
-    color: var(--text-primary)
+    color: var(--text-primary);
+    font-size: 16px;
   }
 }
 
