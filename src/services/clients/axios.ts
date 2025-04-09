@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios instance with base configuration
 const api = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',    // Our backend's URL
+  baseURL: 'http://localhost:8000/',
   timeout: 10000,   // Maximum wait time in milliseconds
   headers: {
     'Content-Type': 'application/json',
