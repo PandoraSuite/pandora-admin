@@ -1,13 +1,9 @@
 <template>
-  <div>
-    Hola
+  <div class="flex flex-col min-h-screen">
+    <h1>Hola</h1>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
