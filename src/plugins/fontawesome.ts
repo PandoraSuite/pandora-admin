@@ -8,8 +8,14 @@ import {
   faSun,
   faUserGroup,
   faServer,
+  faBars,
+  faEye,
+  faEyeSlash,
+  faFile,
+  faCodeBranch,
+  faLockOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faLock, faSignOutAlt, faMoon, faSun, faUserGroup, faServer);
+library.add(faUser, faLock, faSignOutAlt, faMoon, faSun, faUserGroup, faServer, faBars, faEye, faEyeSlash, faFile, faCodeBranch, faLockOpen,);
 
 export default FontAwesomeIcon;
