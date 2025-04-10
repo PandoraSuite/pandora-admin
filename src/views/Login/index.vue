@@ -35,8 +35,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AppHeader from './header.vue';
-import PasswordInput from './passwordInput.vue';
+import AppHeader from './components/header.vue';
+import PasswordInput from './components/passwordInput.vue';
 
 const username = ref<string>('');
 const password = ref<string>('');

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar bg-primary shadow-sm px-4">
     <div class="flex-1 flex items-center gap-3">
-      <img src="../../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[60px]">
+      <img src="../../../../public/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[60px]">
       <h1 class="text-2xl text-white font-semibold">Pandora</h1>
     </div>
     <div class="flex-none">

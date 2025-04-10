@@ -5,11 +5,11 @@
       <div class="w-full max-w-md p-6 shadow-lg rounded-xl bg-white">
         <div class="flex flex-col items-center justify-center">
           <img
-            src="../../../public/assets/color-logo-only.svg"
+            src="../../../../public/assets/color-logo-only.svg"
             alt="Pandora Logo"
             class="w-[90px] h-[170px] mb-2"
           />
-          <h1 class="text-2xl mb-8 font-bold text-primary">Create password</h1>
+          <h1 class="text-2xl mb-8 font-bold text-primary">Reset password</h1>
         </div>
         <form @submit.prevent="handleLogin">
           <PasswordInput v-model="password" placeholder="Password" />
@@ -21,7 +21,7 @@
             class="btn btn-primary text-white w-1/2 block mx-auto"
             type="submit"
           >
-            <font-awesome-icon icon="lock-open" class="mr-2" />Create Password
+            <font-awesome-icon icon="lock-open" class="mr-2" />Reset password
           </button>
         </form>
       </div>
