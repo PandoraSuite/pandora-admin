@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul
-      class="menu bg-sidebar w-[10%] min-h-screen overflow-x-hidden shadow-sm py-10 gap-2"
+      class="menu bg-sidebar w-full h-full overflow-x-hidden shadow-sm py-10 gap-2"
     >
       <li class="flex flex-row gap-1.5 content-center h-auto">
         <RouterLink to="#" class="w-[95%] menu-active">
