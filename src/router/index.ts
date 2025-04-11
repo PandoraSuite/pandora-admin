@@ -1,15 +1,13 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 
 import LayoutRoute from "./modules/layout";
 import LoginRoute from "./modules/login";
 
+const routes: RouteRecordRaw[] = [...LayoutRoute, ...LoginRoute];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    ...LayoutRoute,
-    ...LoginRoute
-  ],
+  routes,
 });
 
 export default router;

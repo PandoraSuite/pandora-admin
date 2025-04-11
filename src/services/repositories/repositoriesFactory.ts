@@ -1,5 +1,9 @@
-import servicesRepository from "./servicesRepository";
+import servicesRepository, { type ServicesRequests } from "./servicesRepository";
 
-export const repositories = {
+export interface Repositories {
+  services: ServicesRequests;
+}
+
+export const repositories: Repositories = {
   services: servicesRepository,
 }

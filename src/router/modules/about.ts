@@ -1,6 +1,8 @@
+import type { RouteRecordRaw } from "vue-router";
+
 import AboutView from "../../views/AboutView.vue";
 
-const AboutRoute = [
+const AboutRoute: RouteRecordRaw[] = [
   {
     path: "/about",
     name: "about",
