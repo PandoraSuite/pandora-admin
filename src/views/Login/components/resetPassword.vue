@@ -5,7 +5,7 @@
       <div class="w-full max-w-md p-6 shadow-lg rounded-xl bg-white">
         <div class="flex flex-col items-center justify-center">
           <img
-            src="../../../../public/assets/color-logo-only.svg"
+            src="/assets/color-logo-only.svg"
             alt="Pandora Logo"
             class="w-[90px] h-[170px] mb-2"
           />
