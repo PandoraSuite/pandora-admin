@@ -7,7 +7,7 @@ import LoginHeader from "../../views/Login/components/header.vue";
 const LoginRoute: RouteRecordRaw[] = [
   {
     path: "/login",
-    name: "login",
+    name: "Login",
     components: {
       default: LoginView,
       LoginHeader: LoginHeader,
@@ -15,7 +15,7 @@ const LoginRoute: RouteRecordRaw[] = [
   },
   {
     path: "/reset-password",
-    name: "reset-password",
+    name: "Reset Password",
     components: {
       default: ResetPasswordView,
       LoginHeader: LoginHeader,

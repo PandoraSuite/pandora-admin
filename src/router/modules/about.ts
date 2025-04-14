@@ -5,7 +5,7 @@ import AboutView from "../../views/AboutView.vue";
 const AboutRoute: RouteRecordRaw[] = [
   {
     path: "/about",
-    name: "about",
+    name: "About",
     components: {
       default: AboutView,
     },

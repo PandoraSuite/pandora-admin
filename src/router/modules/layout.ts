@@ -4,17 +4,21 @@ import Header from "../../components/Header.vue";
 import Layout from "../../components/Layout.vue";
 import Sidebar from "../../components/Sidebar.vue";
 import AboutRoute from "./about";
+import ServicesListRoute from "./servicesList";
 
 const LayoutRoute: RouteRecordRaw[] = [
   {
     path: "/",
-    name: "layout",
+    name: "Layout",
     components: {
       default: Layout,
       Header: Header,
       Sidebar: Sidebar,
     },
-    children: [...AboutRoute],
+    children: [
+      ...AboutRoute,
+      ...ServicesListRoute
+    ],
   },
 ];
 
