@@ -2,7 +2,7 @@ import { loadTheme, saveTheme } from "@composables/theme";
 import { Theme } from "@enums/theme";
 import { defineStore } from "pinia";
 
-export type ThemeState = {
+export interface ThemeState {
   theme: Theme;
 };
 
