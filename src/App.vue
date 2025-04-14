@@ -2,9 +2,12 @@
 import { onMounted } from "vue";
 import { RouterView } from "vue-router";
 
+import { loadTheme } from '@composables/theme';
+import type { Theme } from "@enums/theme";
+
 onMounted(() => {
-  const currentTheme = localStorage.getItem("data-theme") || "light";
-  document.documentElement.setAttribute("data-theme", currentTheme);
+  const theme: Theme = loadTheme();
+  document.documentElement.setAttribute("data-theme", theme);
 });
 </script>
 

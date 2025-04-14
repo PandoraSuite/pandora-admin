@@ -23,12 +23,10 @@ import { useThemeStore } from "../store/modules/useToggleThemeStore";
 
 const themeStore = useThemeStore();
 
-const toggleTheme = (): void => {
-  themeStore.toggleTheme();
-};
+const toggleTheme = (): void => { themeStore.toggleTheme() };
 
 // Computed to get the current icon
-const iconClass = computed<string[]>(() => ['fa', themeStore.icon]);
+const iconClass = computed<string[]>(() => ['fa', themeStore.themeIcon]);
 </script>
 
 <style scoped></style>
