@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export type ThemeState = {
+export interface ThemeState {
   theme: string;
   icon: string;
 };
