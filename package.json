@@ -20,6 +20,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.17",
     "@types/axios": "^0.9.36",
+    "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "daisyui": "^5.0.9",
