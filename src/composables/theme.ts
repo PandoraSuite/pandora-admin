@@ -1,5 +1,5 @@
 import { Theme } from '@enums/theme';
-import { setItem, getItem } from '@composables/_internal/localStorage';
+import { setItem, getItem } from './_internal/localStorage';
 
 export function saveTheme(value: Theme): void {
     setItem<Theme>("theme", value);
