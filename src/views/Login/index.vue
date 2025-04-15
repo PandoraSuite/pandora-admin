@@ -24,7 +24,13 @@
             class="btn mx-auto block w-1/3 text-white btn-primary"
             type="submit"
           >
-            <font-awesome-icon icon="user" class="mr-2" />Sign in
+            <span
+              v-if="authStore.isLoading"
+              class="loading loading-spinner"
+            ></span>
+            <span v-else
+              ><font-awesome-icon icon="user" class="mr-2" />Sign in</span
+            >
           </button>
           <p class="mt-5 text-center text-primary">Version xxx</p>
         </form>
@@ -34,18 +40,32 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@store/modules/authStore';
 import { ref } from 'vue';
-import AppHeader from './components/header.vue';
-import PasswordInput from './components/passwordInput.vue';
+import { useRouter } from 'vue-router';
+import AppHeader from './components/Header.vue';
+import PasswordInput from './components/PasswordInput.vue';
 
 const username = ref<string>('');
 const password = ref<string>('');
+const authStore = useAuthStore();
+const router = useRouter();
 
-const handleLogin = (): void => {
-  console.log('Login attempt with:', {
-    username: username.value,
-    password: password.value,
-  });
+const handleLogin = async (): Promise<void> => {
+  try {
+    await authStore.login({
+      username: username.value,
+      password: password.value,
+    });
+    if (authStore.mustResetPassword) {
+      router.push('/reset-password');
+    } else {
+      router.push('/services');
+    }
+  } catch (error: any) {
+    // Catches the error thrown by the store action
+    console.error('Login failed:', error);
+  }
 };
 </script>
 
