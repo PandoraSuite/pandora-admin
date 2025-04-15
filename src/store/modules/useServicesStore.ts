@@ -1,18 +1,17 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import axios from "axios";
+import axios from 'axios';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 import type {
-  Service,
   NewService,
-} from "../../services/repositories/servicesRepository";
+  Service,
+} from '../../services/repositories/servicesRepository';
 
-import { repositories } from "../../services/repositories/repositoriesFactory";
+import { repositories } from '../../services/repositories/repositoriesFactory';
 
 const servicesRepository = repositories.services;
 
-export const useServicesStore = defineStore("services", () => {
-
+export const useServicesStore = defineStore('services', () => {
   const services = ref<Service[]>([]);
   const isLoading = ref<boolean>(false);
 
@@ -26,7 +25,7 @@ export const useServicesStore = defineStore("services", () => {
       if (axios.isAxiosError(err)) {
         throw new Error(`Error getting services: ${err.message}`);
       } else {
-        throw new Error("Unexpected error while obtaining services.");
+        throw new Error('Unexpected error while obtaining services.');
       }
     } finally {
       isLoading.value = false;
@@ -38,12 +37,12 @@ export const useServicesStore = defineStore("services", () => {
 
     try {
       const response = await servicesRepository.createService(payload);
-      services.value.push(response);    // Update state if necessary
+      services.value.push(response); // Update state if necessary
     } catch (err) {
       if (axios.isAxiosError(err)) {
         throw new Error(`Error creating service: ${err.message}`);
       } else {
-        throw new Error("Unexpected error while creating service");
+        throw new Error('Unexpected error while creating service');
       }
     } finally {
       isLoading.value = false;

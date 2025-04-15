@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite';
+import vue from '@vitejs/plugin-vue';
 import path from 'path';
-import vue from '@vitejs/plugin-vue'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   resolve: {
@@ -16,8 +16,5 @@ export default defineConfig({
       '@composables': path.resolve(__dirname, 'src/composables'),
     },
   },
-  plugins: [
-    vue(),
-    tailwindcss(),
-  ],
-})
+  plugins: [vue(), tailwindcss()],
+});
