@@ -1,8 +1,8 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import LoginHeader from '../../views/Login/components/header.vue';
-import ResetPasswordView from '../../views/Login/components/resetPassword.vue';
-import LoginView from '../../views/Login/index.vue';
+import LoginHeader from '@views/Login/components/header.vue';
+import ResetPasswordView from '@views/Login/components/resetPassword.vue';
+import LoginView from '@views/Login/index.vue';
 
 const LoginRoute: RouteRecordRaw[] = [
   {

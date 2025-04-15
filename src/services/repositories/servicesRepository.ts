@@ -1,4 +1,4 @@
-import api from '../clients/axios';
+import api from '@services/clients/axios';
 
 const resource: string = '/api/v1';
 

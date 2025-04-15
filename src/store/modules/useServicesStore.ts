@@ -5,9 +5,9 @@ import { ref } from 'vue';
 import type {
   NewService,
   Service,
-} from '../../services/repositories/servicesRepository';
+} from '@services/repositories/servicesRepository';
 
-import { repositories } from '../../services/repositories/repositoriesFactory';
+import { repositories } from '@services/repositories/repositoriesFactory';
 
 const servicesRepository = repositories.services;
 

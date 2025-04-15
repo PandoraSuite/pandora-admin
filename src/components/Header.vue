@@ -28,7 +28,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import { useThemeStore } from '../store/modules/useToggleThemeStore';
+import { useThemeStore } from '@store/modules/useToggleThemeStore';
 
 const themeStore = useThemeStore();
 
