@@ -44,6 +44,7 @@ In the replaced json, the following fields must be confirmed:
 * **\<browser ececutable>:** this should be the path of the browser executable.
 
     > Find it by running:
+    >
     > * On Linux: `which vivaldi`
     > * On Windows: `where vivaldi` (*PowerShell*)
 
@@ -56,6 +57,13 @@ In the replaced json, the following fields must be confirmed:
 2. Press F5 in VSCode.
 3. A new browser window will open at `http://localhost:5173`.
 4. Place breakpoints in your `.ts` or `.vue` files and start debugging.
+
+> :warning: **Important:** After making changes to your code (especially logic or structure), VSCode **does not automatically reload the updated source maps** inside the debug session.  
+> 
+> You must **manually stop (Shift + F5)** and **restart (F5)** the debug session to ensure breakpoints and code match properly.  
+>
+> This is a limitation of browser-based debugging and source map caching, not a bug in your setup.
+
 
 ### :wrench: Debugging with Other IDEs
 
