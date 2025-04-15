@@ -9,6 +9,7 @@ const AboutRoute: RouteRecordRaw[] = [
     components: {
       default: AboutView,
     },
+    meta: { requiresAuth: true },
   },
 ];
 
