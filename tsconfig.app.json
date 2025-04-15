@@ -4,7 +4,13 @@
     "baseUrl": "./src",
     "paths": {
       "@enums/*": ["enums/*"],
-      "@composables/*": ["composables/*"],
+      "@store/*": ["store/*"],
+      "@views/*": ["views/*"],
+      "@router/*": ["router/*"],
+      "@plugins/*": ["plugins/*"],
+      "@services/*": ["services/*"],
+      "@components/*": ["components/*"],
+      "@composables/*": ["composables/*"]
     },
 
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
