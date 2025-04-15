@@ -19,13 +19,18 @@ export interface ChangePasswordPayload {
   confirm_password: string;
 }
 
-export default {
-  login: async (body: LoginPayload): Promise<LoginResponse> => {
+export interface AuthRequests {
+  login(body: LoginPayload): Promise<LoginResponse>;
+  changePassword(body: ChangePasswordPayload): Promise<void>;
+}
+
+export default <AuthRequests>{
+  async login(body: LoginPayload): Promise<LoginResponse> {
     const response = await api.post<LoginResponse>(`${resource}/login`, body);
     return response.data;
   },
 
-  changePassword: async (body: ChangePasswordPayload): Promise<void> => {
+  async changePassword(body: ChangePasswordPayload): Promise<void> {
     await api.post<void>(`${resource}/change-password`, body);
   },
 };

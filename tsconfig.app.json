@@ -1,6 +1,18 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@enums/*": ["enums/*"],
+      "@store/*": ["store/*"],
+      "@views/*": ["views/*"],
+      "@router/*": ["router/*"],
+      "@plugins/*": ["plugins/*"],
+      "@services/*": ["services/*"],
+      "@components/*": ["components/*"],
+      "@composables/*": ["composables/*"]
+    },
+
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     /* Linting */

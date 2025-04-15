@@ -1,7 +1,17 @@
-import servicesRepository from "./servicesRepository";
-import authRepository from "./authRepository";
+import servicesRepository, {
+  type ServicesRequests,
+} from './servicesRepository';
 
-export const repositories = {
-  services: servicesRepository,
-  auth: authRepository,
+import authRepository, {
+  type AuthRequests,
+} from './authRepository';
+
+export interface Repositories {
+  services: ServicesRequests;
+  auth: AuthRequests;
 }
+
+export const repositories: Repositories = {
+  services: servicesRepository,
+  auth: authRepository, 
+};

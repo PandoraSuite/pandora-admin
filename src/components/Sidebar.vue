@@ -1,10 +1,10 @@
 <template>
   <div>
     <ul
-      class="menu bg-sidebar w-[10%] min-h-screen overflow-x-hidden shadow-sm py-10 gap-2"
+      class="menu h-full w-full gap-2 overflow-x-hidden bg-sidebar py-10 shadow-sm"
     >
-      <li class="flex flex-row gap-1.5 content-center h-auto">
-        <RouterLink to="#" class="w-[95%] menu-active">
+      <li class="flex h-auto flex-row content-center gap-1.5">
+        <RouterLink to="#" class="menu-active w-[95%]">
           <font-awesome-icon
             :icon="['fa', 'server']"
             class="text text-text-primary"
@@ -12,7 +12,7 @@
           Services
         </RouterLink>
       </li>
-      <li class="flex flex-row gap-1.5 content-center h-auto">
+      <li class="flex h-auto flex-row content-center gap-1.5">
         <RouterLink to="#" class="w-[95%]">
           <font-awesome-icon
             :icon="['fa', 'user-group']"
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
+import { RouterLink } from 'vue-router';
 </script>
 
 <style scoped></style>

@@ -1,11 +1,11 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 /* @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"); */
 
 @plugin "daisyui";
 
 @theme {
-  --font-titles: "Source Code Pro", "monospace";
-  --font-texts: "Roboto Mono", "monospace";
+  --font-titles: 'Source Code Pro', 'monospace';
+  --font-texts: 'Roboto Mono', 'monospace';
 
   --color-primary: #660099;
   --color-background: #ffffff;
@@ -34,7 +34,7 @@
   color: #2d2133;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --color-primary: #660099;
   --color-background: #ebe7e7;
   --color-secondary: #cc66ff;
@@ -50,7 +50,7 @@
   --color-sidebar: #ffffff;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-primary: #660099;
   --color-background: #2d2133;
   --color-secondary: #c150fa;
@@ -71,9 +71,7 @@
     width: 100%;
     min-height: 100vh;
     margin: 0;
-    /* display: flex; */
     background-color: var(--color-background);
-    overflow: hidden;
   }
 
   h1,
