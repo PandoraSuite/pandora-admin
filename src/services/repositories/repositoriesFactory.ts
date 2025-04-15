@@ -2,9 +2,7 @@ import servicesRepository, {
   type ServicesRequests,
 } from './servicesRepository';
 
-import authRepository, {
-  type AuthRequests,
-} from './authRepository';
+import authRepository, { type AuthRequests } from './authRepository';
 
 export interface Repositories {
   services: ServicesRequests;
@@ -13,5 +11,5 @@ export interface Repositories {
 
 export const repositories: Repositories = {
   services: servicesRepository,
-  auth: authRepository, 
+  auth: authRepository,
 };

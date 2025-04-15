@@ -1,12 +1,11 @@
-import { saveToken } from '@composables/token';
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { loadToken, saveToken } from '@composables/token';
 import axios from 'axios';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
 import type {
-  LoginResponse,
-  LoginPayload,
   ChangePasswordPayload,
+  LoginPayload,
 } from '../../services/repositories/authRepository';
 
 import { repositories } from '../../services/repositories/repositoriesFactory';
@@ -14,16 +13,22 @@ import { repositories } from '../../services/repositories/repositoriesFactory';
 const authRepository = repositories.auth;
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<LoginResponse | null>(null);
+  // --- STATE ---
+  const token = ref<string | null>(loadToken());
   const isLoading = ref<boolean>(false);
   const mustResetPassword = ref<boolean>(false);
 
+  // --- GETTERS ---
+  // Computed getter to check if authenticated (based on token existence)
+  const isAuthenticated = computed<boolean>(() => !!token.value);
+
+  // --- ACTIONS ---
   const login = async (payload: LoginPayload) => {
     isLoading.value = true;
     try {
       const response = await authRepository.login(payload);
-      user.value = response;
       saveToken(response.access_token);
+      token.value = response.access_token;
       mustResetPassword.value = response.force_password_reset;
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -53,9 +58,10 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   return {
-    user,
+    token,
     isLoading,
     mustResetPassword,
+    isAuthenticated,
     login,
     changePassword,
   };
