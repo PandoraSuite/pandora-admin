@@ -1,7 +1,11 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteRecordRaw,
+} from 'vue-router';
 
-import LayoutRoute from "./modules/layout";
-import LoginRoute from "./modules/login";
+import LayoutRoute from './modules/layout';
+import LoginRoute from './modules/login';
 
 const routes: RouteRecordRaw[] = [...LayoutRoute, ...LoginRoute];
 

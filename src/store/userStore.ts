@@ -24,7 +24,9 @@ export const useUserStore = defineStore('user', {
     async fetchUsers() {
       this.loading = true;
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/users',
+        );
         this.users = await response.json();
       } catch (error) {
         console.error('Error fetching users:', error);

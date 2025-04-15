@@ -1,8 +1,12 @@
 <template>
-  <div class="navbar bg-primary shadow-sm px-4">
-    <div class="flex-1 flex items-center gap-3">
-      <img src="/assets/white-logo-only.svg" alt="Pandora Logo" class="w-[40px] h-[60px]">
-      <h1 class="text-2xl text-white font-semibold">Pandora</h1>
+  <div class="navbar bg-primary px-4 shadow-sm">
+    <div class="flex flex-1 items-center gap-3">
+      <img
+        src="/assets/white-logo-only.svg"
+        alt="Pandora Logo"
+        class="h-[60px] w-[40px]"
+      />
+      <h1 class="text-2xl font-semibold text-white">Pandora</h1>
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
@@ -11,7 +15,7 @@
         </label>
         <ul
           tabindex="0"
-          class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+          class="dropdown-content menu z-1 w-52 rounded-box bg-base-100 p-2 shadow-sm"
         >
           <li>
             <a><font-awesome-icon icon="file" />Documentation</a>
@@ -25,7 +29,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

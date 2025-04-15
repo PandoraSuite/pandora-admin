@@ -1,11 +1,11 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router';
 
-import ServicesView from "../../views/Services/index.vue";
+import ServicesView from '@views/Services/index.vue';
 
 const ServicesListRoute: RouteRecordRaw[] = [
   {
-    path: "/services",
-    name: "Services",
+    path: '/services',
+    name: 'Services',
     components: {
       default: ServicesView,
     },

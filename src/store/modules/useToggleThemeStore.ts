@@ -1,35 +1,30 @@
-import { defineStore } from "pinia";
+import { loadTheme, saveTheme } from '@composables/theme';
+import { Theme } from '@enums/theme';
+import { defineStore } from 'pinia';
 
 export interface ThemeState {
-  theme: string;
-  icon: string;
-};
+  theme: Theme;
+}
 
-export const useThemeStore = defineStore("theme", {
+export const useThemeStore = defineStore('theme', {
   state: (): ThemeState => ({
-    theme: localStorage.getItem('theme-icon') || "light",
-    icon: localStorage.getItem('theme-icon') || "moon",
+    theme: loadTheme(),
   }),
 
   getters: {
-    getTheme: (state): string => state.theme,
-    getIcon: (state): string => state.icon,
+    currentTheme: (state): string => state.theme,
+    themeIcon: (state): string =>
+      state.theme === Theme.Light ? 'moon' : 'sun',
   },
 
   actions: {
     toggleTheme(): void {
-      const htmlElement = document.documentElement;
-      const currentTheme = htmlElement.getAttribute("data-theme");
-
       // Toggle theme
-      this.theme = currentTheme === "light" ? "dark" : "light";
-      this.icon = currentTheme === "light" ? "sun" : "moon"
-      htmlElement.setAttribute("data-theme", this.theme);
+      this.theme = this.theme === Theme.Light ? Theme.Dark : Theme.Light;
+      document.documentElement.setAttribute('data-theme', this.theme);
 
       // Store in localStorage to persist even with page refresh
-      localStorage.setItem("data-theme", this.theme);
-      localStorage.setItem("theme-icon", this.getIcon);
+      saveTheme(this.theme);
     },
   },
 });
-

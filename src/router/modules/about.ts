@@ -1,11 +1,11 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router';
 
-import AboutView from "../../views/AboutView.vue";
+import AboutView from '@views/AboutView.vue';
 
 const AboutRoute: RouteRecordRaw[] = [
   {
-    path: "/about",
-    name: "About",
+    path: '/about',
+    name: 'About',
     components: {
       default: AboutView,
     },

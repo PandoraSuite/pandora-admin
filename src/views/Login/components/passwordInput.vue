@@ -5,14 +5,14 @@
       :placeholder="props.placeholder"
       :v-model="props.modelValue"
       @input="handleInput"
-      class="input input-accent mb-8 w-full border border-accent"
+      class="input mb-8 w-full border border-accent input-accent"
       required
       autocomplete="new-password"
     />
     <button
       type="button"
       @click="togglePasswordVisibility"
-      class="absolute right-0 top-2 pr-3 text-gray-400 hover:text-gray-600"
+      class="absolute top-2 right-0 pr-3 text-gray-400 hover:text-gray-600"
     >
       <font-awesome-icon :icon="iconName" />
     </button>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const isPasswordVisible = ref<boolean>(false);
 
@@ -31,12 +31,12 @@ const props = defineProps<{
 
 // Password input type
 const fieldType = computed<'password' | 'text'>(() =>
-  isPasswordVisible.value ? 'text' : 'password'
+  isPasswordVisible.value ? 'text' : 'password',
 );
 
 // Icon to display (open or closed eye)
 const iconName = computed(() =>
-  isPasswordVisible.value ? 'eye-slash' : 'eye'
+  isPasswordVisible.value ? 'eye-slash' : 'eye',
 );
 
 // Function to toggle password visibility
