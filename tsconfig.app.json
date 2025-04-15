@@ -4,6 +4,12 @@
     "baseUrl": "./src",
     "paths": {
       "@enums/*": ["enums/*"],
+      "@store/*": ["store/*"],
+      "@views/*": ["views/*"],
+      "@router/*": ["router/*"],
+      "@plugins/*": ["plugins/*"],
+      "@services/*": ["services/*"],
+      "@components/*": ["components/*"],
       "@composables/*": ["composables/*"],
     },
 
