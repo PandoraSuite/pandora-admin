@@ -1,3 +1,4 @@
+import { loadToken } from '@composables/token';
 import axios from 'axios';
 
 // Axios instance with base configuration
@@ -13,7 +14,7 @@ const api = axios.create({
 // Interceptor to add the token if needed
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = loadToken(); // Get the token from local storage
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

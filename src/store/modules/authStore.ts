@@ -1,3 +1,4 @@
+import { saveToken } from '@composables/token';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -22,6 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await authRepository.login(payload);
       user.value = response;
+      saveToken(response.access_token);
       mustResetPassword.value = response.force_password_reset;
     } catch (err) {
       if (axios.isAxiosError(err)) {
