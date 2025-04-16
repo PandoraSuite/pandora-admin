@@ -12,10 +12,11 @@
           <h1 class="mb-8 text-2xl font-bold text-primary">Reset password</h1>
         </div>
         <form @submit.prevent="handleResetPassword">
-          <PasswordInput v-model="password" placeholder="Password" />
+          <PasswordInput v-model="password" placeholder="Password" autocomplete="new-password" />
           <PasswordInput
             v-model="confirmPassword"
             placeholder="Confirm password"
+            autocomplete="new-password"
           />
           <p
             v-if="errorMessage"
@@ -36,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@store/modules/authStore';
+import { useAuthStore } from '@store/modules/useAuthStore';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AppHeader from './Header.vue';

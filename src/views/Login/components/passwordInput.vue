@@ -4,10 +4,10 @@
       :type="fieldType"
       :placeholder="props.placeholder"
       :v-model="props.modelValue"
+      :autocomplete="props.autocomplete"
       @input="handleInput"
       class="input mb-8 w-full border border-accent input-accent"
       required
-      autocomplete="new-password"
     />
     <button
       type="button"
@@ -27,6 +27,7 @@ const isPasswordVisible = ref<boolean>(false);
 const props = defineProps<{
   modelValue: string;
   placeholder?: string;
+  autocomplete: string;
 }>();
 
 // Password input type
