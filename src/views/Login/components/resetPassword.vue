@@ -12,7 +12,11 @@
           <h1 class="mb-8 text-2xl font-bold text-primary">Reset password</h1>
         </div>
         <form @submit.prevent="handleResetPassword">
-          <PasswordInput v-model="password" placeholder="Password" autocomplete="new-password" />
+          <PasswordInput
+            v-model="password"
+            placeholder="Password"
+            autocomplete="new-password"
+          />
           <PasswordInput
             v-model="confirmPassword"
             placeholder="Confirm password"

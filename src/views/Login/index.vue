@@ -20,7 +20,11 @@
             required
             autocomplete="username"
           />
-          <PasswordInput v-model="password" placeholder="Password" autocomplete="current-password" />
+          <PasswordInput
+            v-model="password"
+            placeholder="Password"
+            autocomplete="current-password"
+          />
           <button
             class="btn mx-auto block w-1/3 text-white btn-primary"
             type="submit"
