@@ -45,8 +45,15 @@ In the replaced json, the following fields must be confirmed:
 
     > Find it by running:
     >
-    > * On Linux: `which vivaldi`
-    > * On Windows: `where vivaldi` (*PowerShell*)
+    > * On Linux: `which chrome`
+    > * On Windows: `where chrome` (*PowerShell*)
+    >
+    > :warning: **Note for Windows**: Sometimes `where chrome` may not return a result, depending on how the browser was installed or your PATH configuration. In that case, you can manually browse to the executable location. 
+    >
+    > Common paths include:
+    >
+    > * `C:\Program Files\Google\Chrome\Application\chrome.exe`
+    > * `C:\Users\<your_username>\AppData\Local\Google\Chrome\Application\chrome.exe`
 
 :rocket: To Start Debugging
 
