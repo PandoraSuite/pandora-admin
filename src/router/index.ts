@@ -1,4 +1,4 @@
-import { useAuthStore } from '@store/modules/authStore';
+import { useAuthStore } from '@store/modules/useAuthStore';
 import {
   createRouter,
   createWebHistory,

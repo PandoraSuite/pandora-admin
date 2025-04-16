@@ -6,11 +6,9 @@ import { computed, ref } from 'vue';
 import type {
   ChangePasswordPayload,
   LoginPayload,
-} from '../../services/repositories/authRepository';
+} from '@services/repositories/authRepository';
 
-import { repositories } from '../../services/repositories/repositoriesFactory';
-
-const authRepository = repositories.auth;
+import { repositories } from '@services/repositories/repositoriesFactory';
 
 export const useAuthStore = defineStore('auth', () => {
   // --- STATE ---
@@ -26,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
   const login = async (payload: LoginPayload) => {
     isLoading.value = true;
     try {
-      const response = await authRepository.login(payload);
+      const response = await repositories.auth.login(payload);
       saveToken(response.access_token);
       token.value = response.access_token;
       mustResetPassword.value = response.force_password_reset;
@@ -44,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
   const changePassword = async (payload: ChangePasswordPayload) => {
     isLoading.value = true;
     try {
-      await authRepository.changePassword(payload);
+      await repositories.auth.changePassword(payload);
       mustResetPassword.value = false;
     } catch (err) {
       if (axios.isAxiosError(err)) {

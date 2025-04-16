@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@store/modules/authStore';
+import { useAuthStore } from '@store/modules/useAuthStore';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AppHeader from './components/Header.vue';
