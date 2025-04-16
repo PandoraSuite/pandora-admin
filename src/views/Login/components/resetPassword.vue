@@ -69,7 +69,7 @@ const handleResetPassword = async (): Promise<void> => {
       confirm_password: confirmPassword.value,
     });
     router.push('/services');
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Catches the error thrown by the store action
     console.error('Change password failed:', error);
   }

@@ -62,7 +62,7 @@ const handleLogin = async (): Promise<void> => {
     } else {
       router.push('/services');
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Catches the error thrown by the store action
     console.error('Login failed:', error);
   }
