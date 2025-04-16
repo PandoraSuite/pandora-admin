@@ -2,11 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Default favicon (for browsers that don't support media queries in link tags) -->
     <link
       rel="icon"
-      type="image/svg+xml"
-      src="./public//assets/color-logo.svg"
+      href="/Favicon-Light.ico"
+      type="image/x-icon"
+      id="faviconTag"
+      media="(prefers-color-scheme: light)"
     />
+
+    <!-- Light mode favicon -->
+    <link
+      rel="icon"
+      href="/Favicon-Light.ico"
+      type="image/x-icon"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <!-- Dark mode favicon -->
+    <link
+      rel="icon"
+      href="/Favicon-Dark.ico"
+      type="image/x-icon"
+      media="(prefers-color-scheme: dark)"
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pandora</title>
   </head>
