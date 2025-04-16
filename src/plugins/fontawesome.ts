@@ -8,6 +8,7 @@ import {
   faLock,
   faLockOpen,
   faMoon,
+  faRightFromBracket,
   faServer,
   faSignOutAlt,
   faSun,
@@ -30,6 +31,7 @@ library.add(
   faFile,
   faCodeBranch,
   faLockOpen,
+  faRightFromBracket,
 );
 
 export default FontAwesomeIcon;
