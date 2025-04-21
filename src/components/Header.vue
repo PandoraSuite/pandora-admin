@@ -41,7 +41,7 @@ const toggleTheme = (): void => {
   themeStore.toggleTheme();
 };
 
-const logout = async () => {
+const logout = async (): Promise<void> => {
   await authStore.logout();
   router.push('/login');
 };
