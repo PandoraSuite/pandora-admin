@@ -1,4 +1,4 @@
-import { loadToken, saveToken } from '@composables/token';
+import { clearToken, loadToken, saveToken } from '@composables/token';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
@@ -55,6 +55,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
+  const logout = () => {
+    clearToken();
+    token.value = null;
+    mustResetPassword.value = false;
+  };
+
   return {
     token,
     isLoading,
@@ -62,5 +68,6 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     login,
     changePassword,
+    logout,
   };
 });

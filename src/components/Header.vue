@@ -13,9 +13,11 @@
     </RouterLink>
     <div class="mr-6 flex flex-row gap-6">
       <button
+        @click="logout()"
         class="cursor-pointer rounded-xl px-2 py-1 text-white hover:bg-tertiary"
       >
-        Admin
+        <font-awesome-icon icon="right-from-bracket" class="text-white" />
+        Log out
       </button>
       <button class="theme-btn btn-circle" @click="toggleTheme()">
         <font-awesome-icon :icon="iconClass" class="text-white" />
@@ -26,14 +28,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
+import { useAuthStore } from '@store/modules/useAuthStore';
 import { useThemeStore } from '@store/modules/useToggleThemeStore';
 
 const themeStore = useThemeStore();
+const authStore = useAuthStore();
+const router = useRouter();
 
 const toggleTheme = (): void => {
   themeStore.toggleTheme();
+};
+
+const logout = async (): Promise<void> => {
+  await authStore.logout();
+  router.push('/login');
 };
 
 // Computed to get the current icon

@@ -8,3 +8,7 @@ export function getItem<T>(key: string): T | null {
   const value = localStorage.getItem(`${STORAGE_PREFIX}/${key}`);
   return value ? (JSON.parse(value) as T) : null;
 }
+
+export function removeItem(key: string): void {
+  localStorage.removeItem(`${STORAGE_PREFIX}/${key}`);
+}
