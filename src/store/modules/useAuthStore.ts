@@ -12,7 +12,7 @@ import { repositories } from '@services/repositories/repositoriesFactory';
 
 export const useAuthStore = defineStore('auth', () => {
   // --- STATE ---
-  const token = ref<string | null>(loadToken());
+  const token = ref<String | null>(loadToken());
   const isLoading = ref<boolean>(false);
   const mustResetPassword = ref<boolean>(false);
 
