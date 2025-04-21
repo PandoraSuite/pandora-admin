@@ -15,6 +15,7 @@ const LayoutRoute: RouteRecordRaw[] = [
       Header: Header,
       Sidebar: Sidebar,
     },
+    meta: { requiresAuth: true },
     children: [...AboutRoute, ...ServicesListRoute],
   },
 ];

@@ -9,6 +9,7 @@ const ServicesListRoute: RouteRecordRaw[] = [
     components: {
       default: ServicesView,
     },
+    meta: { requiresAuth: true },
   },
 ];
 

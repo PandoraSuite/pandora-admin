@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import LoginHeader from '@views/Login/components/header.vue';
-import ResetPasswordView from '@views/Login/components/resetPassword.vue';
+import LoginHeader from '@views/Login/components/Header.vue';
+import ResetPasswordView from '@views/Login/components/ResetPassword.vue';
 import LoginView from '@views/Login/index.vue';
 
 const LoginRoute: RouteRecordRaw[] = [
@@ -12,6 +12,7 @@ const LoginRoute: RouteRecordRaw[] = [
       default: LoginView,
       LoginHeader: LoginHeader,
     },
+    meta: { requiresAuth: false },
   },
   {
     path: '/reset-password',
@@ -20,6 +21,7 @@ const LoginRoute: RouteRecordRaw[] = [
       default: ResetPasswordView,
       LoginHeader: LoginHeader,
     },
+    meta: { requiresAuth: true },
   },
 ];
 

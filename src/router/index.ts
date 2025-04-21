@@ -1,3 +1,4 @@
+import { useAuthStore } from '@store/modules/useAuthStore';
 import {
   createRouter,
   createWebHistory,
@@ -12,6 +13,15 @@ const routes: RouteRecordRaw[] = [...LayoutRoute, ...LoginRoute];
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// GLOBAL NAVIGATION GUARD
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const isAuthenticated = authStore.isAuthenticated;
+  if (requiresAuth && !isAuthenticated) next({ path: '/login' });
+  else next();
 });
 
 export default router;
