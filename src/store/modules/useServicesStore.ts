@@ -2,24 +2,24 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
+import { repositories } from '@services/repositories/repositoriesFactory';
 import type {
   NewService,
   Service,
 } from '@services/repositories/servicesRepository';
 
-import { repositories } from '@services/repositories/repositoriesFactory';
-
-const servicesRepository = repositories.services;
-
 export const useServicesStore = defineStore('services', () => {
+  // --- STATE ---
   const services = ref<Service[]>([]);
   const isLoading = ref<boolean>(false);
 
+  // --- GETTERS ---
+
+  // --- ACTIONS ---
   const getAllServices = async () => {
     isLoading.value = true;
-
     try {
-      const response = await servicesRepository.getServices();
+      const response = await repositories.services.getServices();
       services.value = response;
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -34,9 +34,8 @@ export const useServicesStore = defineStore('services', () => {
 
   const createNewService = async (payload: NewService) => {
     isLoading.value = true;
-
     try {
-      const response = await servicesRepository.createService(payload);
+      const response = await repositories.services.createService(payload);
       services.value.push(response); // Update state if necessary
     } catch (err) {
       if (axios.isAxiosError(err)) {
