@@ -10,8 +10,8 @@
     </div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-circle">
-          <font-awesome-icon icon="bars" class="h-5 w-5" />
+        <label tabindex="0" class="theme-btn btn-circle">
+          <font-awesome-icon icon="bars" class="text-white" />
         </label>
         <ul
           tabindex="0"
