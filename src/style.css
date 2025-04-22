@@ -46,7 +46,7 @@
   --color-accent: #00d1bc;
   --text-primary: #1a1a1a;
   --text-secondary: #1a1a1a;
-  --color-border: #e5e5e5;
+  --color-border: #b4b2b2;
   --color-sidebar: #ffffff;
 }
 
@@ -79,13 +79,15 @@
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  th {
     font-family: var(--font-titles);
     color: var(--text-primary);
   }
 
   p,
-  a {
+  a,
+  td {
     font-family: var(--font-texts);
     line-height: 1.5;
     color: var(--text-primary);
