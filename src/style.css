@@ -48,6 +48,10 @@
   --text-secondary: #1a1a1a;
   --color-border: #e5e5e5;
   --color-sidebar: #ffffff;
+
+  .menu-active {
+    background-color: #9900cc;
+  }
 }
 
 [data-theme='dark'] {
@@ -64,6 +68,10 @@
   --text-secondary: #ebdddd;
   --color-border: #73647a;
   --color-sidebar: #432153;
+
+  .menu-active {
+    background-color: #926ca5;
+  }
 }
 
 @layer components {
