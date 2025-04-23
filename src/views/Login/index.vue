@@ -2,19 +2,24 @@
   <div class="flex min-h-screen flex-col">
     <AppHeader />
     <div class="bg-background-color flex flex-grow items-center justify-center">
-      <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+      <div class="w-full max-w-md rounded-xl bg-sidebar p-6 shadow-lg">
         <div class="flex flex-col items-center justify-center">
           <img
             src="/assets/color-logo-only.svg"
-            alt="Pandora Logo"
-            class="mb-2 h-[170px] w-[90px]"
+            alt="Pandora Logo Light"
+            class="mb-2 block h-[170px] w-[90px] dark:hidden"
           />
-          <h1 class="mb-8 text-2xl font-bold text-primary">Please Sing in</h1>
+          <img
+            src="/assets/white-logo-only.svg"
+            alt="Pandora Logo Dark"
+            class="mb-2 hidden h-[170px] w-[90px] dark:block"
+          />
+          <h1 class="mb-8 text-2xl font-bold text-subtitle">Please Sing in</h1>
         </div>
         <form @submit.prevent="handleLogin">
           <input
             type="text"
-            class="input mb-8 w-full border border-accent input-accent"
+            class="input mb-8 w-full border border-accent bg-white text-black input-accent placeholder:text-gray-500"
             placeholder="Username"
             v-model="username"
             required
@@ -37,7 +42,7 @@
               ><font-awesome-icon icon="user" class="mr-2" />Sign in</span
             >
           </button>
-          <p class="mt-5 text-center text-primary">Version xxx</p>
+          <p class="mt-5 text-center text-subtitle">Version xxx</p>
         </form>
       </div>
     </div>

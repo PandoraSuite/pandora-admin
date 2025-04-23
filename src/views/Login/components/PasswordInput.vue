@@ -6,7 +6,7 @@
       :v-model="props.modelValue"
       :autocomplete="props.autocomplete"
       @input="handleInput"
-      class="input mb-8 w-full border border-accent input-accent"
+      class="input mb-8 w-full border border-accent bg-white text-black input-accent placeholder:text-gray-500"
       required
     />
     <button

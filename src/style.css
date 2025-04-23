@@ -20,6 +20,7 @@
   --text-secondary: #1a1a1a;
   --color-border: #e5e5e5;
   --color-sidebar: #ffffff;
+  --color-subtitle: #660099;
 }
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) {
@@ -48,6 +49,7 @@
   --text-secondary: #1a1a1a;
   --color-border: #e5e5e5;
   --color-sidebar: #ffffff;
+  --color-subtitle: #660099;
 
   .menu-active {
     background-color: #9900cc;
@@ -68,6 +70,7 @@
   --text-secondary: #ebdddd;
   --color-border: #73647a;
   --color-sidebar: #432153;
+  --color-subtitle: #ffffff;
 
   .menu-active {
     background-color: #926ca5;
