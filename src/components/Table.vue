@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-[2%] w-full overflow-x-auto">
+  <div v-if="props.tableData.length >= 1" class="mt-[2%] w-full overflow-x-auto">
     <table class="table w-full self-center table-xs">
       <thead class="w-full justify-center bg-tertiary">
         <tr>
@@ -49,6 +49,9 @@
         Next
       </button>
     </div>
+  </div>
+  <div v-else class="mt-[2%] w-full">
+    <h3 class="text-2xl text-center">There is no data available there yet.</h3>
   </div>
 </template>
 
