@@ -1,3 +1,4 @@
+import { formatUTCToLocal } from '@composables/dateFormatter';
 import api from '@services/clients/axios';
 
 const resource: string = '/api/v1';
@@ -23,7 +24,11 @@ export interface ServicesRequests {
 export default <ServicesRequests>{
   async getServices(): Promise<Service[]> {
     const response = await api.get<Service[]>(`${resource}/services`);
-    return response.data;
+    const formattedServicesDates = response.data.map(service => ({
+      ...service,
+      created_at: formatUTCToLocal(service.created_at),
+    }))
+    return formattedServicesDates;
   },
 
   async createService(body: NewService): Promise<Service> {
