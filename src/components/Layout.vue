@@ -3,7 +3,7 @@
     <Header />
     <main class="flex h-full flex-row">
       <Sidebar />
-      <RouterView class="main-view w-[90%] px-3 pt-3"></RouterView>
+      <RouterView class="main-view w-[90%] px-5 pt-5"></RouterView>
     </main>
   </section>
 </template>
