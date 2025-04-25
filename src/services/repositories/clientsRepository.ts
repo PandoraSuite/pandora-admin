@@ -20,9 +20,9 @@ export default <ClientsRequests>{
     const response = await api.get<Client[]>(`${resource}`);
     // Iterates the backend response to capture 'created_at' and format it to local time and date.
     const processedResponse = response.data.map((client) => ({
-        ...client,
-        created_at: datetimeFormatter.format(new Date(client.created_at)),
-      }));
-      return processedResponse;
+      ...client,
+      created_at: datetimeFormatter.format(new Date(client.created_at)),
+    }));
+    return processedResponse;
   },
 };

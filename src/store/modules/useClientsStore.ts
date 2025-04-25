@@ -2,10 +2,8 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
+import type { Client } from '@services/repositories/clientsRepository';
 import { repositories } from '@services/repositories/repositoriesFactory';
-import type {
-    Client,
-} from '@services/repositories/clientsRepository';
 
 export const useClientsStore = defineStore('clients', () => {
   // --- STATE ---
