@@ -51,8 +51,9 @@
   --color-sidebar: #ffffff;
   --color-subtitle: #660099;
 
-  .menu-active {
+  .menu .router-link-exact-active {
     background-color: #9900cc;
+    color: #ffffff;
   }
 }
 
@@ -72,8 +73,9 @@
   --color-sidebar: #432153;
   --color-subtitle: #ffffff;
 
-  .menu-active {
+  .menu .router-link-exact-active {
     background-color: #926ca5;
+    color: #ffffff;
   }
 }
 
