@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"); */
-
 @plugin "daisyui";
 
 @theme {
@@ -24,15 +22,7 @@
 }
 
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) {
-  /* Aquí puedes definir estilos específicos para el modo oscuro si es necesario */
-}
-.color {
-  color: #660099;
-  color: #926ca5;
-  color: #c150fa;
-  color: #73647a;
-  color: #4b4150;
-  color: #2d2133;
+  /* Here you can define specific styles for dark mode if needed. */
 }
 
 [data-theme='light'] {
