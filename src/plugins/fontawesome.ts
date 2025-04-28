@@ -16,6 +16,7 @@ import {
   faSun,
   faUser,
   faUserGroup,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -36,6 +37,7 @@ library.add(
   faRightFromBracket,
   faDiagramProject,
   faChartSimple,
+  faPlus
 );
 
 export default FontAwesomeIcon;
