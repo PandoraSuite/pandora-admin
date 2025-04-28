@@ -3,7 +3,7 @@
     <h1 class="mt-4 ml-3 text-2xl font-semibold">Clients List</h1>
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
-      <!-- Add create button and search. -->
+      <CreateModal :title="'client'" @handleClick="createNewService" />
     </section>
     <section class="flex w-[90%] self-center">
       <Table :tableData="clientsStore.clients" />
@@ -12,11 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { useClientsStore } from '@store/modules/useClientsStore';
 import { onMounted } from 'vue';
+
+import { useClientsStore } from '@store/modules/useClientsStore';
 import Table from '../../components/Table.vue';
+import CreateModal from '@components/CreateModal.vue';
 
 const clientsStore = useClientsStore();
+
+function createNewService(payload: string) {}
 
 onMounted(async () => {
   await clientsStore.getAllClients();
