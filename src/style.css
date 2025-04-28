@@ -21,6 +21,9 @@
   --color-subtitle: #660099;
 }
 
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *)) {
+  /* Here you can define specific styles for dark mode if needed. */
+}
 
 [data-theme='light'] {
   --color-primary: #660099;
