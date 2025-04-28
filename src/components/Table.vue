@@ -1,5 +1,8 @@
 <template>
-  <div v-if="props.tableData.length >= 1" class="mt-[2%] w-full overflow-x-auto">
+  <div
+    v-if="props.tableData.length >= 1"
+    class="mt-[2%] w-full overflow-x-auto"
+  >
     <table class="table w-full self-center table-xs">
       <thead class="w-full justify-center bg-tertiary">
         <tr>
@@ -8,7 +11,7 @@
             :key="i"
             class="text-center text-lg font-semibold text-white"
           >
-            {{ formatHeader(column) }}
+            {{ formatHeader(column as string) }}
           </th>
           <th class="text-center text-lg font-semibold text-white">
             Quick Actions
@@ -17,12 +20,12 @@
       </thead>
       <tbody class="w-full">
         <tr
-          v-for="(service, j) in paginatedData"
+          v-for="(item, j) in paginatedData"
           :key="j"
           class="border-solid border-border text-center"
         >
           <td v-for="key in tableColumns" :key="key">
-            {{ formatValue(key, service[key]) }}
+            {{ item[key as keyof T] }}
           </td>
           <td>
             <!-- Add quick actions component here. -->
@@ -51,50 +54,33 @@
     </div>
   </div>
   <div v-else class="mt-[2%] w-full">
-    <h3 class="text-2xl text-center">There is no data available there yet.</h3>
+    <h3 class="text-center text-2xl">There is no data available yet.</h3>
   </div>
 </template>
 
-<script setup lang="ts">
-import type { Service } from '@services/repositories/servicesRepository';
+<script setup lang="ts" generic="T">
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{
-  // The props are typed with the type of 'Service'.
-  tableData: Service[];
+  // Define the props using a generic interface.
+  tableData: T[];
   // Perform component injection through props for quick action buttons.
 }>();
 
-const tableColumns = ref<(keyof Service)[]>([]);
+const tableColumns = ref<(keyof T)[]>([]);
 const currentPage = ref<number>(1);
 // Number of rows per page.
 const itemsPerPage: number = 15;
 
 // The keys of the first object are obtained to generate the table headers(columns).
-function firstObjectKeys(): (keyof Service)[] {
+function firstObjectKeys(): (keyof T)[] {
   const firstObject = props.tableData[0];
-  return firstObject ? (Object.keys(firstObject) as (keyof Service)[]) : [];
+  return firstObject ? (Object.keys(firstObject) as (keyof T)[]) : [];
 }
 
 // Column header values ​​are formatted and returned as sentences.
 function formatHeader(key: string): string {
   return key.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-// ISO date and time are formatted into human-readable format.
-function formatValue(
-  key: keyof Service,
-  value: Service[keyof Service],
-): string {
-  if (key === 'created_at' && typeof value === 'string') {
-    const date = new Date(value);
-    return new Intl.DateTimeFormat('default', {
-      dateStyle: 'short',
-      timeStyle: 'short',
-    }).format(date);
-  }
-
-  return String(value);
 }
 
 // Gets the total number of available pages.

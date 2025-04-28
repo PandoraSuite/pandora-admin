@@ -1,7 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faBars,
+  faChartSimple,
   faCodeBranch,
+  faDiagramProject,
   faEye,
   faEyeSlash,
   faFile,
@@ -32,6 +34,8 @@ library.add(
   faCodeBranch,
   faLockOpen,
   faRightFromBracket,
+  faDiagramProject,
+  faChartSimple,
 );
 
 export default FontAwesomeIcon;

@@ -4,6 +4,8 @@ import Header from '@components/Header.vue';
 import Layout from '@components/Layout.vue';
 import Sidebar from '@components/Sidebar.vue';
 import AboutRoute from './about';
+import ClientsListRoute from './clientsList';
+import ProjectsListRoute from './projectsList';
 import ServicesListRoute from './servicesList';
 
 const LayoutRoute: RouteRecordRaw[] = [
@@ -16,7 +18,12 @@ const LayoutRoute: RouteRecordRaw[] = [
       Sidebar: Sidebar,
     },
     meta: { requiresAuth: true },
-    children: [...AboutRoute, ...ServicesListRoute],
+    children: [
+      ...AboutRoute,
+      ...ServicesListRoute,
+      ...ClientsListRoute,
+      ...ProjectsListRoute,
+    ],
   },
 ];
 
