@@ -35,6 +35,7 @@ export default <ServicesRequests>{
   async createService(body: NewService): Promise<Service> {
     const response = await api.post<Service>(`${resource}/services`, body);
     const processedResponse = response.data;
+    // Access the backend response to capture 'created_at' and format it to local time and date.
     processedResponse.created_at = datetimeFormatter.format(
       new Date(processedResponse.created_at),
     );

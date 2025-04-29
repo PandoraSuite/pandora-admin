@@ -6,7 +6,7 @@
       <CreateModal
         :title="'service'"
         :formComponent="CreateServiceForm"
-        @submitForm="createNewService"
+        @submitForm="createService"
       />
     </section>
     <section class="flex w-[90%] self-center">
@@ -25,7 +25,7 @@ import CreateServiceForm from './components/CreateServiceForm.vue';
 
 const servicesStore = useServicesStore();
 
-function createNewService(payload: { name: string; version: string }) {
+function createService(payload: { name: string, version: string }) {
   servicesStore.createNewService(payload);
 }
 
