@@ -3,7 +3,11 @@
     <h1 class="mt-4 ml-3 text-2xl font-semibold">Services List</h1>
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
-      <CreateModal :title="'service'" @handleClick="createNewService" />
+      <CreateModal
+        :title="'service'"
+        :formComponent="CreateServiceForm"
+        @submitForm="createNewService"
+      />
     </section>
     <section class="flex w-[90%] self-center">
       <Table :tableData="servicesStore.services" />
@@ -14,13 +18,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
+import CreateModal from '@components/CreateModal.vue';
 import { useServicesStore } from '@store/modules/useServicesStore';
 import Table from '../../components/Table.vue';
-import CreateModal from '@components/CreateModal.vue';
+import CreateServiceForm from './components/CreateServiceForm.vue';
 
 const servicesStore = useServicesStore();
 
-function createNewService(payload: string) {}
+function createNewService(payload: { name: string; version: string }) {
+  servicesStore.createNewService(payload);
+}
 
 onMounted(async () => {
   await servicesStore.getAllServices();
