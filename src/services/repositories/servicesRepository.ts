@@ -35,7 +35,9 @@ export default <ServicesRequests>{
   async createService(body: NewService): Promise<Service> {
     const response = await api.post<Service>(`${resource}/services`, body);
     const processedResponse = response.data;
-    processedResponse.created_at =  datetimeFormatter.format(new Date(processedResponse.created_at))
+    processedResponse.created_at = datetimeFormatter.format(
+      new Date(processedResponse.created_at),
+    );
     return processedResponse;
   },
 };

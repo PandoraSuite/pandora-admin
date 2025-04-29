@@ -55,7 +55,7 @@ function closeModal() {
   formComponentRef.value?.resetForm();
 }
 
-function handleFormSubmit(data: {name: string; version: string}) {
+function handleFormSubmit(data: { name: string; version: string }) {
   emit('submitForm', data);
   toggleModal.value?.close();
   formComponentRef.value?.resetForm();
