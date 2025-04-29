@@ -38,6 +38,7 @@ const formComponentRef = ref<any>(null);
 const props = defineProps<{
   title: string;
   formComponent: DefineComponent<{}, {}, any>;
+  // {} = props, {} = raw bindings, any = slots
 }>();
 
 const emit = defineEmits<{
