@@ -1,56 +1,66 @@
 <template>
-  <!-- The button to open modal -->
-  <label
-    for="create_modal"
+  <button
     class="btn gap-3 bg-accent btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-lg"
+    @click="openModal()"
   >
     <font-awesome-icon :icon="['fas', 'plus']" class="text-white" />
     <h5 class="text-white">Create</h5>
-  </label>
+  </button>
 
-  <input type="checkbox" id="create_modal" class="modal-toggle" />
-  <dialog id="create_modal" class="modal modal-bottom sm:modal-middle">
+  <dialog
+    id="create_modal"
+    ref="toggleModal"
+    class="modal modal-bottom sm:modal-middle"
+  >
     <div class="modal-box bg-background">
-      <!-- Close button for closing modal -->
-      <label
-        for="create_modal"
-        class="btn absolute top-2 right-2 btn-circle btn-ghost btn-sm"
-        >X</label
+      <button
+        class="btn absolute top-2 right-2 btn-circle bg-error text-white btn-ghost btn-sm"
+        @click="closeModal()"
       >
+        X
+      </button>
       <h3 class="text-lg font-bold">Create a new {{ props.title }}.</h3>
-      
-      <!-- Insert the form corresponding to the view here. -->
-      
-      <div class="modal-action gap-5">
-        <button
-          class="btn bg-accent"
-          @click="emitClickEvent"
-        >
-          <h5 class="text-white">Create</h5>
-        </button>
-        <form method="dialog">
-          <!-- Close button for closing modal -->
-          <label for="create_modal" class="btn bg-error text-white"
-            >Close</label
-          >
-        </form>
-      </div>
+
+      <component
+        ref="formComponentRef"
+        :is="props.formComponent"
+        @submit="handleFormSubmit"
+      />
     </div>
   </dialog>
 </template>
 
-<script setup lang="ts">
-const emit = defineEmits(['handleClick']);
+<script setup lang="ts" generic="T">
+import { ref, type DefineComponent } from 'vue';
+
+const formComponentRef = ref<any>(null);
 
 const props = defineProps<{
   title: string;
-  // Perform component injection through props for create form.
+  formComponent: DefineComponent<{}, {}, any>;
+  // {} = props, {} = raw bindings, any = slots
 }>();
 
-const emitClickEvent = () => {
-  // Emits the 'handleClick' event to the parent component.
-  emit('handleClick', 'Create clicked');
-};
+const emit = defineEmits<{
+  (e: 'submitForm', data: T): void;
+}>();
+
+const toggleModal = ref<HTMLDialogElement | null>(null);
+
+function openModal() {
+  toggleModal.value?.showModal();
+}
+
+function closeModal() {
+  toggleModal.value?.close();
+  formComponentRef.value?.resetForm();
+}
+
+function handleFormSubmit(data: T) {
+  emit('submitForm', data);
+  toggleModal.value?.close();
+  formComponentRef.value?.resetForm();
+}
 </script>
 
 <style scoped></style>
