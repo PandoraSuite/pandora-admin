@@ -8,6 +8,7 @@
         :formComponent="CreateClientForm"
         @submitForm="createClient"
       />
+      <SearchInput placeholder="Filter by Type" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
       <Table :tableData="clientsStore.clients" />
@@ -19,6 +20,7 @@
 import { onMounted } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
+import SearchInput from '@components/SearchInput.vue';
 import { useClientsStore } from '@store/modules/useClientsStore';
 import Table from '../../components/Table.vue';
 import CreateClientForm from './components/CreateClientForm.vue';
@@ -40,6 +42,24 @@ function createClient(payload: ClientPayload) {
 onMounted(async () => {
   await clientsStore.getAllClients();
 });
+
+// Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
+const handleSearch = async (searchValue: string): Promise<void> => {
+  try {
+    // Check if the received searchValue is "truthy" (i.e., not an empty string "").
+    if (searchValue) {
+      await clientsStore.getAllClients({
+        type: searchValue,
+      });
+    } else {
+      // If searchValue is empty (e.g., user cleared the input).
+      await clientsStore.getAllClients();
+    }
+  } catch (error: unknown) {
+    // Catches the error thrown by the store action
+    console.error('Error getting clients in handleSearch:', error);
+  }
+};
 </script>
 
 <style scoped></style>
