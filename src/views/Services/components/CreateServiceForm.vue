@@ -8,16 +8,16 @@
       id="service_name"
       v-model="serviceName"
       type="text"
-      placeholder="Type service name"
-      class="input w-full"
+      placeholder=""
+      class="input w-full border bg-background outline-1"
     />
     <label for="service_version">Service Version:</label>
     <input
       id="service_version"
       v-model="serviceVersion"
       type="text"
-      placeholder="Type service version"
-      class="input w-full"
+      placeholder=""
+      class="input w-full border bg-background outline-1"
     />
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
       Save
@@ -28,11 +28,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const serviceName = ref('');
-const serviceVersion = ref('');
+const serviceName = ref<string>('');
+const serviceVersion = ref<string>('');
 
 const emit = defineEmits<{
-  (e: 'submit', data: { name: string; version: string }): void;
+  (e: 'submit', data: { name: string, version: string }): void;
 }>();
 
 function resetForm() {

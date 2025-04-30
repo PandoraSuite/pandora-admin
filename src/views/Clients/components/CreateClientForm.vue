@@ -8,25 +8,26 @@
       id="client_name"
       v-model="clientName"
       type="text"
-      placeholder="Type client name"
-      class="input w-full"
+      placeholder=""
+      class="input w-full bg-background outline-1"
     />
     <label for="client_email">Client Email:</label>
     <input
       id="client_email"
       v-model="clientEmail"
       type="email"
-      placeholder="Type client email"
-      class="input w-full"
+      placeholder=""
+      class="input w-full bg-background outline-1"
     />
     <label for="client_type">Client Type:</label>
-    <input
+    <select
       id="client_type"
       v-model="clientType"
-      type="text"
       placeholder="Type client type"
-      class="input w-full"
-    />
+      class="select w-full bg-background outline-1"
+    >
+      <option v-for="(option, i) in clientTypeOptions" :key="i" :value="option">{{ option }}</option>
+    </select>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
       Save
     </button>
@@ -36,22 +37,31 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const clientName = ref('');
-const clientEmail = ref('');
-const clientType = ref('');
+import { ClientType } from '@enums/clientType';
+
+const clientName = ref<string>('');
+const clientEmail = ref<string>('');
+const clientType = ref<ClientType>(ClientType.developer);
+
+const clientTypeOptions = Object.values(ClientType);
 
 const emit = defineEmits<{
-  (e: 'submit', data: { name: string; email: string, type:string }): void;
+  (e: 'submit', data: { name: string, email: string, type: string }): void;
 }>();
 
 function resetForm() {
   clientName.value = '';
   clientEmail.value = '';
-  clientType.value = '';
+  clientType.value = ClientType.developer;
 }
 
 function submitForm() {
-  emit('submit', { name: clientName.value, email: clientEmail.value, type: clientType.value });
+  if (!clientType.value) return;
+  emit('submit', {
+    name: clientName.value,
+    email: clientEmail.value,
+    type: clientType.value,
+  });
   resetForm();
 }
 
