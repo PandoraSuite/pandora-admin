@@ -9,6 +9,7 @@ import {
   faFile,
   faLock,
   faLockOpen,
+  faMagnifyingGlass,
   faMoon,
   faPlus,
   faRightFromBracket,
@@ -38,6 +39,7 @@ library.add(
   faDiagramProject,
   faChartSimple,
   faPlus,
+  faMagnifyingGlass,
 );
 
 export default FontAwesomeIcon;
