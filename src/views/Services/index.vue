@@ -18,14 +18,21 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import CreateModal from '@components/CreateModal.vue';
+import _CreateModal from '@components/CreateModal.vue';
 import { useServicesStore } from '@store/modules/useServicesStore';
 import Table from '../../components/Table.vue';
 import CreateServiceForm from './components/CreateServiceForm.vue';
 
+interface ServicePayload {
+  name: string,
+  version: string
+}
+
+const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
+
 const servicesStore = useServicesStore();
 
-function createService(payload: { name: string, version: string }) {
+function createService(payload: ServicePayload) {
   servicesStore.createNewService(payload);
 }
 
