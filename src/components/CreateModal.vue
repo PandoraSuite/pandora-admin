@@ -30,7 +30,7 @@
   </dialog>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { ref, type DefineComponent } from 'vue';
 
 const formComponentRef = ref<any>(null);
@@ -42,7 +42,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'submitForm', data: any): void;
+  (e: 'submitForm', data: T): void;
 }>();
 
 const toggleModal = ref<HTMLDialogElement | null>(null);
@@ -56,7 +56,7 @@ function closeModal() {
   formComponentRef.value?.resetForm();
 }
 
-function handleFormSubmit(data: { name: string; version: string }) {
+function handleFormSubmit(data: T) {
   emit('submitForm', data);
   toggleModal.value?.close();
   formComponentRef.value?.resetForm();
