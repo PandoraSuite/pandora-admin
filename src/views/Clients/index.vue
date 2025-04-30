@@ -18,14 +18,22 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import CreateModal from '@components/CreateModal.vue';
+import _CreateModal from '@components/CreateModal.vue';
 import { useClientsStore } from '@store/modules/useClientsStore';
 import Table from '../../components/Table.vue';
 import CreateClientForm from './components/CreateClientForm.vue';
 
+interface ClientPayload {
+  name: string;
+  email: string;
+  type: string;
+}
+
+const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
+
 const clientsStore = useClientsStore();
 
-function createClient(payload: {name: string, email: string, type: string}) {
+function createClient(payload: ClientPayload) {
   clientsStore.createNewClient(payload);
 }
 
