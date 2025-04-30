@@ -19,7 +19,7 @@
         <form @submit.prevent="handleLogin">
           <input
             type="text"
-            class="input mb-8 w-full border border-border bg-background input-accent placeholder:text-tprimary"
+            class="input mb-8 w-full border border-border bg-background input-accent"
             placeholder="Username"
             v-model="username"
             required
