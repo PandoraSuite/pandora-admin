@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router';
 
 import { loadTheme } from '@composables/theme';
 import type { Theme } from '@enums/theme';
+import Toast from '@components/Toast.vue';
 
 onMounted(() => {
   const theme: Theme = loadTheme();
@@ -13,6 +14,7 @@ onMounted(() => {
 
 <template>
   <RouterView />
+  <Toast />
 </template>
 
 <style scoped></style>
