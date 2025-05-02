@@ -37,7 +37,7 @@ api.interceptors.response.use(
       error.message ||
       'An unexpected error occurred.';
 
-    // Llamamos directamente al store dentro del interceptor
+    // We call store directly inside the interceptor
     const toastStore = useToastStore();
     toastStore.showToast(message, 'error');
 
