@@ -6,6 +6,7 @@ import { repositories } from '@services/repositories/repositoriesFactory';
 import type {
   NewService,
   Service,
+  ServiceFilterParams,
 } from '@services/repositories/servicesRepository';
 
 export const useServicesStore = defineStore('services', () => {
@@ -16,10 +17,10 @@ export const useServicesStore = defineStore('services', () => {
   // --- GETTERS ---
 
   // --- ACTIONS ---
-  const getAllServices = async () => {
+  const getAllServices = async (params?: ServiceFilterParams) => {
     isLoading.value = true;
     try {
-      const response = await repositories.services.getServices();
+      const response = await repositories.services.getServices(params);
       services.value = response;
     } catch (err) {
       if (axios.isAxiosError(err)) {

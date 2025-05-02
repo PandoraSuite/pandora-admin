@@ -26,7 +26,9 @@
       placeholder="Type client type"
       class="select w-full bg-background outline-1"
     >
-      <option v-for="(option, i) in clientTypeOptions" :key="i" :value="option">{{ option }}</option>
+      <option v-for="(option, i) in clientTypeOptions" :key="i" :value="option">
+        {{ option }}
+      </option>
     </select>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
       Save
@@ -46,7 +48,7 @@ const clientType = ref<ClientType>(ClientType.developer);
 const clientTypeOptions = Object.values(ClientType);
 
 const emit = defineEmits<{
-  (e: 'submit', data: { name: string, email: string, type: string }): void;
+  (e: 'submit', data: { name: string; email: string; type: string }): void;
 }>();
 
 function resetForm() {

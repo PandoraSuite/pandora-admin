@@ -16,14 +16,20 @@ export interface NewService {
   version: string;
 }
 
+export interface ServiceFilterParams {
+  status?: string;
+}
+
 export interface ServicesRequests {
-  getServices(): Promise<Service[]>;
+  getServices(params?: ServiceFilterParams): Promise<Service[]>;
   createService(body: NewService): Promise<Service>;
 }
 
 export default <ServicesRequests>{
-  async getServices(): Promise<Service[]> {
-    const response = await api.get<Service[]>(`${resource}/services`);
+  async getServices(params?: ServiceFilterParams): Promise<Service[]> {
+    const response = await api.get<Service[]>(`${resource}/services`, {
+      params,
+    });
     // Iterates the backend response to capture 'created_at' and format it to local time and date.
     const processedResponse = response.data.map((service) => ({
       ...service,

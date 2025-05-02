@@ -32,7 +32,7 @@ const serviceName = ref<string>('');
 const serviceVersion = ref<string>('');
 
 const emit = defineEmits<{
-  (e: 'submit', data: { name: string, version: string }): void;
+  (e: 'submit', data: { name: string; version: string }): void;
 }>();
 
 function resetForm() {

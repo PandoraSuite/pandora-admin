@@ -2,7 +2,11 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import type { Client, NewClient } from '@services/repositories/clientsRepository';
+import type {
+  Client,
+  ClientFilterParams,
+  NewClient,
+} from '@services/repositories/clientsRepository';
 import { repositories } from '@services/repositories/repositoriesFactory';
 
 export const useClientsStore = defineStore('clients', () => {
@@ -13,10 +17,10 @@ export const useClientsStore = defineStore('clients', () => {
   // --- GETTERS ---
 
   // --- ACTIONS ---
-  const getAllClients = async () => {
+  const getAllClients = async (params?: ClientFilterParams) => {
     isLoading.value = true;
     try {
-      const response = await repositories.clients.getClients();
+      const response = await repositories.clients.getClients(params);
       clients.value = response;
     } catch (err) {
       if (axios.isAxiosError(err)) {

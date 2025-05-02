@@ -17,14 +17,18 @@ export interface NewClient {
   type: string;
 }
 
+export interface ClientFilterParams {
+  type?: string;
+}
+
 export interface ClientsRequests {
-  getClients(): Promise<Client[]>;
+  getClients(params?: ClientFilterParams): Promise<Client[]>;
   createClient(body: NewClient): Promise<Client>;
 }
 
 export default <ClientsRequests>{
-  async getClients(): Promise<Client[]> {
-    const response = await api.get<Client[]>(`${resource}/clients`);
+  async getClients(params?: ClientFilterParams): Promise<Client[]> {
+    const response = await api.get<Client[]>(`${resource}/clients`, { params });
     // Iterates the backend response to capture 'created_at' and format it to local time and date.
     const processedResponse = response.data.map((client) => ({
       ...client,
