@@ -1,4 +1,5 @@
 import { loadToken } from '@composables/token';
+import { useToastStore } from '@store/modules/useToastStore';
 import axios from 'axios';
 
 // Axios instance with base configuration
@@ -30,6 +31,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('Request error:', error.response?.data || error.message);
+
+    const message =
+      error.detail ||
+      error.message ||
+      'An unexpected error occurred.';
+
+    // Llamamos directamente al store dentro del interceptor
+    const toastStore = useToastStore();
+    toastStore.showToast(message, 'error');
+
     return Promise.reject(error);
   },
 );
