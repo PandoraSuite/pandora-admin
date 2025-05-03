@@ -3,7 +3,7 @@
     <div
       v-for="toast in toastStore.toasts"
       :key="toast.id"
-      class="alert pr-4 content-center flex flex-row"
+      class="alert flex flex-row content-center pr-4"
       :class="{
         'alert-success': toast.type === 'success',
         'alert-error': toast.type === 'error',
@@ -13,7 +13,7 @@
       <span class="text-white">{{ toast.message }}</span>
       <button
         @click="toastStore.closeToast(toast.id)"
-        class="text-sm text-white font-bold cursor-pointer"
+        class="cursor-pointer text-sm font-bold text-white"
         aria-label="Close"
       >
         X

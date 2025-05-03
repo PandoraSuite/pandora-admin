@@ -1,21 +1,24 @@
-import { loadToken } from '@composables/token';
-import { useToastStore } from '@store/modules/useToastStore';
 import axios from 'axios';
 
-// Axios instance with base configuration
+import { loadToken } from '@composables/token';
+import router from '@router/index';
+import { useAuthStore } from '@store/modules/useAuthStore';
+import { useToastStore } from '@store/modules/useToastStore';
+
+// Axios instance with base configuration.
 const api = axios.create({
   baseURL: 'http://localhost:8000/',
-  timeout: 10000, // Maximum wait time in milliseconds
+  timeout: 10000, // Maximum wait time in milliseconds.
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
 });
 
-// Interceptor to add the token if needed
+// Interceptor to add the token if needed.
 api.interceptors.request.use(
   (config) => {
-    const token = loadToken(); // Get the token from local storage
+    const token = loadToken(); // Get the token from local storage.
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,20 +29,40 @@ api.interceptors.request.use(
   },
 );
 
-// Response interceptor to handle errors globally
+//  Response interceptor to handle errors globally.
 api.interceptors.response.use(
   (response) => response,
+
   (error) => {
-    console.error('Request error:', error.response?.data || error.message);
-
-    const message =
-      error.detail ||
-      error.message ||
-      'An unexpected error occurred.';
-
-    // We call store directly inside the interceptor
     const toastStore = useToastStore();
-    toastStore.showToast(message, 'error');
+    const authStore = useAuthStore();
+    const currentRoute = router.currentRoute.value.fullPath;
+    let message: string;
+
+    if (currentRoute === '/login' && error.status === 401) {
+      // Handle invalid login.
+      message = error.response.data.error;
+
+      toastStore.showToast(message, 'error');
+    } else if (error.status === 401) {
+      // Handle 401 errors and log out user.
+      message = 'Session expired. Please log in again.';
+      toastStore.showToast(message, 'error');
+
+      authStore.logout();
+
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000); // Short delay to display the toast.
+    } else {
+      // Handle other possible errors.
+      console.error('Request error:', error.response?.data || error.message);
+
+      message =
+        error.detail || error.message || 'An unexpected error occurred.';
+
+      toastStore.showToast(message, 'error');
+    }
 
     return Promise.reject(error);
   },
