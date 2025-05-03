@@ -40,9 +40,8 @@ api.interceptors.response.use(
     let message: string;
 
     if (currentRoute === '/login' && error.status === 401) {
-      // Handle invalid login.
-      message =
-        'Credentials are incorrect or user is invalid. Please try again or register';
+      // Handle invalid login.      
+      message = error.response.data.error;
 
       toastStore.showToast(message, 'error');
     } else if (error.status === 401) {
@@ -57,7 +56,7 @@ api.interceptors.response.use(
       }, 1000); // Short delay to display the toast.
     } else {
       // Handle other possible errors.
-      console.error('Request error:', error.response?.data || error.message);
+      console.error('Request error:', error.response?.data || error.message);      
 
       message =
         error.detail || error.message || 'An unexpected error occurred.';
