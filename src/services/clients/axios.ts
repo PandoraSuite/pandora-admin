@@ -40,7 +40,7 @@ api.interceptors.response.use(
     let message: string;
 
     if (currentRoute === '/login' && error.status === 401) {
-      // Handle invalid login.      
+      // Handle invalid login.
       message = error.response.data.error;
 
       toastStore.showToast(message, 'error');
@@ -56,7 +56,7 @@ api.interceptors.response.use(
       }, 1000); // Short delay to display the toast.
     } else {
       // Handle other possible errors.
-      console.error('Request error:', error.response?.data || error.message);      
+      console.error('Request error:', error.response?.data || error.message);
 
       message =
         error.detail || error.message || 'An unexpected error occurred.';

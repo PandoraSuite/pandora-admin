@@ -32,7 +32,7 @@ export const useToastStore = defineStore('toast', () => {
 
   const closeToast = (id: number) => {
     toasts.value = toasts.value.filter((t) => t.id !== id);
-  }
+  };
 
   return {
     toasts,
