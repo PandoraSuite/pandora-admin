@@ -6,9 +6,9 @@ import { computed, ref } from 'vue';
 import type {
   ChangePasswordPayload,
   LoginPayload,
-} from '@services/repositories/authRepository';
+} from '@services/repositories/modules/authRepository';
 
-import { repositories } from '@services/repositories/repositoriesFactory';
+import { repositories } from '@services/repositories';
 
 export const useAuthStore = defineStore('auth', () => {
   // --- STATE ---

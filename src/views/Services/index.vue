@@ -21,7 +21,7 @@ import { onMounted } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
-import { useServicesStore } from '@store/modules/useServicesStore';
+import { useServicesStore } from '@store/useServicesStore';
 import Table from '../../components/Table.vue';
 import CreateServiceForm from './components/CreateServiceForm.vue';
 

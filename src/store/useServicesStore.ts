@@ -2,12 +2,12 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import { repositories } from '@services/repositories/repositoriesFactory';
+import { repositories } from '@services/repositories';
 import type {
   NewService,
   Service,
   ServiceFilterParams,
-} from '@services/repositories/servicesRepository';
+} from '@services/repositories/modules/servicesRepository';
 
 export const useServicesStore = defineStore('services', () => {
   // --- STATE ---

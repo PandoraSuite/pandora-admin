@@ -30,8 +30,8 @@
 import { computed } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 
-import { useAuthStore } from '@store/modules/useAuthStore';
-import { useThemeStore } from '@store/modules/useToggleThemeStore';
+import { useAuthStore } from '@store/useAuthStore';
+import { useThemeStore } from '@store/useToggleThemeStore';
 
 const themeStore = useThemeStore();
 const authStore = useAuthStore();

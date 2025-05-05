@@ -6,6 +6,7 @@
       "@enums/*": ["enums/*"],
       "@store/*": ["store/*"],
       "@views/*": ["views/*"],
+      "@types/*": ["types/*"],
       "@router/*": ["router/*"],
       "@plugins/*": ["plugins/*"],
       "@services/*": ["services/*"],

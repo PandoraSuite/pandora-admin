@@ -1,6 +1,6 @@
-import api from '../clients/axios';
+import api from '../../api';
 
-const resource: string = '/api/v1/auth';
+const RESOURCE: string = '/api/v1/auth';
 
 export interface LoginResponse {
   access_token: string;
@@ -26,11 +26,11 @@ export interface AuthRequests {
 
 export default <AuthRequests>{
   async login(body: LoginPayload): Promise<LoginResponse> {
-    const response = await api.post<LoginResponse>(`${resource}/login`, body);
+    const response = await api.post<LoginResponse>(`${RESOURCE}/login`, body);
     return response.data;
   },
 
   async changePassword(body: ChangePasswordPayload): Promise<void> {
-    await api.post<void>(`${resource}/change-password`, body);
+    await api.post<void>(`${RESOURCE}/change-password`, body);
   },
 };

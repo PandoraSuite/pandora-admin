@@ -9,6 +9,7 @@ export default defineConfig({
       '@enums': path.resolve(__dirname, 'src/enums'),
       '@store': path.resolve(__dirname, 'src/store'),
       '@views': path.resolve(__dirname, 'src/views'),
+      '@types': path.resolve(__dirname, 'src/types'),
       '@router': path.resolve(__dirname, 'src/router'),
       '@plugins': path.resolve(__dirname, 'src/plugins'),
       '@services': path.resolve(__dirname, 'src/services'),

@@ -1,7 +1,7 @@
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/clients/axios';
+import api from '@services/api';
 
-const resource: string = '/api/v1';
+const RESOURCE: string = '/api/v1';
 
 export interface Service {
   created_at: string;
@@ -27,7 +27,7 @@ export interface ServicesRequests {
 
 export default <ServicesRequests>{
   async getServices(params?: ServiceFilterParams): Promise<Service[]> {
-    const response = await api.get<Service[]>(`${resource}/services`, {
+    const response = await api.get<Service[]>(`${RESOURCE}/services`, {
       params,
     });
     // Iterates the backend response to capture 'created_at' and format it to local time and date.
@@ -39,7 +39,7 @@ export default <ServicesRequests>{
   },
 
   async createService(body: NewService): Promise<Service> {
-    const response = await api.post<Service>(`${resource}/services`, body);
+    const response = await api.post<Service>(`${RESOURCE}/services`, body);
     const processedResponse = response.data;
     // Access the backend response to capture 'created_at' and format it to local time and date.
     processedResponse.created_at = datetimeFormatter.format(

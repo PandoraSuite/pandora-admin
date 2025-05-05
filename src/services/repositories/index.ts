@@ -1,10 +1,12 @@
-import authRepository, { type AuthRequests } from './authRepository';
+import authRepository, { type AuthRequests } from './modules/authRepository';
 
 import servicesRepository, {
   type ServicesRequests,
-} from './servicesRepository';
+} from './modules/servicesRepository';
 
-import clientsRepository, { type ClientsRequests } from './clientsRepository';
+import clientsRepository, {
+  type ClientsRequests,
+} from './modules/clientsRepository';
 
 export interface Repositories {
   auth: AuthRequests;
