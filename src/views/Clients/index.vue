@@ -17,11 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
-import { useClientsStore } from '@store/modules/useClientsStore';
+import { useClientsStore } from '@store/useClientsStore';
+import { useToastStore } from '@store/useToastStore';
+import { storeToRefs } from 'pinia';
 import Table from '../../components/Table.vue';
 import CreateClientForm from './components/CreateClientForm.vue';
 
@@ -34,13 +36,20 @@ interface ClientPayload {
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
 const clientsStore = useClientsStore();
+const { error } = storeToRefs(clientsStore);
 
 function createClient(payload: ClientPayload) {
-  clientsStore.createNewClient(payload);
+  clientsStore.createClient(payload);
 }
 
 onMounted(async () => {
-  await clientsStore.getAllClients();
+  await clientsStore.getClients();
+});
+
+watch(error, (value, _) => {
+  if (value) {
+    useToastStore().showToast(value, 'error');
+  }
 });
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
@@ -48,12 +57,12 @@ const handleSearch = async (searchValue: string): Promise<void> => {
   try {
     // Check if the received searchValue is "truthy" (i.e., not an empty string "").
     if (searchValue) {
-      await clientsStore.getAllClients({
+      await clientsStore.getClients({
         type: searchValue,
       });
     } else {
       // If searchValue is empty (e.g., user cleared the input).
-      await clientsStore.getAllClients();
+      await clientsStore.getClients();
     }
   } catch (error: unknown) {
     // Catches the error thrown by the store action
