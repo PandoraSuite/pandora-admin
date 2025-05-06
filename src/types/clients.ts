@@ -18,6 +18,25 @@ export interface UpdateClient {
   email?: string;
 }
 
+export interface ClientProjects {
+  client_id: number;
+  created_at: string;
+  id: number;
+  name: string;
+  services: [
+    {
+      assigned_at: string;
+      id: number;
+      max_request: number;
+      name: string;
+      next_reset: string;
+      reset_frequency: string;
+      version: string;
+    },
+  ];
+  status: string;
+}
+
 export interface ClientFilterParams {
   type?: string;
 }
