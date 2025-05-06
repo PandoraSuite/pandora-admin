@@ -5,7 +5,9 @@ import api from '@services/api';
 import type {
   Client,
   ClientFilterParams,
+  ClientProjects,
   NewClient,
+  UpdateClient,
 } from '../../../types/clients';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
@@ -17,7 +19,9 @@ export interface ClientsRequests {
     params: ClientFilterParams | undefined,
   ): Promise<StandardResponse<Client[]>>;
   createClient(body: NewClient): Promise<StandardResponse<Client>>;
+  updateClient(id: number, body: UpdateClient): Promise<StandardResponse<true>>;
   getClientById(id: number): Promise<StandardResponse<Client>>;
+  getClientProjects(id: number): Promise<StandardResponse<ClientProjects[]>>;
 }
 
 export default <ClientsRequests>{
@@ -66,6 +70,7 @@ export default <ClientsRequests>{
     try {
       const response = await api.get<Client>(`${RESOURCE}/${id}`);
       const processedResponse = response.data;
+      // Access the backend response to capture 'created_at' and format it to local time and date.
       processedResponse.created_at = datetimeFormatter.format(
         new Date(processedResponse.created_at),
       );
@@ -80,8 +85,42 @@ export default <ClientsRequests>{
     }
   },
 
-  // async updateClient(id: number, body: UpdateClient): Promise<> {
-  //   const response = await api.patch(`${RESOURCE}/clients/${id}`, body);
-  //   return response;
-  // }
+  async updateClient(
+    id: number,
+    body: UpdateClient,
+  ): Promise<StandardResponse<true>> {
+    try {
+      await api.patch<true>(`${RESOURCE}/${id}`, body);
+      return {
+        success: true,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  async getClientProjects(
+    id: number,
+  ): Promise<StandardResponse<ClientProjects[]>> {
+    try {
+      const response = await api.get<ClientProjects[]>(
+        `${RESOURCE}/${id}/projects`,
+      );
+      // Access the backend response to capture 'created_at' and format it to local time and date.
+      const processedResponse = response.data?.map((project) => ({
+        ...project,
+        created_at: datetimeFormatter.format(new Date(project.created_at)),
+      }));
+      return {
+        success: true,
+        data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
 };
