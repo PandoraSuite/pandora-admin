@@ -18,6 +18,12 @@ export interface UpdateClient {
   email?: string;
 }
 
+export interface ClientPayload {
+  name: string;
+  type: string;
+  email: string;
+}
+
 export interface ClientProjects {
   client_id: number;
   created_at: string;
