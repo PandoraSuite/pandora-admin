@@ -17,20 +17,20 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { onMounted, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
-import { storeToRefs } from 'pinia';
 import Table from '../../components/Table.vue';
 import CreateClientForm from './components/CreateClientForm.vue';
 
 interface ClientPayload {
   name: string;
-  email: string;
   type: string;
+  email: string;
 }
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
@@ -38,8 +38,11 @@ const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 const clientsStore = useClientsStore();
 const { error } = storeToRefs(clientsStore);
 
-function createClient(payload: ClientPayload) {
-  clientsStore.createClient(payload);
+async function createClient(payload: ClientPayload) {
+  const response = await clientsStore.createClient(payload);
+  if (response) {
+    useToastStore().showToast('Client created successfully', 'success');
+  }
 }
 
 onMounted(async () => {
@@ -54,19 +57,14 @@ watch(error, (value, _) => {
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
 const handleSearch = async (searchValue: string): Promise<void> => {
-  try {
-    // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-    if (searchValue) {
-      await clientsStore.getClients({
-        type: searchValue,
-      });
-    } else {
-      // If searchValue is empty (e.g., user cleared the input).
-      await clientsStore.getClients();
-    }
-  } catch (error: unknown) {
-    // Catches the error thrown by the store action
-    console.error('Error getting clients in handleSearch:', error);
+  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
+  if (searchValue) {
+    await clientsStore.getClients({
+      type: searchValue,
+    });
+  } else {
+    // If searchValue is empty (e.g., user cleared the input).
+    await clientsStore.getClients();
   }
 };
 </script>
