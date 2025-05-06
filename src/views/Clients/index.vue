@@ -25,13 +25,8 @@ import SearchInput from '@components/SearchInput.vue';
 import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
+import type { ClientPayload } from '../../types/clients';
 import CreateClientForm from './components/CreateClientForm.vue';
-
-interface ClientPayload {
-  name: string;
-  type: string;
-  email: string;
-}
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
@@ -56,7 +51,7 @@ watch(error, (value, _) => {
 });
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-const handleSearch = async (searchValue: string): Promise<void> => {
+async function handleSearch(searchValue: string): Promise<void> {
   // Check if the received searchValue is "truthy" (i.e., not an empty string "").
   if (searchValue) {
     await clientsStore.getClients({
@@ -66,7 +61,7 @@ const handleSearch = async (searchValue: string): Promise<void> => {
     // If searchValue is empty (e.g., user cleared the input).
     await clientsStore.getClients();
   }
-};
+}
 </script>
 
 <style scoped></style>
