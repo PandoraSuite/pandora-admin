@@ -19,10 +19,7 @@ export interface AuthRequests {
 export default <AuthRequests>{
   async login(body: LoginPayload): Promise<StandardResponse<LoginResponse>> {
     try {
-      const response = await api.post<LoginResponse>(
-        `${RESOURCE}/login`,
-        body,
-      );
+      const response = await api.post<LoginResponse>(`${RESOURCE}/login`, body);
       return {
         success: true,
         data: response.data,
