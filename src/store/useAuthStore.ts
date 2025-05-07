@@ -1,17 +1,17 @@
-import { clearToken, loadToken, saveToken } from '@composables/token';
-import axios from 'axios';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
+import { clearToken, loadToken, saveToken } from '@composables/token';
+import { repositories } from '@services/repositories';
 import type {
   ChangePasswordPayload,
   LoginPayload,
-} from '@services/repositories/modules/authRepository';
-
-import { repositories } from '@services/repositories';
+  LoginResponse,
+} from '../types/authentication';
 
 export const useAuthStore = defineStore('auth', () => {
   // --- STATE ---
+  const error = ref<string | null>(null);
   const token = ref<String | null>(loadToken());
   const isLoading = ref<boolean>(false);
   const mustResetPassword = ref<boolean>(false);
@@ -23,36 +23,28 @@ export const useAuthStore = defineStore('auth', () => {
   // --- ACTIONS ---
   const login = async (payload: LoginPayload) => {
     isLoading.value = true;
-    try {
-      const response = await repositories.auth.login(payload);
-      saveToken(response.access_token);
-      token.value = response.access_token;
-      mustResetPassword.value = response.force_password_reset;
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        throw new Error(`Error logging in user ${err.message}`);
-      } else {
-        throw new Error('Unexpected error while logging in user');
-      }
-    } finally {
-      isLoading.value = false;
+    const response = await repositories.auth.login(payload);
+    const loginResponse = response.data as LoginResponse;
+    if (response.success) {
+      saveToken(loginResponse.access_token);
+      token.value = loginResponse.access_token;
+      mustResetPassword.value = loginResponse.force_password_reset;
+    } else {
+      error.value = response.error;
     }
+    isLoading.value = false;
   };
 
   const changePassword = async (payload: ChangePasswordPayload) => {
     isLoading.value = true;
-    try {
-      await repositories.auth.changePassword(payload);
+    const response = await repositories.auth.changePassword(payload);
+    if (response.success) {
       mustResetPassword.value = false;
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        throw new Error(`Error changing password ${err.message}`);
-      } else {
-        throw new Error('Unexpected error while changing password');
-      }
-    } finally {
-      isLoading.value = false;
+    } else {
+      error.value = response.error;
     }
+
+    isLoading.value = false;
   };
 
   const logout = () => {
