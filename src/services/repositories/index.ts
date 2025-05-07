@@ -8,14 +8,25 @@ import clientsRepository, {
   type ClientsRequests,
 } from './modules/clientsRepository';
 
-import type { ProjectsRequests } from './modules/projectsRepository';
-import projectsRepository from './modules/projectsRepository';
+import projectsRepository, {
+  type ProjectsRequests,
+} from './modules/projectsRepository';
+
+import environmentsRepository, {
+  type EnvironmentsRequests,
+} from './modules/environmentsRepository';
+
+import apiKeysRepository, {
+  type APIKeyRequests,
+} from './modules/apiKeysRepository';
 
 export interface Repositories {
   auth: AuthRequests;
   services: ServicesRequests;
   clients: ClientsRequests;
   projects: ProjectsRequests;
+  environments: EnvironmentsRequests;
+  apiKeys: APIKeyRequests;
 }
 
 export const repositories: Repositories = {
@@ -23,4 +34,6 @@ export const repositories: Repositories = {
   services: servicesRepository,
   clients: clientsRepository,
   projects: projectsRepository,
+  environments: environmentsRepository,
+  apiKeys: apiKeysRepository,
 };
