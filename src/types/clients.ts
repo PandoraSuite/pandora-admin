@@ -29,17 +29,15 @@ export interface ClientProjects {
   created_at: string;
   id: number;
   name: string;
-  services: [
-    {
-      assigned_at: string;
-      id: number;
-      max_request: number;
-      name: string;
-      next_reset: string;
-      reset_frequency: string;
-      version: string;
-    },
-  ];
+  services: {
+    assigned_at: string;
+    id: number;
+    max_request: number;
+    name: string;
+    next_reset: string;
+    reset_frequency: string;
+    version: string;
+  }[];
   status: string;
 }
 
