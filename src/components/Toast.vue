@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { useToastStore } from '@store/modules/useToastStore';
+import { useToastStore } from '@store/useToastStore';
 
 const toastStore = useToastStore();
 </script>

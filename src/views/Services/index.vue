@@ -17,48 +17,51 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { onMounted, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
-import { useServicesStore } from '@store/modules/useServicesStore';
+import { useServicesStore } from '@store/useServicesStore';
+import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
+import type { ServicePayload } from '../../types/services';
 import CreateServiceForm from './components/CreateServiceForm.vue';
-
-interface ServicePayload {
-  name: string;
-  version: string;
-}
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 
 const servicesStore = useServicesStore();
+const { error } = storeToRefs(servicesStore);
 
-function createService(payload: ServicePayload) {
-  servicesStore.createNewService(payload);
+async function createService(payload: ServicePayload) {
+  const response = await servicesStore.createNewService(payload);
+  if (response) {
+    useToastStore().showToast('Service created successfully', 'success');
+  }
 }
 
 onMounted(async () => {
-  await servicesStore.getAllServices();
+  await servicesStore.getServices();
+});
+
+watch(error, (value, _) => {
+  if (value) {
+    useToastStore().showToast(value, 'error');
+  }
 });
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-const handleSearch = async (searchValue: string): Promise<void> => {
-  try {
-    // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-    if (searchValue) {
-      await servicesStore.getAllServices({
-        status: searchValue,
-      });
-    } else {
-      // If searchValue is empty (e.g., user cleared the input).
-      await servicesStore.getAllServices();
-    }
-  } catch (error: unknown) {
-    // Catches the error thrown by the store action
-    console.error('Error getting services in handleSearch:', error);
+async function handleSearch(searchValue: string): Promise<void> {
+  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
+  if (searchValue) {
+    await servicesStore.getServices({
+      status: searchValue,
+    });
+  } else {
+    // If searchValue is empty (e.g., user cleared the input).
+    await servicesStore.getServices();
   }
-};
+}
 </script>
 
 <style scoped></style>

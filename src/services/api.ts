@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import { loadToken } from '@composables/token';
 import router from '@router/index';
-import { useAuthStore } from '@store/modules/useAuthStore';
-import { useToastStore } from '@store/modules/useToastStore';
+import { useAuthStore } from '@store/useAuthStore';
+import { useToastStore } from '@store/useToastStore';
 
 // Axios instance with base configuration.
 const api = axios.create({
@@ -54,14 +54,6 @@ api.interceptors.response.use(
       setTimeout(() => {
         router.push('/login');
       }, 1000); // Short delay to display the toast.
-    } else {
-      // Handle other possible errors.
-      console.error('Request error:', error.response?.data || error.message);
-
-      message =
-        error.detail || error.message || 'An unexpected error occurred.';
-
-      toastStore.showToast(message, 'error');
     }
 
     return Promise.reject(error);
