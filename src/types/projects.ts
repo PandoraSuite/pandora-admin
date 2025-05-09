@@ -16,13 +16,13 @@ export interface Project {
 }
 
 export interface NewProject {
-  name: string;
   client_id: number;
+  name: string;
   services: {
     id: number;
     max_request: number;
     reset_frequency: string;
-  };
+  }[];
   status: string;
 }
 
