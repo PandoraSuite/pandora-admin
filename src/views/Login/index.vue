@@ -18,20 +18,29 @@
         </div>
         <form @submit.prevent="handleLogin">
           <input
+            id="username"
             type="text"
-            class="input mb-8 w-full border border-border bg-background input-accent"
+            class="input my-4 w-full border border-border bg-background input-accent"
             placeholder="Username"
             v-model="username"
-            required
             autocomplete="username"
+            @input="clearErrors($event)"
           />
+          <p v-if="usernameError" class="text-sm text-error my-2">
+            {{ usernameError }}
+          </p>
           <PasswordInput
+            id="password"
             v-model="password"
             placeholder="Password"
             autocomplete="current-password"
+            @input="clearErrors($event)"
           />
+          <p v-if="passwordError" class="text-sm text-error my-2">
+            {{ passwordError }}
+          </p>
           <button
-            class="btn mx-auto block w-1/3 text-white btn-primary"
+            class="btn mx-auto my-3 block w-1/3 text-white btn-primary"
             type="submit"
           >
             <span
@@ -57,24 +66,45 @@ import AppHeader from './components/Header.vue';
 import PasswordInput from './components/PasswordInput.vue';
 
 const username = ref<string>('');
+const usernameError = ref<string | null>(null);
 const password = ref<string>('');
+const passwordError = ref<string | null>(null);
 const authStore = useAuthStore();
 const router = useRouter();
 
+// Clear error messages when the user interacts with the input fields.
+function clearErrors(event: Event) {
+  const target = event.target as HTMLInputElement | HTMLSelectElement;
+  const field = target.id;
+
+  switch (field) {
+    case 'username':
+      usernameError.value = null;
+      break;
+    case 'password':
+      passwordError.value = null;
+      break;
+  }
+}
+
 const handleLogin = async (): Promise<void> => {
-  try {
-    await authStore.login({
-      username: username.value,
-      password: password.value,
-    });
-    if (authStore.mustResetPassword) {
-      router.push('/reset-password');
-    } else {
-      router.push('/services');
-    }
-  } catch (error: unknown) {
-    // Catches the error thrown by the store action
-    console.error('Login failed:', error);
+  usernameError.value = null;
+  passwordError.value = null;
+
+  if (!username.value || !password.value) {
+    usernameError.value = 'Username is required';
+    passwordError.value = 'Password is required';
+    return;
+  }
+
+  await authStore.login({
+    username: username.value,
+    password: password.value,
+  });
+  if (authStore.mustResetPassword) {
+    router.push('/reset-password');
+  } else {
+    router.push('/services');
   }
 };
 </script>

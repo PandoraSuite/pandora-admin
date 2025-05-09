@@ -1,18 +1,18 @@
 <template>
   <div class="relative">
     <input
+      :id="props.id"
       :type="fieldType"
       :placeholder="props.placeholder"
       :v-model="props.modelValue"
       :autocomplete="props.autocomplete"
       @input="handleInput"
-      class="input mb-8 w-full border border-border bg-background input-accent"
-      required
+      class="input my-4 w-full border border-border bg-background input-accent"
     />
     <button
       type="button"
       @click="togglePasswordVisibility"
-      class="absolute top-2 right-0 pr-3 text-gray-400 hover:text-gray-600"
+      class="absolute top-6 right-0 pr-3 text-gray-400 hover:text-gray-600"
     >
       <font-awesome-icon :icon="iconName" />
     </button>
@@ -28,6 +28,7 @@ const props = defineProps<{
   modelValue: string;
   placeholder?: string;
   autocomplete: string;
+  id: string;
 }>();
 
 // Password input type
