@@ -28,7 +28,6 @@ import Table from '../../components/Table.vue';
 import type {
   NewProject,
   Project,
-  // ResumedServices,
   SimplifiedProject,
 } from '../../types/projects';
 import CreateProjectForm from './components/CreateProjectForm.vue';
