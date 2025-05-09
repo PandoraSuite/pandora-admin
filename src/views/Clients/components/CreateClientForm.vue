@@ -26,8 +26,8 @@
       placeholder="Type client type"
       class="select w-full bg-background outline-1"
     >
-      <option v-for="(option, i) in clientTypeOptions" :key="i" :value="option">
-        {{ option }}
+      <option v-for="(optionLabel, optionValue, i) in ClientTypeLabels" :key="i" :value="optionValue">
+        {{ optionLabel }}
       </option>
     </select>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
@@ -39,13 +39,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { ClientType } from '@enums/clientType';
+import { ClientTypeLabels } from '@enums/clientType';
 
 const clientName = ref<string>('');
 const clientEmail = ref<string>('');
-const clientType = ref<ClientType>(ClientType.developer);
-
-const clientTypeOptions = Object.values(ClientType);
+const clientType = ref<string>('');
 
 const emit = defineEmits<{
   (e: 'submit', data: { name: string; email: string; type: string }): void;
@@ -54,7 +52,7 @@ const emit = defineEmits<{
 function resetForm() {
   clientName.value = '';
   clientEmail.value = '';
-  clientType.value = ClientType.developer;
+  clientType.value = '';
 }
 
 function submitForm() {
