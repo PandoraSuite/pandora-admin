@@ -11,27 +11,43 @@
       <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projectsStore.projects" />
+      <Table :tableData="projects" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { onMounted, ref, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
+import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
-import { useProjectsStore } from '@store/useProjectsStore';
-import type { NewProject } from '../../types/projects';
+import type {
+  NewProject,
+  Project,
+  // ResumedServices,
+  SimplifiedProject,
+} from '../../types/projects';
 import CreateProjectForm from './components/CreateProjectForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
 const projectsStore = useProjectsStore();
 const { error } = storeToRefs(projectsStore);
+
+const projectsList = ref<Project[]>([]);
+
+const projects: SimplifiedProject[] = projectsList.value.map((project: Project) => ({
+  ...project,
+  services: project.services.map((service) => ({
+    ...service,
+    name: service.name,
+    version: service.version,
+  })),
+}));
 
 async function createClient(payload: NewProject) {
   const response = await projectsStore.createProject(payload);
@@ -42,6 +58,9 @@ async function createClient(payload: NewProject) {
 
 onMounted(async () => {
   await projectsStore.getProjects();
+  projectsList.value = projectsStore.projects;
+  console.log('projectsList', projectsList.value);
+  
 });
 
 watch(error, (value, _) => {

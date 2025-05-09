@@ -26,6 +26,15 @@ export interface NewProject {
   status: string;
 }
 
+export interface ResumedServices {
+  name: string;
+  version: string;
+}
+
+export interface SimplifiedProject extends Omit<Project, 'services'> {
+  services: ResumedServices[];
+};
+
 export interface NewProjectService {
   id: number;
   max_request: number;
