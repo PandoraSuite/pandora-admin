@@ -13,7 +13,7 @@
       v-model="projectName"
       type="text"
       placeholder=""
-      @focus="clearErrors()"
+      @input="clearErrors($event)"
       class="input w-full bg-background outline-1"
     />
     <p v-if="projectNameError" class="text-sm text-error">
@@ -26,7 +26,7 @@
       id="client_id"
       v-model="clientId"
       placeholder=""
-      @focus="clearErrors()"
+      @input="clearErrors($event)"
       class="select w-full bg-background outline-1"
     >
       <option v-for="client in clients" :key="client.id" :value="client.id">
@@ -45,7 +45,7 @@
       id="project_status"
       v-model="projectStatus"
       placeholder=""
-      @focus="clearErrors()"
+      @input="clearErrors($event)"
       class="select w-full bg-background outline-1"
     >
       <option
@@ -78,15 +78,14 @@
       v-if="clicked"
       class="flex flex-col gap-4 transition-discrete ease-in-out"
     >
-      <div class="divider"></div>
-      <h4 v-if="selectedServices">Selected Services:</h4>
+      <h4 v-if="selectedServices.length > 0">Selected Services:</h4>
       <div
         v-for="(service, j) in selectedServices"
         :key="j"
         class="card mb-4 flex flex-row rounded-lg border p-4"
       >
         <p class="font-semibold">
-          {{ getServiceName(service.id) }} - v.
+          {{ getServiceName(service.id) }} -
           {{ getServiceVersion(service.id) }}
         </p>
         <button
@@ -108,7 +107,7 @@
         id="service_id"
         v-model="projectServiceId"
         placeholder=""
-        @focus="clearErrors()"
+        @input="clearErrors($event)"
         class="select w-full bg-background outline-1"
       >
         <option
@@ -132,7 +131,7 @@
         v-model="projectServiceMaxRequests"
         type="number"
         placeholder=""
-        @focus="clearErrors()"
+        @input="clearErrors($event)"
         class="input w-full bg-background outline-1"
       />
       <p v-if="projectServiceMaxRequestsError" class="text-sm text-error">
@@ -147,7 +146,7 @@
         id="service_reset_frequency"
         v-model="projectServiceResetFrequency"
         placeholder=""
-        @focus="clearErrors()"
+        @input="clearErrors($event)"
         class="select w-full bg-background outline-1"
       >
         <option
@@ -277,13 +276,31 @@ function resetServiceSelection() {
   projectServiceResetFrequency.value = '';
 }
 
-function clearErrors() {
-  clientIdError.value = null;
-  projectNameError.value = null;
-  projectStatusError.value = null;
-  projectServiceIdError.value = null;
-  projectServiceMaxRequestsError.value = null;
-  projectServiceResetFrequencyError.value = null;
+// Clear error messages when the user interacts with the input fields.
+function clearErrors(event: Event) {
+  const target = event.target as HTMLInputElement | HTMLSelectElement;
+  const field = target.id;
+
+  switch (field) {
+    case 'client_id':
+      clientIdError.value = null;
+      break;
+    case 'project_name':
+      projectNameError.value = null;
+      break;
+    case 'project_status':
+      projectStatusError.value = null;
+      break;
+    case 'service_id':
+      projectServiceIdError.value = null;
+      break;
+    case 'services_max_requests':
+      projectServiceMaxRequestsError.value = null;
+      break;
+    case 'service_reset_frequency':
+      projectServiceResetFrequencyError.value = null;
+      break;
+  }
 }
 
 function resetForm() {
@@ -295,7 +312,12 @@ function resetForm() {
   projectServiceResetFrequency.value = '';
 
   // Reset error messages.
-  clearErrors();
+  clientIdError.value = null;
+  projectNameError.value = null;
+  projectStatusError.value = null;
+  projectServiceIdError.value = null;
+  projectServiceMaxRequestsError.value = null;
+  projectServiceResetFrequencyError.value = null;
 }
 
 const emit = defineEmits<{
