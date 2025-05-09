@@ -10,6 +10,7 @@
       class="input w-full bg-background pl-8 outline-1"
       v-model="inputValue"
       @input="handleInput"
+      :disabled="disabled"
     />
   </div>
 </template>
@@ -21,6 +22,7 @@ const inputValue = ref<string>('');
 
 const props = defineProps<{
   placeholder: string;
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits<{

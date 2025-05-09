@@ -8,7 +8,7 @@
         :formComponent="CreateProjectForm"
         @submitForm="createClient"
       />
-      <SearchInput placeholder="Filter by Type" @search="handleSearch" />
+      <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table :tableData="projectsStore.projects" />
