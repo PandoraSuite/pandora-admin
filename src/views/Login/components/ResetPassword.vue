@@ -18,11 +18,13 @@
         </div>
         <form @submit.prevent="handleResetPassword">
           <PasswordInput
+            id="password"
             v-model="password"
             placeholder="Password"
             autocomplete="new-password"
           />
           <PasswordInput
+            id="password"
             v-model="confirmPassword"
             placeholder="Confirm password"
             autocomplete="new-password"
@@ -61,6 +63,12 @@ const errorMessage = ref<string | null>(null);
 const handleResetPassword = async (): Promise<void> => {
   errorMessage.value = null; // Clears previous errors before starting
 
+  // Validation 0: Check if the password is empty
+  if (!password.value || !confirmPassword.value) {
+    errorMessage.value = 'Please fill in all fields.';
+    return;
+  }
+
   // Validation 1: Minimum length
   if (password.value.length < 12) {
     errorMessage.value = 'The password must be at least 12 characters long.';
@@ -73,16 +81,11 @@ const handleResetPassword = async (): Promise<void> => {
     return;
   }
 
-  try {
-    await authStore.changePassword({
-      new_password: password.value,
-      confirm_password: confirmPassword.value,
-    });
-    router.push('/services');
-  } catch (error: unknown) {
-    // Catches the error thrown by the store action
-    console.error('Change password failed:', error);
-  }
+  await authStore.changePassword({
+    new_password: password.value,
+    confirm_password: confirmPassword.value,
+  });
+  router.push('/services');
 };
 </script>
 
