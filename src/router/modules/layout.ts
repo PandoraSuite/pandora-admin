@@ -3,9 +3,10 @@ import type { RouteRecordRaw } from 'vue-router';
 import Header from '@components/Header.vue';
 import Layout from '@components/Layout.vue';
 import Sidebar from '@components/Sidebar.vue';
-import ClientsListRoute from './clientsList';
-import ProjectsListRoute from './projectsList';
-import ServicesListRoute from './servicesList';
+import ClientsListRoute from './clientsView';
+import ProjectsListRoute from './projectsView';
+import ServicesListRoute from './servicesView';
+import ClientProjectsRoute from './clientProjects';
 
 const LayoutRoute: RouteRecordRaw[] = [
   {
@@ -17,7 +18,7 @@ const LayoutRoute: RouteRecordRaw[] = [
       Sidebar: Sidebar,
     },
     meta: { requiresAuth: true },
-    children: [...ServicesListRoute, ...ClientsListRoute, ...ProjectsListRoute],
+    children: [...ServicesListRoute, ...ClientsListRoute, ...ProjectsListRoute, ...ClientProjectsRoute],
   },
 ];
 
