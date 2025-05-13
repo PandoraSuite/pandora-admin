@@ -18,6 +18,9 @@ import {
   faSun,
   faUser,
   faUserGroup,
+  faPenToSquare,
+  faArrowsRotate,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -40,6 +43,9 @@ library.add(
   faChartSimple,
   faPlus,
   faMagnifyingGlass,
+  faPenToSquare,
+  faArrowsRotate,
+  faTrashCan,
 );
 
 export default FontAwesomeIcon;
