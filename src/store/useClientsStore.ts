@@ -70,9 +70,11 @@ export const useClientsStore = defineStore('clients', () => {
 
   const getClientProjects = async (id: number) => {
     isLoading.value = true;
+    clientProjects.value = [];
     const response = await repositories.clients.getClientProjects(id);
     if (response.success) {
       clientProjects.value = response.data as ClientProjects[];
+      return response.data as ClientProjects[];
     } else {
       error.value = response.error;
     }
@@ -83,6 +85,7 @@ export const useClientsStore = defineStore('clients', () => {
     clients,
     isLoading,
     error,
+    clientProjects,
     getClients,
     createClient,
     getClientById,
