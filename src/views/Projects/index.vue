@@ -57,9 +57,7 @@ async function createClient(payload: NewProject) {
 
 onMounted(async () => {
   await projectsStore.getProjects();
-  projectsList.value = projectsStore.projects;
-  console.log('projectsList', projectsList.value);
-  
+  projectsList.value = projectsStore.projects;  
 });
 
 watch(error, (value, _) => {
