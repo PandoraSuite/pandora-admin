@@ -11,7 +11,7 @@
       <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projects" />
+      <Table :tableData="projects" :id="''" :name="''" />
     </section>
   </div>
 </template>
@@ -25,11 +25,7 @@ import SearchInput from '@components/SearchInput.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
-import type {
-  NewProject,
-  Project,
-  SimplifiedProject,
-} from '../../types/projects';
+import type { ClientProjects, NewProject, Project } from '../../types/projects';
 import CreateProjectForm from './components/CreateProjectForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
@@ -38,14 +34,42 @@ const projectsStore = useProjectsStore();
 const { error } = storeToRefs(projectsStore);
 
 const projectsList = ref<Project[]>([]);
+projectsList.value = projectsStore.projects;
 
-const projects: SimplifiedProject[] = projectsList.value.map((project: Project) => ({
+const projects = projectsList.value.map((project: ClientProjects) => ({
   ...project,
-  services: project.services.map((service) => ({
-    ...service,
-    name: service.name,
-    version: service.version,
-  })),
+  services: (() => {
+    // We use an IIFE (Immediately Invoked Function Expression) to calculate the string
+    if (Array.isArray(project.services) && project.services.length > 0) {
+      // Case 1: project.services is an array and has elements
+      const serviceStrings = project.services.map((service) => {
+        const name = service.name ? String(service.name).trim() : '';
+        const version = service.version ? String(service.version).trim() : '';
+
+        if (name && version) {
+          return `${name} - ${version}`; // Main format: 'name - version'
+        } else if (name) {
+          return `${name} - (no version)`;
+        } else if (version) {
+          return `(unnamed) - ${version}`;
+        } else {
+          // Neither name nor version for this specific service in the array
+          return '(Service without details.)';
+        }
+      });
+      // Join the strings with a comma and space
+      return serviceStrings.join(', ');
+    } else if (
+      Array.isArray(project.services) &&
+      project.services.length === 0
+    ) {
+      // Case 2: project.services is an empty array
+      return 'There are no services available yet.';
+    } else {
+      // Case 3: project.services is not an array (it is null, undefined, etc.)
+      return 'Services unavailable.';
+    }
+  })(),
 }));
 
 async function createClient(payload: NewProject) {
@@ -57,7 +81,7 @@ async function createClient(payload: NewProject) {
 
 onMounted(async () => {
   await projectsStore.getProjects();
-  projectsList.value = projectsStore.projects;  
+  projectsList.value = projectsStore.projects;
 });
 
 watch(error, (value, _) => {
