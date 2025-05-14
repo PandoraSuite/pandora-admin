@@ -41,7 +41,9 @@ const props = defineProps<{
   name: string;
 }>();
 
-async function editClient(payload: UpdateClient): Promise<void> {
+async function editClient(data: unknown): Promise<void> {
+  // Assinging the data to a variable of type UpdateClient
+  const payload = data as UpdateClient;
   const response = await clientStore.updateClient(props.id, payload);
   if (response) {
     useToastStore().showToast('Client edited successfully', 'success');
