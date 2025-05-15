@@ -12,16 +12,16 @@ const ClientsListRoute: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: '/clients/:id/projects',
-        name: 'Client-Projects',
-        component: ClientProjects,
+        path: 'clients',
+        name: 'Clients-List',
+        component: ClientsList,
         meta: { requiresAuth: true },
         props: true,
       },
       {
-        path: '/clients',
-        name: 'Clients-List',
-        component: ClientsList,
+        path: 'clients/:id/projects',
+        name: 'Client-Projects',
+        component: ClientProjects,
         meta: { requiresAuth: true },
         props: true,
       },
