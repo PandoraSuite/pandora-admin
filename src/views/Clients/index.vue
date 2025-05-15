@@ -11,7 +11,10 @@
       <SearchInput placeholder="Filter by Type" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="clientsStore.clients" />
+      <Table
+        :tableData="clientsStore.clients"
+        :quickActionsComponent="QuickActions"
+      />
     </section>
   </div>
 </template>
@@ -26,6 +29,7 @@ import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
 import type { ClientPayload } from '../../types/clients';
+import QuickActions from './components/ClientQuickActions.vue';
 import CreateClientForm from './components/CreateClientForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
@@ -41,7 +45,7 @@ async function createClient(payload: ClientPayload) {
 }
 
 onMounted(async () => {
-  await clientsStore.getClients();
+  await clientsStore.getClients();  
 });
 
 watch(error, (value, _) => {

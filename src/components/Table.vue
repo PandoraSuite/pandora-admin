@@ -27,8 +27,13 @@
           <td v-for="key in tableColumns" :key="key">
             {{ item[key as keyof T] }}
           </td>
-          <td>
-            <!-- Add quick actions component here. -->
+          <td class="flex items-center justify-center">
+            <component
+              ref="formComponentRef"
+              :is="props.quickActionsComponent"
+              :id="item.id"
+              :name="item.name"
+            />
           </td>
         </tr>
       </tbody>
@@ -58,13 +63,14 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="T">
-import { computed, ref, watch } from 'vue';
+<script setup lang="ts" generic="T extends { id: number; name: string }">
+import { computed, ref, watch, type DefineComponent } from 'vue';
 
 const props = defineProps<{
   // Define the props using a generic interface.
   tableData: T[];
-  // Perform component injection through props for quick action buttons.
+  quickActionsComponent: DefineComponent<{}, {}, any>;
+  // {} = props, {} = raw bindings, any = slots
 }>();
 
 const tableColumns = ref<(keyof T)[]>([]);

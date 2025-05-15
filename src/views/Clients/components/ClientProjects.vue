@@ -1,40 +1,42 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
-    <h1 class="mt-4 ml-3 text-2xl font-semibold">Projects List</h1>
+    <h1 class="mt-4 ml-3 text-2xl font-semibold">{{ props.name }} Projects List</h1>
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
-      <CreateModal
-        :title="'project'"
-        :formComponent="CreateProjectForm"
-        @submitForm="createClient"
+      <CreateModal :title="`project for ${props.name}`" :formComponent="''" @submitForm="" />
+      <SearchInput
+        placeholder="Filter by Type"
+        @search="handleSearch"
+        disabled
       />
-      <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projects" :id="''" :name="''" />
+      <Table :tableData="projects" :id="props.id" :name="props.name" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 
-import _CreateModal from '@components/CreateModal.vue';
-import SearchInput from '@components/SearchInput.vue';
-import { useProjectsStore } from '@store/useProjectsStore';
+import Table from '@components/Table.vue';
+import { useClientsStore } from '@store/useClientsStore';
+import type { ClientProjects, Project } from '../../../types/projects';
+import { storeToRefs } from 'pinia';
 import { useToastStore } from '@store/useToastStore';
-import Table from '../../components/Table.vue';
-import type { ClientProjects, NewProject, Project } from '../../types/projects';
-import CreateProjectForm from './components/CreateProjectForm.vue';
+import CreateModal from '@components/CreateModal.vue';
+import SearchInput from '@components/SearchInput.vue';
 
-const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
+const props = defineProps<{
+  id: number;
+  name: string;
+}>();
 
-const projectsStore = useProjectsStore();
-const { error } = storeToRefs(projectsStore);
+const clientStore = useClientsStore();
+const { error } = storeToRefs(clientStore);
 
 const projectsList = ref<Project[]>([]);
-projectsList.value = projectsStore.projects;
+projectsList.value = clientStore.clientProjects;
 
 const projects = projectsList.value.map((project: ClientProjects) => ({
   ...project,
@@ -72,17 +74,7 @@ const projects = projectsList.value.map((project: ClientProjects) => ({
   })(),
 }));
 
-async function createClient(payload: NewProject) {
-  const response = await projectsStore.createProject(payload);
-  if (response) {
-    useToastStore().showToast('Project created successfully', 'success');
-  }
-}
-
-onMounted(async () => {
-  await projectsStore.getProjects();
-  projectsList.value = projectsStore.projects;
-});
+onMounted(() => {});
 
 watch(error, (value, _) => {
   if (value) {
@@ -94,12 +86,11 @@ watch(error, (value, _) => {
 async function handleSearch(searchValue: string): Promise<void> {
   // Check if the received searchValue is "truthy" (i.e., not an empty string "").
   if (searchValue) {
-    await projectsStore.getProjects();
+    await clientStore.getClients();
   } else {
     // If searchValue is empty (e.g., user cleared the input).
-    await projectsStore.getProjects();
+    await clientStore.getClients();
   }
 }
 </script>
-
 <style scoped></style>

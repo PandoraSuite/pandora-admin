@@ -26,14 +26,17 @@ export interface NewProject {
   status: string;
 }
 
-export interface ResumedServices {
+export interface ClientProjects {
+  id: number;
   name: string;
-  version: string;
+  client_id: number;
+  created_at: string;
+  services: {
+    name: string;
+    version: string;
+  }[];
+  status: string;
 }
-
-export interface SimplifiedProject extends Omit<Project, 'services'> {
-  services: ResumedServices[];
-};
 
 export interface NewProjectService {
   id: number;
