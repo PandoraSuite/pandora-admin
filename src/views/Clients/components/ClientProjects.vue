@@ -1,7 +1,5 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
-    <h1 class="mt-4 ml-3 text-2xl font-semibold">{{ props.name }} Projects List</h1>
-    <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal :title="`project for ${props.name}`" :formComponent="''" @submitForm="" />
       <SearchInput
