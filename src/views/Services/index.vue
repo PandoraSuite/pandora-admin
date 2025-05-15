@@ -11,7 +11,7 @@
       <SearchInput placeholder="Filter by Status" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="servicesStore.services" />
+      <Table :tableData="servicesStore.services" :quickActionsComponent="ServiceQuickActions" />
     </section>
   </div>
 </template>
@@ -27,6 +27,7 @@ import { useToastStore } from '@store/useToastStore';
 import Table from '../../components/Table.vue';
 import type { ServicePayload } from '../../types/services';
 import CreateServiceForm from './components/CreateServiceForm.vue';
+import ServiceQuickActions from './components/ServiceQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 

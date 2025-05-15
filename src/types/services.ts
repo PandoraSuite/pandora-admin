@@ -11,6 +11,11 @@ export interface NewService {
   version: string;
 }
 
+export interface UpdateService {
+  name?: string;
+  version?: string;
+}
+
 export interface ServicePayload {
   name: string;
   version: string;

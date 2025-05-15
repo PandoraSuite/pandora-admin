@@ -1,7 +1,7 @@
 <template>
   <button
     class="tooltip btn tooltip-top bg-success btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-    data-tip="Edit client."
+    :data-tip="`Edit ${props.title}.`"
     @click="openModal()"
   >
     <font-awesome-icon
