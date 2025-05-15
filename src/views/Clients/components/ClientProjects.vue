@@ -1,9 +1,9 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
-    <h1 class="mt-4 ml-3 text-2xl font-semibold">Projects List</h1>
+    <h1 class="mt-4 ml-3 text-2xl font-semibold">{{ props.name }} Projects List</h1>
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
-      <CreateModal :title="'client'" :formComponent="''" @submitForm="" />
+      <CreateModal :title="`project for ${props.name}`" :formComponent="''" @submitForm="" />
       <SearchInput
         placeholder="Filter by Type"
         @search="handleSearch"
@@ -24,6 +24,8 @@ import { useClientsStore } from '@store/useClientsStore';
 import type { ClientProjects, Project } from '../../../types/projects';
 import { storeToRefs } from 'pinia';
 import { useToastStore } from '@store/useToastStore';
+import CreateModal from '@components/CreateModal.vue';
+import SearchInput from '@components/SearchInput.vue';
 
 const props = defineProps<{
   id: number;
