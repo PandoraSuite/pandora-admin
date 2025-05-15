@@ -4,7 +4,7 @@ import ClientProjects from '@views/Clients/components/ClientProjects.vue';
 
 const ClientProjectsRoute: RouteRecordRaw[] = [
   {
-    path: '/client-projects',
+    path: '/clients/:id/projects',
     name: 'Client-Projects',
     component: ClientProjects,
     meta: { requiresAuth: true },

@@ -9,10 +9,14 @@ const ClientsListRoute: RouteRecordRaw[] = [
     name: 'Clients',
     component: ClientsView,
     meta: { requiresAuth: true },
-    children: [
-      {path: 'client-projects', name: 'Client-Projects', component: ClientProjects, props: true}
-    ],
   },
+  {
+      path: '/clients/:id/projects',
+      name: 'Client-Projects',
+      component: ClientProjects,
+      meta: { requiresAuth: true },
+      props: true,
+    },
 ];
 
 export default ClientsListRoute;
