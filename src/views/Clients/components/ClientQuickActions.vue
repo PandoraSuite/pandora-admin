@@ -3,7 +3,7 @@
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       data-tip="See projects."
-      @click="seeProjects(props.id, props.name)"
+      @click="seeProjects(props.id)"
     >
       <font-awesome-icon
         :icon="['fa', 'diagram-project']"
@@ -50,14 +50,11 @@ async function editClient(data: unknown): Promise<void> {
   }
 }
 
-async function seeProjects(id: number, name: string) {
-  const response = await clientStore.getClientProjects(id);
-  if (response) {
-    router.push({
-      name: 'Client-Projects',
-      params: { id, name },
-    });
-  }
+async function seeProjects(id: number) {
+  router.push({
+    name: 'Client-Projects',
+    params: { id },
+  });
 }
 </script>
 
