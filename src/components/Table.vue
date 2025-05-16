@@ -76,7 +76,7 @@ const props = defineProps<{
 const tableColumns = ref<(keyof T)[]>([]);
 const currentPage = ref<number>(1);
 // Number of rows per page.
-const itemsPerPage: number = 10;
+const itemsPerPage: number = 15;
 
 // The keys of the first object are obtained to generate the table headers(columns).
 function firstObjectKeys(): (keyof T)[] {
