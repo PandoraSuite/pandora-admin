@@ -49,6 +49,8 @@ api.interceptors.response.use(
       message = 'Session expired. Please log in again.';
       toastStore.showToast(message, 'error');
 
+      authStore.setRedirectPath(currentRoute);
+
       authStore.logout();
 
       setTimeout(() => {
