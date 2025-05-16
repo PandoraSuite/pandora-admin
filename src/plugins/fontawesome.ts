@@ -1,5 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faArrowsRotate,
   faBars,
   faChartSimple,
   faCodeBranch,
@@ -11,16 +12,15 @@ import {
   faLockOpen,
   faMagnifyingGlass,
   faMoon,
+  faPenToSquare,
   faPlus,
   faRightFromBracket,
   faServer,
   faSignOutAlt,
   faSun,
+  faTrashCan,
   faUser,
   faUserGroup,
-  faPenToSquare,
-  faArrowsRotate,
-  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 

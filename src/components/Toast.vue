@@ -1,5 +1,7 @@
 <template>
-  <div class="toast-end toast z-50">
+  <div
+    class="toast-end toast z-50 h-fit max-h-[12%] max-w-[10%] overflow-y-auto"
+  >
     <div
       v-for="toast in toastStore.toasts"
       :key="toast.id"

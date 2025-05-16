@@ -29,8 +29,8 @@ import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
 import { useClientsStore } from '@store/useClientsStore';
-import { type UpdateClient } from '../../../types/clients';
 import { useToastStore } from '@store/useToastStore';
+import { type UpdateClient } from '../../../types/clients';
 import EditClientForm from './EditClientForm.vue';
 
 const clientStore = useClientsStore();

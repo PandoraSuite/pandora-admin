@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<String | null>(loadToken());
   const isLoading = ref<boolean>(false);
   const mustResetPassword = ref<boolean>(false);
+  const redirectPath = ref<string | null>(null);
 
   // --- GETTERS ---
   // Computed getter to check if authenticated (based on token existence)
@@ -53,13 +54,24 @@ export const useAuthStore = defineStore('auth', () => {
     mustResetPassword.value = false;
   };
 
+  const setRedirectPath = (path: string) => {
+    redirectPath.value = path;
+  };
+
+  const clearRedirectPath = () => {
+    redirectPath.value = null;
+  };
+
   return {
     token,
     isLoading,
     mustResetPassword,
     isAuthenticated,
+    redirectPath,
     login,
     changePassword,
     logout,
+    setRedirectPath,
+    clearRedirectPath,
   };
 });

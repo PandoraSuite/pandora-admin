@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul
-      class="menu h-full w-full gap-2 overflow-x-hidden bg-sidebar py-10 shadow-sm"
+      class="sidebar menu w-full gap-2 overflow-x-hidden bg-sidebar py-10 shadow-sm"
     >
       <li class="flex h-auto flex-row content-center gap-1.5">
         <RouterLink to="/home" class="w-[95%]">
@@ -39,7 +39,7 @@
           Projects
         </RouterLink>
       </li>
-      <p class="absolute bottom-[10px] px-[12px] text-subtitle">Version xxx</p>
+      <p class="bottom-[10px] mt-auto px-[12px] text-subtitle">Version xxx</p>
     </ul>
   </div>
 </template>
@@ -48,4 +48,9 @@
 import { RouterLink } from 'vue-router';
 </script>
 
-<style scoped></style>
+<style scoped>
+.sidebar {
+  min-height: 100vh;
+  height: 100%;
+}
+</style>

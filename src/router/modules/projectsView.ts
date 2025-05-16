@@ -1,15 +1,23 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import ProjectsList from '@views/Projects/components/ProjectsList.vue';
 import ProjectsView from '@views/Projects/index.vue';
 
 const ProjectsListRoute: RouteRecordRaw[] = [
   {
-    path: '/projects',
+    path: '',
     name: 'Projects',
-    components: {
-      default: ProjectsView,
-    },
+    component: ProjectsView,
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'projects',
+        name: 'Projects-List',
+        component: ProjectsList,
+        meta: { requiresAuth: true },
+        props: true,
+      },
+    ],
   },
 ];
 

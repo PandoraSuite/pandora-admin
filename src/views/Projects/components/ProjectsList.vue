@@ -2,43 +2,41 @@
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="`project for ${props.name}`"
-        :formComponent="''"
-        @submitForm=""
+        :title="'project'"
+        :formComponent="CreateProjectForm"
+        @submitForm="createClient"
       />
-      <SearchInput
-        placeholder="Filter by Type"
-        @search="handleSearch"
-        disabled
-      />
+      <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projects" :id="props.id" :name="props.name" />
+      <Table :tableData="projects" :id="''" :name="''" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
 
-import Table from '@components/Table.vue';
-import { useClientsStore } from '@store/useClientsStore';
-import type { ClientProjects, Project } from '../../../types/projects';
-import { storeToRefs } from 'pinia';
-import { useToastStore } from '@store/useToastStore';
-import CreateModal from '@components/CreateModal.vue';
+import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
+import { useProjectsStore } from '@store/useProjectsStore';
+import { useToastStore } from '@store/useToastStore';
+import Table from '../../../components/Table.vue';
+import type {
+  ClientProjects,
+  NewProject,
+  Project,
+} from '../../../types/projects';
+import CreateProjectForm from './CreateProjectForm.vue';
 
-const props = defineProps<{
-  id: number;
-  name: string;
-}>();
+const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
-const clientStore = useClientsStore();
-const { error } = storeToRefs(clientStore);
+const projectsStore = useProjectsStore();
+const { error } = storeToRefs(projectsStore);
 
 const projectsList = ref<Project[]>([]);
-projectsList.value = clientStore.clientProjects;
+projectsList.value = projectsStore.projects;
 
 const projects = projectsList.value.map((project: ClientProjects) => ({
   ...project,
@@ -76,7 +74,17 @@ const projects = projectsList.value.map((project: ClientProjects) => ({
   })(),
 }));
 
-onMounted(() => {});
+async function createClient(payload: NewProject) {
+  const response = await projectsStore.createProject(payload);
+  if (response) {
+    useToastStore().showToast('Project created successfully', 'success');
+  }
+}
+
+onMounted(async () => {
+  await projectsStore.getProjects();
+  projectsList.value = projectsStore.projects;
+});
 
 watch(error, (value, _) => {
   if (value) {
@@ -88,11 +96,12 @@ watch(error, (value, _) => {
 async function handleSearch(searchValue: string): Promise<void> {
   // Check if the received searchValue is "truthy" (i.e., not an empty string "").
   if (searchValue) {
-    await clientStore.getClients();
+    await projectsStore.getProjects();
   } else {
     // If searchValue is empty (e.g., user cleared the input).
-    await clientStore.getClients();
+    await projectsStore.getProjects();
   }
 }
 </script>
+
 <style scoped></style>

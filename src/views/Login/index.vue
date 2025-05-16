@@ -26,7 +26,7 @@
             autocomplete="username"
             @input="clearErrors($event)"
           />
-          <p v-if="usernameError" class="text-sm text-error my-2">
+          <p v-if="usernameError" class="my-2 text-sm text-error">
             {{ usernameError }}
           </p>
           <PasswordInput
@@ -36,7 +36,7 @@
             autocomplete="current-password"
             @input="clearErrors($event)"
           />
-          <p v-if="passwordError" class="text-sm text-error my-2">
+          <p v-if="passwordError" class="my-2 text-sm text-error">
             {{ passwordError }}
           </p>
           <button
@@ -91,6 +91,8 @@ const handleLogin = async (): Promise<void> => {
   usernameError.value = null;
   passwordError.value = null;
 
+  const intendedPath = authStore.redirectPath;
+
   if (!username.value || !password.value) {
     usernameError.value = 'Username is required';
     passwordError.value = 'Password is required';
@@ -103,6 +105,9 @@ const handleLogin = async (): Promise<void> => {
   });
   if (authStore.mustResetPassword) {
     router.push('/reset-password');
+  } else if (intendedPath && intendedPath !== '/login') {
+    router.push(intendedPath);
+    authStore.clearRedirectPath();
   } else {
     router.push('/services');
   }
