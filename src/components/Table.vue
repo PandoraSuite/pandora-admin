@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="props.tableData.length >= 1"
-    class="mt-[2%] w-full overflow-x-auto mb-4"
+    class="mt-[2%] mb-4 w-full overflow-x-auto"
   >
     <table class="table w-full self-center table-xs">
       <thead class="w-full justify-center bg-tertiary">

@@ -25,10 +25,8 @@
 
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
-import { useToastStore } from '@store/useToastStore';
-import { type UpdateClient } from '../../../types/clients';
-import EditClientForm from './EditClientForm.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
+import { type UpdateClient } from '../../../types/clients';
 
 const projectStore = useProjectsStore();
 
