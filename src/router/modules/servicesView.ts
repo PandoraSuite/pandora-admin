@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import ServicesView from '@views/Services/index.vue';
 import ServicesList from '@views/Services/components/ServicesList.vue';
+import ServicesView from '@views/Services/index.vue';
 
 const ServicesListRoute: RouteRecordRaw[] = [
   {

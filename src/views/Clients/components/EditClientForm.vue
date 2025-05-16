@@ -12,7 +12,8 @@
       class="input w-full bg-background outline-1"
     />
     <label
-      for="client_email" class="mr-auto"
+      for="client_email"
+      class="mr-auto"
       :class="[clientEmailError ? 'text-error' : 'text']"
       >Email:</label
     >

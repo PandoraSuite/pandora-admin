@@ -4,7 +4,8 @@
     @submit.prevent="submitForm"
   >
     <label
-      for="service_name" class="mr-auto"
+      for="service_name"
+      class="mr-auto"
       :class="[serviceNameError ? 'text-error' : 'text']"
       >Name:</label
     >
@@ -34,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import type { UpdateService } from '../../../types/services';
 import { ref } from 'vue';
+import type { UpdateService } from '../../../types/services';
 
 const serviceName = ref<string>('');
 const serviceNameError = ref<string | null>(null);

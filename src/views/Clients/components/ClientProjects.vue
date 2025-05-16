@@ -1,7 +1,11 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
-      <CreateModal :title="`project for ${props.name}`" :formComponent="''" @submitForm="" />
+      <CreateModal
+        :title="`project for ${props.name}`"
+        :formComponent="''"
+        @submitForm=""
+      />
       <SearchInput
         placeholder="Filter by Type"
         @search="handleSearch"

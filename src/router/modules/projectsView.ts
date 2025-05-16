@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import ProjectsView from '@views/Projects/index.vue';
 import ProjectsList from '@views/Projects/components/ProjectsList.vue';
+import ProjectsView from '@views/Projects/index.vue';
 
 const ProjectsListRoute: RouteRecordRaw[] = [
   {

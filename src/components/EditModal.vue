@@ -22,7 +22,9 @@
       >
         X
       </button>
-      <h3 class="text-lg font-bold justify-self-start">Edit {{ props.title }}.</h3>
+      <h3 class="justify-self-start text-lg font-bold">
+        Edit {{ props.title }}.
+      </h3>
 
       <component
         ref="formComponentRef"

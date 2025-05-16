@@ -72,6 +72,6 @@ export const useAuthStore = defineStore('auth', () => {
     changePassword,
     logout,
     setRedirectPath,
-    clearRedirectPath
+    clearRedirectPath,
   };
 });

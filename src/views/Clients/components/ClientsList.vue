@@ -43,7 +43,7 @@ async function createClient(payload: ClientPayload) {
 }
 
 onMounted(async () => {
-  await clientsStore.getClients();  
+  await clientsStore.getClients();
 });
 
 watch(error, (value, _) => {

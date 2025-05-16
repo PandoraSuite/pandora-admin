@@ -9,7 +9,10 @@
       <SearchInput placeholder="Filter by Status" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="servicesStore.services" :quickActionsComponent="ServiceQuickActions" />
+      <Table
+        :tableData="servicesStore.services"
+        :quickActionsComponent="ServiceQuickActions"
+      />
     </section>
   </div>
 </template>
