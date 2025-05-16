@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="props.tableData.length >= 1"
-    class="mt-[2%] w-full overflow-x-auto"
+    class="mt-[2%] w-full overflow-x-auto mb-4"
   >
     <table class="table w-full self-center table-xs">
       <thead class="w-full justify-center bg-tertiary">
@@ -38,7 +38,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="mt-7 flex items-center justify-center gap-2">
+    <div class="my-7 flex items-center justify-center gap-2">
       <button
         @click="currentPage--"
         :disabled="currentPage === 1"
