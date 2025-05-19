@@ -3,6 +3,7 @@
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       data-tip="See project."
+      @click="seeProject(props.id)"
     >
       <font-awesome-icon
         :icon="['fa', 'diagram-project']"
@@ -11,7 +12,7 @@
     </button>
     <EditModal
       :title="'project'"
-      :formComponent="''"
+      :formComponent="CreateClientProjectForm"
       @submitForm="editClient"
     />
     <button
@@ -24,15 +25,26 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
 import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
+import CreateClientProjectForm from './CreateClientProjectForm.vue';
 
 const projectStore = useProjectsStore();
+const router = useRouter()
 
 const props = defineProps<{
   id: number;
 }>();
+
+function seeProject(project_id: number) {
+    router.push({
+    name: 'Project-By-Id',
+    params: { project_id },
+  });
+}
 
 async function editClient(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
