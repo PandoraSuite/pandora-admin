@@ -15,6 +15,23 @@ export interface Project {
   status: string;
 }
 
+export interface FilteredProject {
+  id: number;
+  name: string;
+  client_id: number;
+  created_at: string;
+  status: string;
+}
+export interface ProjectServices {
+  assigned_at: string;
+  id: number;
+  max_request: number;
+  name: string;
+  next_reset: string;
+  reset_frequency: string;
+  version: string;
+}
+
 export interface NewProject {
   client_id: number;
   name: string;
