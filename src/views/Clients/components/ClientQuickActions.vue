@@ -50,7 +50,7 @@ async function editClient(data: unknown): Promise<void> {
   }
 }
 
-async function seeProjects(id: number) {
+function seeProjects(id: number) {
   router.push({
     name: 'Client-Projects',
     params: { id },
