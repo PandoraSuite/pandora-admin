@@ -27,7 +27,7 @@ const ClientsListRoute: RouteRecordRaw[] = [
         props: true,
       },
       {
-        path: 'clients/:id/projects/:project_id',
+        path: 'clients/:id/projects/:project_id/environments',
         name: 'Project-By-Id',
         component: ProjectByID,
         meta: { requiresAuth: true },
