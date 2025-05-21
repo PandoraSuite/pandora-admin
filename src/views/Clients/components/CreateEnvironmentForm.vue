@@ -119,12 +119,8 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
 import { useServicesStore } from '@store/useServicesStore';
+import { useIdsStore } from '@store/useIdsStore';
 
-const props = defineProps<{
-  project_id: number;
-}>();
-
-const projectId = Number(props.project_id);
 const environmentName = ref<string>('');
 const environmentNameError = ref<string | null>(null);
 const environmentServiceId = ref<number | null>(null);
@@ -141,6 +137,7 @@ const selectedServices = ref<
 
 const serviceStore = useServicesStore();
 const { services } = storeToRefs(serviceStore);
+const idsStore = useIdsStore();
 
 function toggleSection() {
   clicked.value = !clicked.value;
@@ -241,8 +238,9 @@ const emit = defineEmits<{
 
 function submitForm() {
   environmentNameError.value = null;
+  const projectId = idsStore.projectId;
 
-  if (!environmentName.value) {
+  if (!environmentName.value || !projectId) {
     environmentNameError.value = 'Name is required';
     return;
   }
