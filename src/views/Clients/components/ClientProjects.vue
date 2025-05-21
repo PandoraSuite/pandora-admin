@@ -34,16 +34,18 @@ import SearchInput from '@components/SearchInput.vue';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import type { Client } from '../../../types/clients';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
+import { useIdsStore } from '@store/useIdsStore';
 
 const props = defineProps<{
-  id: string;
+  client_id: string;
 }>();
 
 /**
  * TODO Validate errors in the id cast.
  */
-const id = Number(props.id);
+const id = Number(props.client_id);
 const clientStore = useClientsStore();
+const idsStore = useIdsStore();
 const { error } = storeToRefs(clientStore);
 
 const projectsList = ref<Project[]>([]);
@@ -98,6 +100,8 @@ onMounted(async () => {
       }
     })(),
   }));
+
+  idsStore.setClientId(id);
 });
 
 watch(error, (value, _) => {

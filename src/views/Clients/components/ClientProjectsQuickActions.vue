@@ -3,7 +3,7 @@
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       data-tip="See project."
-      @click="seeProject(props.id)"
+      @click="seeProject"
     >
       <font-awesome-icon
         :icon="['fa', 'diagram-project']"
@@ -39,10 +39,10 @@ const props = defineProps<{
   id: number;
 }>();
 
-function seeProject(project_id: number) {
+function seeProject() {
     router.push({
-    name: 'Project-By-Id',
-    params: { project_id },
+    name: 'Project-Environments',
+    params: { project_id: props.id },
   });
 }
 

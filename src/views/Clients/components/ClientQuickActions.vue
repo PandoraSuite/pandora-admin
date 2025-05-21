@@ -3,7 +3,7 @@
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       data-tip="See projects."
-      @click="seeProjects(props.id)"
+      @click="seeProjects"
     >
       <font-awesome-icon
         :icon="['fa', 'diagram-project']"
@@ -38,22 +38,21 @@ const router = useRouter();
 
 const props = defineProps<{
   id: number;
-  name: string;
 }>();
 
 async function editClient(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
   const payload = data as UpdateClient;
-  const response = await clientStore.updateClient(props.id, payload);
+  const response = await clientStore.updateClient(Number(props.id), payload);
   if (response) {
     useToastStore().showToast('Client edited successfully', 'success');
   }
 }
 
-function seeProjects(id: number) {
+function seeProjects() {
   router.push({
     name: 'Client-Projects',
-    params: { id },
+    params: { client_id: props.id },
   });
 }
 </script>
