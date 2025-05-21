@@ -5,7 +5,7 @@
         :cardsData="servicesData"
         :quickActionComponent="ProjectServiceQuickActions"
         :createActionComponent="CreateServiceModal"
-        :projectId="id"
+        :projectId="projectId"
       />
     </section>
     <div class="divider"></div>
@@ -48,19 +48,23 @@ import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import CreateModal from '@components/CreateModal.vue';
 import type { NewEnvironment } from '../../../types/environments';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
+import { useIdsStore } from '@store/useIdsStore';
 
 
 const props = defineProps<{
+  client_id: string;
   project_id: string;
 }>();
 
 /**
  * TODO Validate errors in the id cast.
  */
-const id = Number(props.project_id);
+const clientId = Number(props.client_id);
+const projectId = Number(props.project_id);
 const projectStore = useProjectsStore();
 const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
+const idsStore = useIdsStore();
 
 const projectData = ref<Project>();
 const environmentsData = ref<ProjectEnviroments[]>([]);
@@ -76,13 +80,13 @@ async function createEnvironment(payload: NewEnvironment) {
 }
 
 async function loadProjectData() {
-  const data = await projectStore.getProjectById(id);
+  const data = await projectStore.getProjectById(projectId);
   return data;
 }
 
 onMounted(async () => {
   projectData.value = await loadProjectData();
-  environmentsData.value = (await projectStore.getProjectEnvironments(id)) || [];
+  environmentsData.value = (await projectStore.getProjectEnvironments(projectId)) || [];
 
   environments.value = environmentsData.value.map((environment: ProjectEnviroments) => ({
     ...environment,
@@ -119,6 +123,11 @@ onMounted(async () => {
       }
     })(),
   }));
+
+  idsStore.setProjectId(projectId);
+  if (!idsStore.clientId) {
+    idsStore.setClientId(clientId)
+  }
 });
 
 watch(
