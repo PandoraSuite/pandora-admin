@@ -32,7 +32,6 @@
               ref="formComponentRef"
               :is="props.quickActionsComponent"
               :id="item.id"
-              :name="item.name"
             />
           </td>
         </tr>
