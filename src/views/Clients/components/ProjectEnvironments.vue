@@ -143,6 +143,7 @@ watch(
       };
 
       servicesData.value = projectData.value?.services || [];
+      idsStore.setServicesForEnvironments(projectData.value?.services || []);
     }
   },
   { immediate: true },

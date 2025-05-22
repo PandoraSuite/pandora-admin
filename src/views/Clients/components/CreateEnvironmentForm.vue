@@ -118,8 +118,8 @@
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
-import { useServicesStore } from '@store/useServicesStore';
 import { useIdsStore } from '@store/useIdsStore';
+import { useServicesStore } from '@store/useServicesStore';
 
 const environmentName = ref<string>('');
 const environmentNameError = ref<string | null>(null);
@@ -138,6 +138,7 @@ const selectedServices = ref<
 const serviceStore = useServicesStore();
 const { services } = storeToRefs(serviceStore);
 const idsStore = useIdsStore();
+const { servicesForEnvironments } = storeToRefs(idsStore);
 
 function toggleSection() {
   clicked.value = !clicked.value;
@@ -145,7 +146,7 @@ function toggleSection() {
 
 // Computed property to filter available services based on selected services.
 const availableServices = computed(() =>
-  services.value.filter(
+  servicesForEnvironments.value.filter(
     (service) => !selectedServices.value.some((s) => s.id === service.id),
   ),
 );
@@ -256,9 +257,7 @@ function submitForm() {
   resetForm();
 }
 
-onMounted(() => {
-  serviceStore.getServices();
-});
+onMounted(() => {});
 
 // Expose the resetForm method so that the parent can call it.
 defineExpose({
