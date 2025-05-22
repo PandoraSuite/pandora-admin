@@ -1,7 +1,13 @@
 <template>
   <div class="flex w-full flex-col">
     <section>
-      <component :is="props.createActionComponent" :title="'service'" />
+      <component
+        :is="props.createActionComponent"
+        :formComponent="AssingProjectService"
+        :title="'service'"
+        :buttonText="props.buttonText"
+        @submitForm="submitForm"
+      />
     </section>
     <div class="my-8 flex w-full flex-wrap justify-center gap-6">
       <div
@@ -34,7 +40,11 @@
             <p class="text-text-primary text-end">{{ card.assigned_at }}</p>
           </span>
           <div class="mt-3 card-actions justify-end">
-            <component :is="props.quickActionComponent" :serviceId="card.id" :projectId="projectId" />
+            <component
+              :is="props.quickActionComponent"
+              :serviceId="card.id"
+              :projectId="projectId"
+            />
           </div>
         </div>
       </div>
@@ -42,19 +52,32 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
+import AssingProjectService from '@views/Clients/components/AssingProjectService.vue';
 import type { ProjectServices } from '../types/projects';
 
 const props = defineProps<{
-  cardsData: ProjectServices[];
   projectId: number;
+  cardsData: ProjectServices[];
+  buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;
   createActionComponent: DefineComponent<{}, {}, any>;
 }>();
 
 const internalCards = ref<ProjectServices[]>([]);
+
+const emit = defineEmits<{
+  (
+    e: 'submitForm',
+    data: T,
+  ): void;
+}>();
+
+function submitForm(data: T) {
+  emit('submitForm', data)
+}
 
 onMounted(() => {
   internalCards.value = props.cardsData;
@@ -65,7 +88,7 @@ watch(
   (newCards) => {
     internalCards.value = newCards;
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 </script>
 
