@@ -69,14 +69,11 @@ const props = defineProps<{
 const internalCards = ref<ProjectServices[]>([]);
 
 const emit = defineEmits<{
-  (
-    e: 'submitForm',
-    data: T,
-  ): void;
+  (e: 'submitForm', data: T): void;
 }>();
 
 function submitForm(data: T) {
-  emit('submitForm', data)
+  emit('submitForm', data);
 }
 
 onMounted(() => {

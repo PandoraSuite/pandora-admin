@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="props.tableData"
-    class="mt-[2%] mb-4 w-full overflow-x-auto"
-  >
+  <div v-if="props.tableData" class="mt-[2%] mb-4 w-full overflow-x-auto">
     <table class="table table-xs">
       <thead class="w-full justify-center bg-tertiary">
         <tr>
@@ -66,7 +63,9 @@ watch(
     if (newData) {
       rowsData.value = props.tableData as unknown as FilteredProject;
 
-      tableColumns.value = Object.keys(props.tableData) as (keyof FilteredProject)[];
+      tableColumns.value = Object.keys(
+        props.tableData,
+      ) as (keyof FilteredProject)[];
     }
   },
   { immediate: true },

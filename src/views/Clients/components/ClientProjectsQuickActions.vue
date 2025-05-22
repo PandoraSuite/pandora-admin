@@ -33,14 +33,14 @@ import { type UpdateClient } from '../../../types/clients';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
 
 const projectStore = useProjectsStore();
-const router = useRouter()
+const router = useRouter();
 
 const props = defineProps<{
   id: number;
 }>();
 
 function seeProject() {
-    router.push({
+  router.push({
     name: 'Project-Environments',
     params: { project_id: props.id },
   });

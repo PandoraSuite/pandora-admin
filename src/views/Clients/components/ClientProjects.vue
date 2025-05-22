@@ -27,7 +27,11 @@ import { onMounted, ref, watch } from 'vue';
 
 import Table from '@components/Table.vue';
 import { useClientsStore } from '@store/useClientsStore';
-import type { ClientProjects, NewProject, Project } from '../../../types/projects';
+import type {
+  ClientProjects,
+  NewProject,
+  Project,
+} from '../../../types/projects';
 import { storeToRefs } from 'pinia';
 import { useToastStore } from '@store/useToastStore';
 import _CreateModal from '@components/CreateModal.vue';

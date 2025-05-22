@@ -33,6 +33,19 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 
+import Cards from '@components/Cards.vue';
+import {
+  default as _CreateModal,
+  default as _CreateServiceModal,
+} from '@components/CreateModal.vue';
+import SearchInput from '@components/SearchInput.vue';
+import Table from '@components/Table.vue';
+import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
+import { useIdsStore } from '@store/useIdsStore';
+import { useProjectsStore } from '@store/useProjectsStore';
+import { useToastStore } from '@store/useToastStore';
+import { storeToRefs } from 'pinia';
+import type { NewEnvironment } from '../../../types/environments';
 import type {
   FilteredProject,
   NewProjectService,
@@ -40,22 +53,12 @@ import type {
   ProjectEnviroments,
   ProjectServices,
 } from '../../../types/projects';
-import { storeToRefs } from 'pinia';
-import { useToastStore } from '@store/useToastStore';
-import SearchInput from '@components/SearchInput.vue';
-import { useProjectsStore } from '@store/useProjectsStore';
-import Cards from '@components/Cards.vue';
-import _CreateServiceModal from '@components/CreateModal.vue';
-import ProjectServiceQuickActions from './ProjectServiceQuickActions.vue';
-import Table from '@components/Table.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
-import _CreateModal from '@components/CreateModal.vue';
-import type { NewEnvironment } from '../../../types/environments';
-import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
-import { useIdsStore } from '@store/useIdsStore';
+import ProjectServiceQuickActions from './ProjectServiceQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
-const CreateServiceModal = _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
+const CreateServiceModal =
+  _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
 
 const props = defineProps<{
   client_id: string;
@@ -87,7 +90,7 @@ async function createEnvironment(payload: NewEnvironment) {
 
 async function assignService(payload: NewProjectService) {
   const response = await projectStore.assignProjectServices(projectId, payload);
-    if (response) {
+  if (response) {
     useToastStore().showToast('Environment created successfully', 'success');
   }
 }

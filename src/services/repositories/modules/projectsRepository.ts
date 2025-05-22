@@ -77,11 +77,13 @@ export default <ProjectsRequests>{
       processedResponse.created_at = datetimeFormatter.format(
         new Date(processedResponse.created_at),
       );
-      processedResponse.services = processedResponse.services.map((service) => ({
-        ...service,
-        assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
-        next_reset: datetimeFormatter.format(new Date(service.next_reset)),
-      }));
+      processedResponse.services = processedResponse.services.map(
+        (service) => ({
+          ...service,
+          assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
+          next_reset: datetimeFormatter.format(new Date(service.next_reset)),
+        }),
+      );
       return {
         success: true,
         data: processedResponse,

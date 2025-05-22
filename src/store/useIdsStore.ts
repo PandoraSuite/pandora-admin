@@ -1,6 +1,6 @@
-import type { ProjectServices } from '../types/projects';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import type { ProjectServices } from '../types/projects';
 
 export const useIdsStore = defineStore('ids', () => {
   // --- STATE ---
@@ -9,7 +9,7 @@ export const useIdsStore = defineStore('ids', () => {
   const projectId = ref<number>();
   const environmentId = ref<number>();
 
-  const servicesForEnvironments = ref<ProjectServices[]>([])
+  const servicesForEnvironments = ref<ProjectServices[]>([]);
 
   // --- GETTERS ---
 
@@ -32,7 +32,7 @@ export const useIdsStore = defineStore('ids', () => {
 
   const setServicesForEnvironments = (servicesList: ProjectServices[]) => {
     servicesForEnvironments.value = servicesList;
-  }
+  };
 
   return {
     clientId,
