@@ -3,6 +3,7 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="`project for ${currentClient?.name}`"
+        :buttonText="'Create'"
         :formComponent="CreateClientProjectForm"
         @submitForm=""
       />

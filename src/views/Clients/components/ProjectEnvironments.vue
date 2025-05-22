@@ -6,12 +6,14 @@
         :quickActionComponent="ProjectServiceQuickActions"
         :createActionComponent="CreateServiceModal"
         :projectId="projectId"
+        :buttonText="'Assing'"
       />
     </section>
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="'environment'"
+        :buttonText="'Create'"
         :formComponent="CreateEnvironmentForm"
         @submitForm="createEnvironment"
       />
