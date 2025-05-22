@@ -27,15 +27,17 @@ import { onMounted, ref, watch } from 'vue';
 
 import Table from '@components/Table.vue';
 import { useClientsStore } from '@store/useClientsStore';
-import type { ClientProjects, Project } from '../../../types/projects';
+import type { ClientProjects, NewProject, Project } from '../../../types/projects';
 import { storeToRefs } from 'pinia';
 import { useToastStore } from '@store/useToastStore';
-import CreateModal from '@components/CreateModal.vue';
+import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import type { Client } from '../../../types/clients';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
 import { useIdsStore } from '@store/useIdsStore';
+
+const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
 const props = defineProps<{
   client_id: string;
