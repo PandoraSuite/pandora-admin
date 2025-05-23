@@ -21,6 +21,7 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
+  faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -46,6 +47,7 @@ library.add(
   faPenToSquare,
   faArrowsRotate,
   faTrashCan,
+  faHouse,
 );
 
 export default FontAwesomeIcon;
