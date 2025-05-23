@@ -5,7 +5,7 @@
         :title="`project for ${currentClient?.name}`"
         :buttonText="'Create'"
         :formComponent="CreateClientProjectForm"
-        @submitForm=""
+        @submitForm="createProject"
       />
       <SearchInput
         placeholder="Filter by Type"
@@ -40,6 +40,7 @@ import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import type { Client } from '../../../types/clients';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
 import { useIdsStore } from '@store/useIdsStore';
+import { useProjectsStore } from '@store/useProjectsStore';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -51,6 +52,7 @@ const props = defineProps<{
  * TODO Validate errors in the id cast.
  */
 const id = Number(props.client_id);
+const projectStore = useProjectsStore();
 const clientStore = useClientsStore();
 const idsStore = useIdsStore();
 const { error } = storeToRefs(clientStore);
@@ -58,6 +60,13 @@ const { error } = storeToRefs(clientStore);
 const projectsList = ref<Project[]>([]);
 const currentClient = ref<Client>();
 const projects = ref([]);
+
+async function createProject(payload: NewProject) {
+  const response = await projectStore.createProject(payload);
+  if (response) {
+    useToastStore().showToast('Project created successfully', 'success');
+  }
+}
 
 async function loadData() {
   const [client, clientProjects] = await Promise.all([
