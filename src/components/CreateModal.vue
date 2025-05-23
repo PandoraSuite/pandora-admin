@@ -4,7 +4,7 @@
     @click="openModal()"
   >
     <font-awesome-icon :icon="['fas', 'plus']" class="text-white" />
-    <h5 class="text-white">Create</h5>
+    <h5 class="text-white">{{ props.buttonText }}</h5>
   </button>
 
   <dialog
@@ -19,7 +19,9 @@
       >
         X
       </button>
-      <h3 class="text-lg font-bold">Create a new {{ props.title }}.</h3>
+      <h3 class="text-lg font-bold">
+        {{ props.buttonText }} a new {{ props.title }}.
+      </h3>
 
       <component
         ref="formComponentRef"
@@ -37,6 +39,7 @@ const formComponentRef = ref<any>(null);
 
 const props = defineProps<{
   title: string;
+  buttonText: string;
   formComponent: DefineComponent<{}, {}, any>;
   // {} = props, {} = raw bindings, any = slots
 }>();

@@ -7,6 +7,7 @@
 
   --color-primary: #660099;
   --color-background: #ebe7e7;
+  --color-cards: #f7f0f0;
   --color-secondary: #9900cc;
   --color-tertiary: #cc66ff;
   --color-success: #66bb6a;
@@ -28,6 +29,7 @@
 [data-theme='light'] {
   --color-primary: #660099;
   --color-background: #ebe7e7;
+  --color-cards: #f7f0f0;
   --color-secondary: #cc66ff;
   --color-tertiary: #9900cc;
   --color-success: #66bb6a;
@@ -50,6 +52,7 @@
 [data-theme='dark'] {
   --color-primary: #660099;
   --color-background: #2d2133;
+  --color-cards: #483552;
   --color-secondary: #c150fa;
   --color-tertiary: #926ca5;
   --color-success: #4caf50;

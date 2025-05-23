@@ -3,7 +3,6 @@ export enum ResetServiceFrequency {
   biweekly = 'biweekly',
   weekly = 'weekly',
   monthly = 'monthly',
-  yearly = 'yearly',
 }
 
 export const ResetServiceFrequencyLabels: Record<
@@ -14,5 +13,4 @@ export const ResetServiceFrequencyLabels: Record<
   [ResetServiceFrequency.biweekly]: 'Biweekly',
   [ResetServiceFrequency.weekly]: 'Weekly',
   [ResetServiceFrequency.monthly]: 'Monthly',
-  [ResetServiceFrequency.yearly]: 'Yearly',
 };

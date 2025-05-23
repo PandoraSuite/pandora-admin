@@ -2,6 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import ClientProjects from '@views/Clients/components/ClientProjects.vue';
 import ClientsList from '@views/Clients/components/ClientsList.vue';
+import ProjectEnvironments from '@views/Clients/components/ProjectEnvironments.vue';
 import ClientsView from '@views/Clients/index.vue';
 
 const ClientsListRoute: RouteRecordRaw[] = [
@@ -19,9 +20,16 @@ const ClientsListRoute: RouteRecordRaw[] = [
         props: true,
       },
       {
-        path: 'clients/:id/projects',
+        path: 'clients/:client_id/projects',
         name: 'Client-Projects',
         component: ClientProjects,
+        meta: { requiresAuth: true },
+        props: true,
+      },
+      {
+        path: 'clients/:client_id/projects/:project_id/environments',
+        name: 'Project-Environments',
+        component: ProjectEnvironments,
         meta: { requiresAuth: true },
         props: true,
       },

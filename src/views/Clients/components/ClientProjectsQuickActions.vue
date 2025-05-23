@@ -2,8 +2,8 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="See projects."
-      @click="seeProjects"
+      data-tip="See project."
+      @click="seeProject"
     >
       <font-awesome-icon
         :icon="['fa', 'diagram-project']"
@@ -11,9 +11,8 @@
       />
     </button>
     <EditModal
-      :title="'client'"
-      :formComponent="EditClientForm"
-      @submitForm="editClient"
+      :title="'project'"
+      @submitForm=""
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
@@ -28,32 +27,30 @@
 import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
-import { useClientsStore } from '@store/useClientsStore';
-import { useToastStore } from '@store/useToastStore';
+import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
-import EditClientForm from './EditClientForm.vue';
 
-const clientStore = useClientsStore();
+const projectStore = useProjectsStore();
 const router = useRouter();
 
 const props = defineProps<{
   id: number;
 }>();
 
+function seeProject() {
+  router.push({
+    name: 'Project-Environments',
+    params: { project_id: props.id },
+  });
+}
+
 async function editClient(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
   const payload = data as UpdateClient;
-  const response = await clientStore.updateClient(Number(props.id), payload);
-  if (response) {
-    useToastStore().showToast('Client edited successfully', 'success');
-  }
-}
-
-function seeProjects() {
-  router.push({
-    name: 'Client-Projects',
-    params: { client_id: props.id },
-  });
+  // const response = await projectStore.updateProject(props.id, payload);
+  // if (response) {
+  //   useToastStore().showToast('Client edited successfully', 'success');
+  // }
 }
 </script>
 
