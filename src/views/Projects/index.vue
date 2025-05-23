@@ -8,7 +8,6 @@
 
 <script setup lang="ts">
 import Breadcrumbs from '@components/Breadcrumbs.vue';
-
 </script>
 
 <style scoped></style>

@@ -8,6 +8,7 @@ import {
   faEye,
   faEyeSlash,
   faFile,
+  faHouse,
   faLock,
   faLockOpen,
   faMagnifyingGlass,
@@ -21,7 +22,6 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
-  faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 

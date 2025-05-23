@@ -50,7 +50,9 @@
         </div>
       </div>
       <div v-else class="mt-[2%] w-full">
-        <h3 class="text-center text-2xl">There are no associated services yet.</h3>
+        <h3 class="text-center text-2xl">
+          There are no associated services yet.
+        </h3>
       </div>
     </div>
   </div>

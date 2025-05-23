@@ -51,7 +51,7 @@ const routeNameMap: Record<string, string> = {
   dashboard: 'Dashboard',
   environments: 'Environments',
   services: 'Services',
-  home: 'Dashboard'
+  home: 'Dashboard',
 };
 
 async function getProjectName(id: number): Promise<string> {
