@@ -8,6 +8,7 @@ import {
   faEye,
   faEyeSlash,
   faFile,
+  faHouse,
   faLock,
   faLockOpen,
   faMagnifyingGlass,
@@ -46,6 +47,7 @@ library.add(
   faPenToSquare,
   faArrowsRotate,
   faTrashCan,
+  faHouse,
 );
 
 export default FontAwesomeIcon;

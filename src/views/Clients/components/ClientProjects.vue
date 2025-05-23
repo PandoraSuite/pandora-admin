@@ -25,22 +25,22 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 
+import _CreateModal from '@components/CreateModal.vue';
+import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useClientsStore } from '@store/useClientsStore';
+import { useIdsStore } from '@store/useIdsStore';
+import { useProjectsStore } from '@store/useProjectsStore';
+import { useToastStore } from '@store/useToastStore';
+import { storeToRefs } from 'pinia';
+import type { Client } from '../../../types/clients';
 import type {
   ClientProjects,
   NewProject,
   Project,
 } from '../../../types/projects';
-import { storeToRefs } from 'pinia';
-import { useToastStore } from '@store/useToastStore';
-import _CreateModal from '@components/CreateModal.vue';
-import SearchInput from '@components/SearchInput.vue';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
-import type { Client } from '../../../types/clients';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
-import { useIdsStore } from '@store/useIdsStore';
-import { useProjectsStore } from '@store/useProjectsStore';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 

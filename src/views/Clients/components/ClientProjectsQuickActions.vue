@@ -10,10 +10,7 @@
         class="text text-white"
       />
     </button>
-    <EditModal
-      :title="'project'"
-      @submitForm=""
-    />
+    <EditModal :title="'project'" @submitForm="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       data-tip="Delete client."
