@@ -5,6 +5,7 @@
   >
     <label
       for="project_name"
+      class="mr-auto"
       :class="[projectNameError ? 'text-error' : 'text']"
       >Name:</label
     >
@@ -19,26 +20,9 @@
     <p v-if="projectNameError" class="text-sm text-error">
       {{ projectNameError }}
     </p>
-    <label for="client_id" :class="[projectNameError ? 'text-error' : 'text']"
-      >Client:</label
-    >
-    <select
-      id="client_id"
-      v-model="clientId"
-      placeholder=""
-      disabled
-      @input="clearErrors($event)"
-      class="select w-full bg-background outline-1"
-    >
-      <option v-for="client in clients" :key="client.id" :value="client.id">
-        {{ client.name }}
-      </option>
-    </select>
-    <p v-if="clientIdError" class="text-sm text-error">
-      {{ clientIdError }}
-    </p>
     <label
       for="project_status"
+      class="mr-auto"
       :class="[projectNameError ? 'text-error' : 'text']"
       >Status:</label
     >
@@ -101,6 +85,7 @@
 
       <label
         for="service_id"
+        class="mr-auto"
         :class="[projectServiceIdError ? 'text-error' : 'text']"
         >Service:</label
       >
@@ -124,6 +109,7 @@
       </p>
       <label
         for="services_max_requests"
+        class="mr-auto"
         :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
         >Max Requests:</label
       >
@@ -140,6 +126,7 @@
       </p>
       <label
         for="service_reset_frequency"
+        class="mr-auto"
         :class="[projectServiceResetFrequencyError ? 'text-error' : 'text']"
         >Reset Frequency:</label
       >
@@ -186,11 +173,9 @@ import { computed, onMounted, ref } from 'vue';
 
 import { ProjectStatusLabels } from '@enums/projectStatus';
 import { ResetServiceFrequencyLabels } from '@enums/resetServiceFrequency';
-import { useClientsStore } from '@store/useClientsStore';
+import { useIdsStore } from '@store/useIdsStore';
 import { useServicesStore } from '@store/useServicesStore';
 
-const clientId = ref<number | null>(null);
-const clientIdError = ref<string | null>(null);
 const projectName = ref<string>('');
 const projectNameError = ref<string | null>(null);
 const projectStatus = ref<string>('');
@@ -210,8 +195,8 @@ const selectedServices = ref<
   }[]
 >([]);
 
-const clientStore = useClientsStore();
-const { clients } = storeToRefs(clientStore);
+const idsStore = useIdsStore();
+const { clientId } = storeToRefs(idsStore);
 const serviceStore = useServicesStore();
 const { services } = storeToRefs(serviceStore);
 
@@ -283,9 +268,6 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'client_id':
-      clientIdError.value = null;
-      break;
     case 'project_name':
       projectNameError.value = null;
       break;
@@ -305,7 +287,6 @@ function clearErrors(event: Event) {
 }
 
 function resetForm() {
-  clientId.value = null;
   projectName.value = '';
   projectStatus.value = '';
   projectServiceId.value = null;
@@ -313,7 +294,6 @@ function resetForm() {
   projectServiceResetFrequency.value = '';
 
   // Reset error messages.
-  clientIdError.value = null;
   projectNameError.value = null;
   projectStatusError.value = null;
   projectServiceIdError.value = null;
@@ -338,12 +318,10 @@ const emit = defineEmits<{
 }>();
 
 function submitForm() {
-  clientIdError.value = null;
   projectNameError.value = null;
   projectStatusError.value = null;
 
   if (!clientId.value || !projectName.value || !projectStatus.value) {
-    clientIdError.value = 'Client is required';
     projectNameError.value = 'Name is required';
     projectStatusError.value = 'Status is required';
     return;
@@ -363,7 +341,6 @@ function submitForm() {
 }
 
 onMounted(() => {
-  clientStore.getClients();
   serviceStore.getServices();
 });
 
