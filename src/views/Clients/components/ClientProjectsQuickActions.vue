@@ -12,8 +12,7 @@
     </button>
     <EditModal
       :title="'project'"
-      :formComponent="CreateClientProjectForm"
-      @submitForm="editClient"
+      @submitForm=""
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
@@ -30,7 +29,6 @@ import { useRouter } from 'vue-router';
 import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
-import CreateClientProjectForm from './CreateClientProjectForm.vue';
 
 const projectStore = useProjectsStore();
 const router = useRouter();
