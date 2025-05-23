@@ -1,7 +1,7 @@
 <template>
   <div class="navbar flex w-full flex-row justify-between bg-primary shadow-sm">
     <RouterLink
-      to="/#"
+      to="/home"
       class="ml-6 flex flex-row items-center justify-center gap-3"
     >
       <img
