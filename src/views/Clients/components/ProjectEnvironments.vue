@@ -40,6 +40,7 @@ import {
 } from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
+import { useMapWithServices } from '@composables/useMapWithServices';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
@@ -105,48 +106,7 @@ onMounted(async () => {
   environmentsData.value =
     (await projectStore.getProjectEnvironments(projectId)) || [];
 
-  environments.value = environmentsData.value.map(
-    (environment: ProjectEnviroments) => ({
-      ...environment,
-      services: (() => {
-        // We use an IIFE (Immediately Invoked Function Expression) to calculate the string
-        if (
-          Array.isArray(environment.services) &&
-          environment.services.length > 0
-        ) {
-          // Case 1: environment.services is an array and has elements
-          const serviceStrings = environment.services.map((service) => {
-            const name = service.name ? String(service.name).trim() : '';
-            const version = service.version
-              ? String(service.version).trim()
-              : '';
-
-            if (name && version) {
-              return `${name} - ${version}`; // Main format: 'name - version'
-            } else if (name) {
-              return `${name} - (no version)`;
-            } else if (version) {
-              return `(unnamed) - ${version}`;
-            } else {
-              // Neither name nor version for this specific service in the array
-              return '(Service without details.)';
-            }
-          });
-          // Join the strings with a comma and space
-          return serviceStrings.join(', ');
-        } else if (
-          Array.isArray(environment.services) &&
-          environment.services.length === 0
-        ) {
-          // Case 2: project.services is an empty array
-          return 'There are no services available yet.';
-        } else {
-          // Case 3: project.services is not an array (it is null, undefined, etc.)
-          return 'Services unavailable.';
-        }
-      })(),
-    }),
-  );
+  environments.value = useMapWithServices(environmentsData.value);
 
   idsStore.setProjectId(projectId);
   if (!idsStore.clientId) {
