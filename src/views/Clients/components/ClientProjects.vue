@@ -28,17 +28,14 @@ import { onMounted, ref, watch } from 'vue';
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
+import { useMapWithServices } from '@composables/useMapWithServices';
 import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
-import type {
-  ClientProjects,
-  NewProject,
-  Project,
-} from '../../../types/projects';
+import type { NewProject, Project } from '../../../types/projects';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
 
@@ -81,41 +78,7 @@ onMounted(async () => {
   projectsList.value = clientProjects as Project[];
   currentClient.value = client as Client;
 
-  projects.value = projectsList.value.map((project: ClientProjects) => ({
-    ...project,
-    services: (() => {
-      // We use an IIFE (Immediately Invoked Function Expression) to calculate the string
-      if (Array.isArray(project.services) && project.services.length > 0) {
-        // Case 1: project.services is an array and has elements
-        const serviceStrings = project.services.map((service) => {
-          const name = service.name ? String(service.name).trim() : '';
-          const version = service.version ? String(service.version).trim() : '';
-
-          if (name && version) {
-            return `${name} - ${version}`; // Main format: 'name - version'
-          } else if (name) {
-            return `${name} - (no version)`;
-          } else if (version) {
-            return `(unnamed) - ${version}`;
-          } else {
-            // Neither name nor version for this specific service in the array
-            return '(Service without details.)';
-          }
-        });
-        // Join the strings with a comma and space
-        return serviceStrings.join(', ');
-      } else if (
-        Array.isArray(project.services) &&
-        project.services.length === 0
-      ) {
-        // Case 2: project.services is an empty array
-        return 'There are no services available yet.';
-      } else {
-        // Case 3: project.services is not an array (it is null, undefined, etc.)
-        return 'Services unavailable.';
-      }
-    })(),
-  }));
+  projects.value = useMapWithServices(projectsList.value);
 
   idsStore.setClientId(id);
 });
