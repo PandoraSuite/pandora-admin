@@ -3,7 +3,7 @@
     <section>
       <component
         :is="props.createActionComponent"
-        :formComponent="AssingProjectService"
+        :formComponent="assingFormComponent"
         :title="'service'"
         :buttonText="props.buttonText"
         @submitForm="submitForm"
@@ -61,7 +61,6 @@
 <script setup lang="ts" generic="T">
 import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
-import AssingProjectService from '@views/Clients/components/AssingProjectService.vue';
 import type { ProjectServices } from '../types/projects';
 
 const props = defineProps<{
@@ -70,6 +69,7 @@ const props = defineProps<{
   buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;
   createActionComponent: DefineComponent<{}, {}, any>;
+  assingFormComponent: DefineComponent<{}, {}, any>;
 }>();
 
 const internalCards = ref<ProjectServices[]>([]);
