@@ -7,6 +7,7 @@ export interface APIKey {
   last_used: string;
   status: string;
 }
+[];
 
 export interface NewAPIKey {
   environment_id: number;
