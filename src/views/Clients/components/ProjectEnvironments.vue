@@ -5,6 +5,7 @@
         :cardsData="servicesData"
         :quickActionComponent="ProjectServiceQuickActions"
         :createActionComponent="CreateServiceModal"
+        :assingFormComponent="AssingProjectService"
         :projectId="projectId"
         :buttonText="'Assing'"
         @submitForm="assignService"
@@ -25,7 +26,10 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="environments" />
+      <Table
+        :tableData="environments"
+        :quickActionsComponent="ProjectEvironmentsQuickActions"
+      />
     </section>
   </div>
 </template>
@@ -54,8 +58,10 @@ import type {
   ProjectEnviroments,
   ProjectServices,
 } from '../../../types/projects';
+import AssingProjectService from './AssingProjectService.vue';
+import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
-import ProjectServiceQuickActions from './ProjectServiceQuickActions.vue';
+import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -92,7 +98,7 @@ async function createEnvironment(payload: NewEnvironment) {
 async function assignService(payload: NewProjectService) {
   const response = await projectStore.assignProjectServices(projectId, payload);
   if (response) {
-    useToastStore().showToast('Environment created successfully', 'success');
+    useToastStore().showToast('Service assigned successfully', 'success');
   }
 }
 
