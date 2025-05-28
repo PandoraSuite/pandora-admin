@@ -138,7 +138,7 @@ const selectedServices = ref<
 const serviceStore = useServicesStore();
 const { services } = storeToRefs(serviceStore);
 const idsStore = useIdsStore();
-const { servicesForEnvironments } = storeToRefs(idsStore);
+const { servicesForCards } = storeToRefs(idsStore);
 
 function toggleSection() {
   clicked.value = !clicked.value;
@@ -146,7 +146,7 @@ function toggleSection() {
 
 // Computed property to filter available services based on selected services.
 const availableServices = computed(() =>
-  servicesForEnvironments.value.filter(
+  servicesForCards.value.filter(
     (service) => !selectedServices.value.some((s) => s.id === service.id),
   ),
 );
