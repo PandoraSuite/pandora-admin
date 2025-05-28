@@ -1,5 +1,35 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
+    <section
+      class="mt-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
+    >
+      <h1 class="row-span-2 w-[80%] text-4xl md:text-2xl lg:text-3xl">
+        {{ currentClient?.name }}
+      </h1>
+      <h3 class="w-[90%] md:text-lg xl:text-xl">
+        <span class="font-bold">email: </span>
+        <a
+          v-if="currentClient?.email"
+          :href="`mailto:${currentClient.email}`"
+          target="_blank"
+          class="hover:underline md:text-lg xl:text-xl"
+        >
+          {{ currentClient?.email }}
+        </a>
+      </h3>
+      <h3 class="w-[90%] md:text-lg xl:text-xl">
+        <span class="font-bold">type: </span>
+        {{ currentClient?.type }}
+      </h3>
+    </section>
+    <div class="divider"></div>
+    <section
+      class="mb-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
+    >
+      <h2 class="row-span-2 w-[80%] text-4xl md:text-2xl lg:text-3xl">
+        Services
+      </h2>
+    </section>
     <section class="flex w-[90%] self-center">
       <Cards
         :cardsData="servicesData"
@@ -7,15 +37,22 @@
         :createActionComponent="CreateServiceModal"
         :assingFormComponent="AssingProjectService"
         :projectId="projectId"
-        :buttonText="'Assing'"
+        :buttonText="ModalButtonTextLabels.assign"
         @submitForm="assignService"
       />
     </section>
     <div class="divider"></div>
+    <section
+      class="mb-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
+    >
+      <h2 class="row-span-2 w-[80%] text-4xl md:text-2xl lg:text-3xl">
+        Environments
+      </h2>
+    </section>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="'environment'"
-        :buttonText="'Create'"
+        :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateEnvironmentForm"
         @submitForm="createEnvironment"
       />
@@ -45,11 +82,13 @@ import {
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
+import type { Client } from '../../../types/clients';
 import type { NewEnvironment } from '../../../types/environments';
 import type {
   FilteredProject,
@@ -62,26 +101,26 @@ import AssingProjectService from './AssingProjectService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
-const CreateServiceModal =
-  _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
+const CreateServiceModal = _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
 
 const props = defineProps<{
   client_id: string;
   project_id: string;
 }>();
 
-/**
- * TODO Validate errors in the id cast.
- */
 const clientId = Number(props.client_id);
 const projectId = Number(props.project_id);
+
+const clientStore = useClientsStore();
 const projectStore = useProjectsStore();
 const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const idsStore = useIdsStore();
 
+const currentClient = ref<Client>();
 const projectData = ref<Project>();
 const environmentsData = ref<ProjectEnviroments[]>([]);
 const tableData = ref<FilteredProject>();
@@ -102,13 +141,18 @@ async function assignService(payload: NewProjectService) {
   }
 }
 
-async function loadProjectData() {
-  const data = await projectStore.getProjectById(projectId);
-  return data;
+async function loadData() {
+  const [client, projectById] = await Promise.all([
+    clientStore.getClientById(clientId),
+    projectStore.getProjectById(projectId),
+  ]);
+  return { client, projectById };
 }
 
 onMounted(async () => {
-  projectData.value = await loadProjectData();
+  const { client, projectById } = await loadData();
+  projectData.value = projectById as Project;
+  currentClient.value = client as Client;
   environmentsData.value =
     (await projectStore.getProjectEnvironments(projectId)) || [];
 
@@ -133,7 +177,7 @@ watch(
       };
 
       servicesData.value = projectData.value?.services || [];
-      idsStore.setServicesForEnvironments(projectData.value?.services || []);
+      idsStore.setServicesForCards(projectData.value?.services || []);
     }
   },
   { immediate: true },

@@ -1,9 +1,10 @@
 <template>
+  <div class="divider"></div>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="'client'"
-        :buttonText="'Create'"
+        :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateClientForm"
         @submitForm="createClient"
       />
@@ -30,6 +31,7 @@ import Table from '../../../components/Table.vue';
 import type { ClientPayload } from '../../../types/clients';
 import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
