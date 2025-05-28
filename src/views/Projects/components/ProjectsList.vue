@@ -1,9 +1,10 @@
 <template>
+  <div class="divider"></div>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="'project'"
-        :buttonText="'Create'"
+        :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateProjectForm"
         @submitForm="createClient"
       />
@@ -30,6 +31,7 @@ import type {
   Project,
 } from '../../../types/projects';
 import CreateProjectForm from './CreateProjectForm.vue';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
