@@ -22,21 +22,46 @@
           </h2>
           <div class="divider my-0.5"></div>
 
-          <span class="flex flex-row items-center gap-2">
+          <span
+            v-if="'reset_frequency' in card"
+            class="flex flex-row items-center gap-2"
+          >
             <p class="text-text-primary text-start font-bold">
               Reset frequency:
             </p>
-            <p class="text-text-primary text-end">{{ card.reset_frequency }}</p>
+            <p class="text-text-primary text-end">
+              {{ card.reset_frequency }}
+            </p>
           </span>
-          <span class="flex flex-row items-center gap-2">
+          <span
+            v-if="'max_request' in card"
+            class="flex flex-row items-center gap-2"
+          >
             <p class="text-text-primary text-start font-bold">Max requests:</p>
             <p class="text-text-primary text-end">{{ card.max_request }}</p>
           </span>
-          <span class="flex flex-row items-center gap-2">
+          <span
+            v-if="'next_reset' in card"
+            class="flex flex-row items-center gap-2"
+          >
             <p class="text-text-primary text-start font-bold">Next reset:</p>
             <p class="text-text-primary text-end">{{ card.next_reset }}</p>
           </span>
-          <span class="flex flex-row items-center gap-2">
+          <span
+            v-if="'available_request' in card"
+            class="flex flex-row items-center gap-2"
+          >
+            <p class="text-text-primary text-start font-bold">
+              Available request:
+            </p>
+            <p class="text-text-primary text-end">
+              {{ card.available_request }}
+            </p>
+          </span>
+          <span
+            v-if="'assigned_at' in card"
+            class="flex flex-row items-center gap-2"
+          >
             <p class="text-text-primary text-start font-bold">Assigned at:</p>
             <p class="text-text-primary text-end">{{ card.assigned_at }}</p>
           </span>
@@ -61,18 +86,19 @@
 <script setup lang="ts" generic="T">
 import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
+import type { EnvironmentService } from '../types/environments';
 import type { ProjectServices } from '../types/projects';
 
 const props = defineProps<{
   projectId: number;
-  cardsData: ProjectServices[];
+  cardsData: ProjectServices[] | EnvironmentService[];
   buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;
   createActionComponent: DefineComponent<{}, {}, any>;
   assingFormComponent: DefineComponent<{}, {}, any>;
 }>();
 
-const internalCards = ref<ProjectServices[]>([]);
+const internalCards = ref<ProjectServices[] | EnvironmentService[]>([]);
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;

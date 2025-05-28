@@ -1,7 +1,6 @@
 <template>
   <div class="mb-8 flex w-full flex-col gap-y-4 px-2">
     <Breadcrumbs />
-    <div class="divider"></div>
     <router-view />
   </div>
 </template>
