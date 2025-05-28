@@ -102,6 +102,7 @@ import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import type { ProjectEnvironmentsLoadData } from '../../../types/loadData';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal = _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
@@ -141,12 +142,12 @@ async function assignService(payload: NewProjectService) {
   }
 }
 
-async function loadData() {
+async function loadData(): Promise<ProjectEnvironmentsLoadData> {
   const [client, projectById] = await Promise.all([
     clientStore.getClientById(clientId),
     projectStore.getProjectById(projectId),
   ]);
-  return { client, projectById };
+  return { client: client ?? {} as Client, projectById: projectById ?? {} as Project };
 }
 
 onMounted(async () => {

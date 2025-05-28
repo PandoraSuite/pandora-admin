@@ -69,6 +69,7 @@ import type { NewProject, Project } from '../../../types/projects';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import type { ClientProjectsLoadData } from '../../../types/loadData';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -93,12 +94,13 @@ async function createProject(payload: NewProject) {
   }
 }
 
-async function loadData() {
+async function loadData(): Promise<ClientProjectsLoadData> {
   const [client, clientProjects] = await Promise.all([
     clientStore.getClientById(id),
     clientStore.getClientProjects(id),
   ]);
-  return { client, clientProjects };
+
+  return { client: client ?? {} as Client, clientProjects: clientProjects ?? [] as Project[] };
 }
 
 onMounted(async () => {

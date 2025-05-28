@@ -97,6 +97,7 @@ import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import { useClientsStore } from '@store/useClientsStore';
 import type { Client } from '../../../types/clients';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -142,13 +143,13 @@ async function assignService(payload: NewEnvironmentService) {
   }
 }
 
-async function loadData() {
+async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
   const [ client, environmentById ] = await Promise.all([
     clientStore.getClientById(clientId),
     environmentStore.getEnvironmentById(environmentId),
   ]);
 
-  return { client, environmentById };
+  return { client: client ?? {} as Client, environmentById: environmentById ?? {} as Environment };
 }
 
 onMounted(async () => {
