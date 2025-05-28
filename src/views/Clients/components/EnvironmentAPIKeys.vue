@@ -25,7 +25,7 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="apikeys" />
+      <Table :tableData="apikeys" :quickActionsComponent="APIKeyQuickActions" />
     </section>
   </div>
 </template>
@@ -58,6 +58,7 @@ import type {
 import type { NewProjectService } from '../../../types/projects';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
+import APIKeyQuickActions from './APIKeyQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
