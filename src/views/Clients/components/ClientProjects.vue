@@ -84,7 +84,7 @@ const { error } = storeToRefs(clientStore);
 
 const projectsList = ref<Project[]>([]);
 const currentClient = ref<Client>();
-const projects = ref([]);
+const projects = ref<Project[]>([]);
 
 async function createProject(payload: NewProject) {
   const response = await projectStore.createProject(payload);

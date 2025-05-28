@@ -125,7 +125,7 @@ const projectData = ref<Project>();
 const environmentsData = ref<ProjectEnviroments[]>([]);
 const tableData = ref<FilteredProject>();
 const servicesData = ref<ProjectServices[]>([]);
-const environments = ref([]);
+const environments = ref<ProjectEnviroments[]>([]);
 
 async function createEnvironment(payload: NewEnvironment) {
   const response = await environmentStore.createEnvironment(payload);

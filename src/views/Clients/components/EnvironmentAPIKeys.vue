@@ -77,7 +77,6 @@ import {
 } from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
-import { useMapWithServices } from '@composables/useMapWithServices';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -125,7 +124,6 @@ const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
 const tableData = ref<FilteredEnvironment>();
 const servicesData = ref<EnvironmentService[]>([]);
-const environments = ref([]);
 
 async function createAPIKey(payload: NewAPIKey) {
   const response = await apiKeysStore.createAPIKey(payload);
@@ -159,8 +157,6 @@ onMounted(async () => {
   environmentData.value = environmentById as Environment;
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
-
-  environments.value = useMapWithServices(environmentData.value);
 
   idsStore.setEnvironmentId(environmentId);
   if (!idsStore.projectId) {
