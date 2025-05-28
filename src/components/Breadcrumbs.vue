@@ -1,8 +1,8 @@
 <template>
-  <div class="breadcrumbs px-4 pt-6 text-sm">
+  <div class="breadcrumbs text-sm ml-[5%]">
     <ul>
       <li>
-        <RouterLink to="/" class="text-2xl">
+        <RouterLink to="/home" class="text-lg">
           <font-awesome-icon :icon="['fas', 'house']" />
         </RouterLink>
       </li>
@@ -10,11 +10,11 @@
         <RouterLink
           v-if="index !== breadcrumbs.length - 1"
           :to="crumb.to"
-          class="text-2xl"
+          class="text-lg"
         >
           {{ crumb.label }}
         </RouterLink>
-        <h3 v-else-if="index === 0" class="text-2xl">
+        <h3 v-else-if="index === 0" class="text-lg">
           {{ crumb.label }}
         </h3>
       </li>
