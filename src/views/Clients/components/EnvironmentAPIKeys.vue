@@ -152,6 +152,16 @@ async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
   return { client: client ?? {} as Client, environmentById: environmentById ?? {} as Environment };
 }
 
+function manageIds(clientId: number, projectId: number, environmentId: number): void {
+  idsStore.clearEnvironmentId();
+  idsStore.setEnvironmentId(environmentId);
+  if (!idsStore.projectId) {
+    idsStore.setProjectId(projectId);
+  } else if (!idsStore.clientId) {
+    idsStore.setClientId(clientId);
+  }
+}
+
 onMounted(async () => {
   const { client, environmentById } = await loadData();
   currentClient.value = client as Client;
@@ -159,12 +169,7 @@ onMounted(async () => {
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
 
-  idsStore.setEnvironmentId(environmentId);
-  if (!idsStore.projectId) {
-    idsStore.setProjectId(projectId);
-  } else if (!idsStore.clientId) {
-    idsStore.setClientId(clientId);
-  }
+  manageIds(clientId, projectId, environmentId);
 });
 
 watch(

@@ -5,10 +5,10 @@ import type { ProjectServices } from '../types/projects';
 
 export const useIdsStore = defineStore('ids', () => {
   // --- STATE ---
-  const clientId = ref<number>();
-  const serviceId = ref<number>();
-  const projectId = ref<number>();
-  const environmentId = ref<number>();
+  const clientId = ref<number | null>(null);
+  const serviceId = ref<number | null>(null);
+  const projectId = ref<number | null>(null);
+  const environmentId = ref<number | null>(null);
 
   const servicesForCards = ref<ProjectServices[] | EnvironmentService[]>([]);
 
@@ -31,6 +31,22 @@ export const useIdsStore = defineStore('ids', () => {
     environmentId.value = id;
   };
 
+  const clearClientId = () => {
+    clientId.value = null;
+  };
+
+  const clearServiceId = () => {
+    serviceId.value = null;
+  };
+
+  const clearProjectId = () => {
+    projectId.value = null;
+  };
+
+  const clearEnvironmentId = () => {
+    environmentId.value = null;
+  };
+
   const setServicesForCards = (
     servicesList: ProjectServices[] | EnvironmentService[],
   ) => {
@@ -47,6 +63,10 @@ export const useIdsStore = defineStore('ids', () => {
     setServiceId,
     setProjectId,
     setEnvironmentId,
+    clearClientId,
+    clearServiceId,
+    clearProjectId,
+    clearEnvironmentId,
     setServicesForCards,
   };
 });

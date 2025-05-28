@@ -103,6 +103,13 @@ async function loadData(): Promise<ClientProjectsLoadData> {
   return { client: client ?? {} as Client, clientProjects: clientProjects ?? [] as Project[] };
 }
 
+function manageIds(id:number): void {
+  idsStore.clearClientId();
+  idsStore.clearProjectId();
+  idsStore.clearEnvironmentId();
+  idsStore.setClientId(id);
+}
+
 onMounted(async () => {
   const { client, clientProjects } = await loadData();
   projectsList.value = clientProjects as Project[];
@@ -110,7 +117,7 @@ onMounted(async () => {
 
   projects.value = useMapWithServices(projectsList.value);
 
-  idsStore.setClientId(id);
+  manageIds(id);
 });
 
 watch(error, (value, _) => {

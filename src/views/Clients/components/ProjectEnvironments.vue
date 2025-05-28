@@ -82,6 +82,7 @@ import {
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -90,6 +91,7 @@ import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
 import type { NewEnvironment } from '../../../types/environments';
+import type { ProjectEnvironmentsLoadData } from '../../../types/loadData';
 import type {
   FilteredProject,
   NewProjectService,
@@ -101,11 +103,10 @@ import AssingProjectService from './AssingProjectService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
-import type { ProjectEnvironmentsLoadData } from '../../../types/loadData';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
-const CreateServiceModal = _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
+const CreateServiceModal =
+  _CreateServiceModal as typeof _CreateServiceModal<NewProjectService>;
 
 const props = defineProps<{
   client_id: string;
@@ -147,7 +148,19 @@ async function loadData(): Promise<ProjectEnvironmentsLoadData> {
     clientStore.getClientById(clientId),
     projectStore.getProjectById(projectId),
   ]);
-  return { client: client ?? {} as Client, projectById: projectById ?? {} as Project };
+  return {
+    client: client ?? ({} as Client),
+    projectById: projectById ?? ({} as Project),
+  };
+}
+
+function manageIds(clientId: number, projectId: number): void {
+  idsStore.clearProjectId();
+  idsStore.clearEnvironmentId();
+  idsStore.setProjectId(projectId);
+  if (!idsStore.clientId) {
+    idsStore.setClientId(clientId);
+  }
 }
 
 onMounted(async () => {
@@ -159,10 +172,7 @@ onMounted(async () => {
 
   environments.value = useMapWithServices(environmentsData.value);
 
-  idsStore.setProjectId(projectId);
-  if (!idsStore.clientId) {
-    idsStore.setClientId(clientId);
-  }
+  manageIds(clientId, projectId);
 });
 
 watch(
