@@ -62,7 +62,7 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="T extends { id: number; name: string }">
+<script setup lang="ts" generic="T extends { id: number }">
 import { computed, ref, watch, type DefineComponent } from 'vue';
 
 const props = defineProps<{
