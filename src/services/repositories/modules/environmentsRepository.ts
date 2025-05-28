@@ -64,6 +64,12 @@ export default <EnvironmentsRequests>{
       processedResponse.created_at = datetimeFormatter.format(
         new Date(processedResponse.created_at),
       );
+      processedResponse.services = processedResponse.services.map(
+        (service) => ({
+          ...service,
+          assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
+        }),
+      );
       return {
         success: true,
         data: processedResponse,
@@ -83,6 +89,8 @@ export default <EnvironmentsRequests>{
       const processedResponse = response.data?.map((APIKey) => ({
         ...APIKey,
         created_at: datetimeFormatter.format(new Date(APIKey.created_at)),
+        last_used: datetimeFormatter.format(new Date(APIKey.last_used)),
+        expires_at: datetimeFormatter.format(new Date(APIKey.expires_at)),
       }));
       return {
         success: true,

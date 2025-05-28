@@ -5,7 +5,7 @@
         :cardsData="servicesData"
         :quickActionComponent="ProjectServiceQuickActions"
         :createActionComponent="CreateServiceModal"
-        :assingFormComponent="AssingProjectService"
+        :assingFormComponent="AssingEnvironmentService"
         :projectId="projectId"
         :buttonText="'Assing'"
         @submitForm="assignService"
@@ -14,10 +14,9 @@
     <div class="divider"></div>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'environment'"
+        :title="'API key'"
         :buttonText="'Create'"
-        :formComponent="CreateEnvironmentForm"
-        @submitForm="createEnvironment"
+        @submitForm="createAPIKey"
       />
       <SearchInput
         placeholder="Filter by Type"
@@ -26,10 +25,7 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table
-        :tableData="environments"
-        :quickActionsComponent="ProjectEvironmentsQuickActions"
-      />
+      <Table :tableData="apikeys" :quickActionsComponent="APIKeyQuickActions" />
     </section>
   </div>
 </template>
@@ -45,23 +41,24 @@ import {
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
-import type { NewEnvironment } from '../../../types/environments';
+import type { APIKey, NewAPIKey } from '../../../types/apiKeys';
 import type {
-  FilteredProject,
-  NewProjectService,
-  Project,
-  ProjectEnviroments,
-  ProjectServices,
-} from '../../../types/projects';
-import AssingProjectService from './AssingProjectService.vue';
+  Environment,
+  EnvironmentService,
+  FilteredEnvironment,
+  NewEnvironment,
+  NewEnvironmentService,
+} from '../../../types/environments';
+import type { NewProjectService } from '../../../types/projects';
+import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
-import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
-import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
+import APIKeyQuickActions from './APIKeyQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -70,6 +67,7 @@ const CreateServiceModal =
 const props = defineProps<{
   client_id: string;
   project_id: string;
+  environment_id: string;
 }>();
 
 /**
@@ -77,63 +75,71 @@ const props = defineProps<{
  */
 const clientId = Number(props.client_id);
 const projectId = Number(props.project_id);
+const environmentId = Number(props.environment_id);
+
 const projectStore = useProjectsStore();
 const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
+const apiKeysStore = useAPIKeysStore();
 const idsStore = useIdsStore();
 
-const projectData = ref<Project>();
-const environmentsData = ref<ProjectEnviroments[]>([]);
-const tableData = ref<FilteredProject>();
-const servicesData = ref<ProjectServices[]>([]);
+const environmentData = ref<Environment>();
+const apikeys = ref<APIKey[]>([]);
+const tableData = ref<FilteredEnvironment>();
+const servicesData = ref<EnvironmentService[]>([]);
 const environments = ref([]);
 
-async function createEnvironment(payload: NewEnvironment) {
-  const response = await environmentStore.createEnvironment(payload);
+async function createAPIKey(payload: NewAPIKey) {
+  const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
-    useToastStore().showToast('Environment created successfully', 'success');
+    useToastStore().showToast('API key created successfully', 'success');
   }
 }
 
-async function assignService(payload: NewProjectService) {
-  const response = await projectStore.assignProjectServices(projectId, payload);
+async function assignService(payload: NewEnvironmentService) {
+  const response = await environmentStore.assignEnvironmentService(
+    projectId,
+    payload,
+  );
   if (response) {
     useToastStore().showToast('Service assigned successfully', 'success');
   }
 }
 
-async function loadProjectData() {
-  const data = await projectStore.getProjectById(projectId);
+async function loadEnvironmentData() {
+  const data = await environmentStore.getEnvironmentById(environmentId);
   return data;
 }
 
 onMounted(async () => {
-  projectData.value = await loadProjectData();
-  environmentsData.value =
-    (await projectStore.getProjectEnvironments(projectId)) || [];
+  environmentData.value = await loadEnvironmentData();
+  apikeys.value =
+    (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
 
-  environments.value = useMapWithServices(environmentsData.value);
+  environments.value = useMapWithServices(environmentData.value);
 
-  idsStore.setProjectId(projectId);
-  if (!idsStore.clientId) {
+  idsStore.setEnvironmentId(environmentId);
+  if (!idsStore.projectId) {
+    idsStore.setProjectId(projectId);
+  } else if (!idsStore.clientId) {
     idsStore.setClientId(clientId);
   }
 });
 
 watch(
-  () => projectData.value,
+  () => environmentData.value,
   (newData) => {
     if (newData) {
       tableData.value = {
         id: newData.id,
         name: newData.name,
-        client_id: newData.client_id,
+        project_id: newData.project_id,
         created_at: newData.created_at,
         status: newData.status,
       };
 
-      servicesData.value = projectData.value?.services || [];
-      idsStore.setServicesForEnvironments(projectData.value?.services || []);
+      servicesData.value = environmentData.value?.services || [];
+      idsStore.setServicesForCards(environmentData.value?.services || []);
     }
   },
   { immediate: true },

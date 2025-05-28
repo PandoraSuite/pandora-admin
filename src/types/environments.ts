@@ -36,3 +36,11 @@ export interface NewEnvironmentService {
   id: number;
   max_request: number;
 }
+
+export interface FilteredEnvironment {
+  created_at: string;
+  id: number;
+  name: string;
+  project_id: number;
+  status: string;
+}
