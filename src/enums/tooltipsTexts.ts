@@ -9,6 +9,8 @@ export enum TooltipMessages {
   seeClient = 'seeClient',
   deleteClient = 'deleteClient',
   deleleService = 'deleteService',
+  seeEnvironment = 'seeEnvironment',
+  deleteEnvironment = 'deleteEnvironment'
 }
 
 export const TooltipMessagesLabels: Record<TooltipMessages, string> = {
@@ -22,4 +24,6 @@ export const TooltipMessagesLabels: Record<TooltipMessages, string> = {
   [TooltipMessages.seeClient]: 'See client.',
   [TooltipMessages.deleteClient]: 'Delete client.',
   [TooltipMessages.deleleService]: 'Delete service.',
+  [TooltipMessages.seeEnvironment]: 'See environment.',
+  [TooltipMessages.deleteEnvironment]: 'Delete environment',
 };
