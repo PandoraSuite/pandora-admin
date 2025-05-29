@@ -64,7 +64,7 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="environments"
+        :tableData="environmentsToRender"
         :quickActionsComponent="ProjectEvironmentsQuickActions"
       />
     </section>
@@ -97,6 +97,7 @@ import type {
   NewProjectService,
   Project,
   ProjectEnviroments,
+  ProjectEnvironmentsToRender,
   ProjectServices,
 } from '../../../types/projects';
 import AssingProjectService from './AssingProjectService.vue';
@@ -128,6 +129,7 @@ const environmentsData = ref<ProjectEnviroments[]>([]);
 const tableData = ref<FilteredProject>();
 const servicesData = ref<ProjectServices[]>([]);
 const environments = ref<ProjectEnviroments[]>([]);
+const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 
 async function createEnvironment(payload: NewEnvironment) {
   const response = await environmentStore.createEnvironment(payload);
@@ -171,6 +173,10 @@ onMounted(async () => {
     (await projectStore.getProjectEnvironments(projectId)) || [];
 
   environments.value = useMapWithServices(environmentsData.value);
+  environmentsToRender.value = environments.value.map((project) => ({
+    ...project,
+    project_id: project.project_id === projectById.id ? projectById.name : 'Unknown Environment'
+  }));
 
   manageIds(clientId, projectId);
 });

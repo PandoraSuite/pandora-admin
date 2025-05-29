@@ -45,7 +45,7 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="projects"
+        :tableData="projectsToRender"
         :quickActionsComponent="ClientProjectsQuickActions"
       />
     </section>
@@ -59,17 +59,17 @@ import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
-import type { NewProject, Project } from '../../../types/projects';
+import type { ClientProjectsLoadData } from '../../../types/loadData';
+import type { NewProject, Project, ProjectToRender } from '../../../types/projects';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
-import type { ClientProjectsLoadData } from '../../../types/loadData';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -86,6 +86,7 @@ const { error } = storeToRefs(clientStore);
 const projectsList = ref<Project[]>([]);
 const currentClient = ref<Client>();
 const projects = ref<Project[]>([]);
+const projectsToRender = ref<ProjectToRender[]>([]);
 
 async function createProject(payload: NewProject) {
   const response = await projectStore.createProject(payload);
@@ -100,10 +101,13 @@ async function loadData(): Promise<ClientProjectsLoadData> {
     clientStore.getClientProjects(id),
   ]);
 
-  return { client: client ?? {} as Client, clientProjects: clientProjects ?? [] as Project[] };
+  return {
+    client: client ?? ({} as Client),
+    clientProjects: clientProjects ?? ([] as Project[]),
+  };
 }
 
-function manageIds(id:number): void {
+function manageIds(id: number): void {
   idsStore.clearClientId();
   idsStore.clearProjectId();
   idsStore.clearEnvironmentId();
@@ -116,8 +120,14 @@ onMounted(async () => {
   currentClient.value = client as Client;
 
   projects.value = useMapWithServices(projectsList.value);
+  projectsToRender.value = projects.value.map((project) => ({
+    ...project,
+    client_id: project.client_id === client.id ? client.name : 'Unknown Client'
+  }));
 
   manageIds(id);
+
+  console.log(projects.value);
 });
 
 watch(error, (value, _) => {
