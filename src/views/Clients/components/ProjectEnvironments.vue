@@ -105,6 +105,7 @@ import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -135,14 +136,14 @@ const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 async function createEnvironment(payload: NewEnvironment) {
   const response = await environmentStore.createEnvironment(payload);
   if (response) {
-    useToastStore().showToast('Environment created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.environmentCreated, ToastMessages.isSuccess);
   }
 }
 
 async function assignService(payload: NewProjectService) {
   const response = await projectStore.assignProjectServices(projectId, payload);
   if (response) {
-    useToastStore().showToast('Service assigned successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.serviceAssigned, ToastMessages.isSuccess);
   }
 }
 
@@ -203,7 +204,7 @@ watch(
         reset_frequency:
           card.reset_frequency === '' ? ServiceRequestsLabels.none : card.reset_frequency,
       }));
-      idsStore.setServicesForCards(projectData.value?.services || []);
+      idsStore.setProjectServices(projectData.value?.services || []);
     }
   },
   { immediate: true },
@@ -211,7 +212,7 @@ watch(
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

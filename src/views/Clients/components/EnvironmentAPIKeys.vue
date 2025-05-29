@@ -99,6 +99,7 @@ import type { Client } from '../../../types/clients';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -130,17 +131,17 @@ const servicesData = ref<EnvironmentServiceToRender[]>([]);
 async function createAPIKey(payload: NewAPIKey) {
   const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
-    useToastStore().showToast('API key created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.apiKeyCreated, ToastMessages.isSuccess);
   }
 }
 
 async function assignService(payload: NewEnvironmentService) {
   const response = await environmentStore.assignEnvironmentService(
-    projectId,
+    environmentId,
     payload,
   );
   if (response) {
-    useToastStore().showToast('Service assigned successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.serviceAssigned, ToastMessages.isSuccess);
   }
 }
 
@@ -191,7 +192,7 @@ watch(
         available_request:
           card.available_request === -1 ? ServiceRequestsLabels.unlimited : card.available_request,
       }));
-      idsStore.setServicesForCards(environmentData.value?.services || []);
+      idsStore.setEnvironmentServices(environmentData.value?.services || []);
     }
   },
   { immediate: true },
@@ -199,7 +200,7 @@ watch(
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

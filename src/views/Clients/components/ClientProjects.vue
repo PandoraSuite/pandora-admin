@@ -70,6 +70,7 @@ import type { ClientProjectsLoadData } from '../../../types/loadData';
 import type { NewProject, Project, ProjectToRender } from '../../../types/projects';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -91,7 +92,7 @@ const projectsToRender = ref<ProjectToRender[]>([]);
 async function createProject(payload: NewProject) {
   const response = await projectStore.createProject(payload);
   if (response) {
-    useToastStore().showToast('Project created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.environmentCreated, ToastMessages.isSuccess);
   }
 }
 
@@ -130,7 +131,7 @@ onMounted(async () => {
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

@@ -32,6 +32,7 @@ import type {
 } from '../../../types/projects';
 import CreateProjectForm from './CreateProjectForm.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -80,7 +81,7 @@ const projects = projectsList.value.map((project: ClientProjects) => ({
 async function createClient(payload: NewProject) {
   const response = await projectsStore.createProject(payload);
   if (response) {
-    useToastStore().showToast('Project created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.projectCreated, ToastMessages.isSuccess);
   }
 }
 
@@ -91,7 +92,7 @@ onMounted(async () => {
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

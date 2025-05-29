@@ -32,6 +32,7 @@ import type { ServicePayload } from '../../../types/services';
 import CreateServiceForm from './CreateServiceForm.vue';
 import ServiceQuickActions from './ServiceQuickActions.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 
@@ -41,7 +42,7 @@ const { error } = storeToRefs(servicesStore);
 async function createService(payload: ServicePayload) {
   const response = await servicesStore.createNewService(payload);
   if (response) {
-    useToastStore().showToast('Service created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.serviceCreated, ToastMessages.isSuccess);
   }
 }
 
@@ -51,7 +52,7 @@ onMounted(async () => {
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 
