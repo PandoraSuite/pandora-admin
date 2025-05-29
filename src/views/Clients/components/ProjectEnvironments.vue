@@ -51,7 +51,7 @@
     </section>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'environment'"
+        :title="TitleMessagesLabels.environment"
         :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateEnvironmentForm"
         @submitForm="createEnvironment"
@@ -106,6 +106,7 @@ import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =

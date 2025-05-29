@@ -2,15 +2,15 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      :data-tip="TooltipMessagesLabels.seeAPIKey"
+      :data-tip="TooltipMessagesLabels.seeEnvironment"
       @click="seeAPIkey"
     >
       <font-awesome-icon :icon="['fa', 'key']" class="text text-white" />
     </button>
-    <EditModal :title="'API key'" @submitForm="" />
+    <EditModal :title="TitleMessagesLabels.environment" @submitForm="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      :data-tip="TooltipMessagesLabels.deleteAPIKey"
+      :data-tip="TooltipMessagesLabels.deleteEnvironment"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -24,6 +24,7 @@ import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const projectStore = useProjectsStore();
 const router = useRouter();

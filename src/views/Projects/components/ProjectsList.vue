@@ -3,7 +3,7 @@
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'project'"
+        :title="TitleMessagesLabels.project"
         :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateProjectForm"
         @submitForm="createClient"
@@ -33,6 +33,7 @@ import type {
 import CreateProjectForm from './CreateProjectForm.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 

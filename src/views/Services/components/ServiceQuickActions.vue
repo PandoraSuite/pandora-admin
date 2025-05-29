@@ -1,7 +1,7 @@
 <template>
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
-      :title="'service'"
+      :title="TitleMessagesLabels.service"
       :formComponent="EditServiceForm"
       @submitForm="editService"
     />
@@ -19,6 +19,7 @@ import EditModal from '@components/EditModal.vue';
 // import { useToastStore } from '@store/useToastStore';
 import EditServiceForm from './EditServiceForm.vue';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 // import type { UpdateService } from '../../../types/services';
 // import { useServicesStore } from '@store/useServicesStore';
 

@@ -11,7 +11,7 @@
       />
     </button>
     <EditModal
-      :title="'client'"
+      :title="TitleMessagesLabels.client"
       :formComponent="EditClientForm"
       @submitForm="editClient"
     />
@@ -33,6 +33,7 @@ import { useToastStore } from '@store/useToastStore';
 import { type UpdateClient } from '../../../types/clients';
 import EditClientForm from './EditClientForm.vue';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const clientStore = useClientsStore();
 const router = useRouter();

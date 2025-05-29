@@ -4,7 +4,7 @@
       <component
         :is="props.createActionComponent"
         :formComponent="assingFormComponent"
-        :title="'service'"
+        :title="TitleMessagesLabels.service"
         :buttonText="props.buttonText"
         @submitForm="submitForm"
       />
@@ -88,6 +88,7 @@ import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
 import type { EnvironmentServiceToRender } from '../types/environments';
 import type { ProjectServicesToRender } from '../types/projects';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const props = defineProps<{
   projectId: number;

@@ -51,7 +51,7 @@
     </section>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'API key'"
+        :title="TitleMessagesLabels.apiKey"
         :buttonText="ModalButtonTextLabels.create"
         @submitForm="createAPIKey"
       />
@@ -100,6 +100,7 @@ import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
