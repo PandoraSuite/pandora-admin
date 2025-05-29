@@ -2,7 +2,7 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="See projects."
+      :data-tip="TooltipMessagesLabels.seeClient"
       @click="seeProjects"
     >
       <font-awesome-icon
@@ -17,7 +17,7 @@
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Delete client."
+      :data-tip="TooltipMessagesLabels.deleteClient"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -32,6 +32,7 @@ import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
 import { type UpdateClient } from '../../../types/clients';
 import EditClientForm from './EditClientForm.vue';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 
 const clientStore = useClientsStore();
 const router = useRouter();

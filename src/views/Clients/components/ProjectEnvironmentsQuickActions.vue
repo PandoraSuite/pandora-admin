@@ -2,7 +2,7 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="See API keys."
+      :data-tip="TooltipMessagesLabels.seeAPIKey"
       @click="seeAPIkey"
     >
       <font-awesome-icon :icon="['fa', 'key']" class="text text-white" />
@@ -10,7 +10,7 @@
     <EditModal :title="'API key'" @submitForm="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Delete API key."
+      :data-tip="TooltipMessagesLabels.deleteAPIKey"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -23,6 +23,7 @@ import { useRouter } from 'vue-router';
 import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 
 const projectStore = useProjectsStore();
 const router = useRouter();
