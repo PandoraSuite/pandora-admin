@@ -3,7 +3,7 @@
     v-if="props.tableData.length >= 1"
     class="mt-[2%] mb-4 w-full overflow-x-auto"
   >
-    <table class="table w-full self-center table-xs">
+    <table class="table w-[98%] self-center table-xs shadow-xl bg-cards">
       <thead class="w-full justify-center bg-tertiary">
         <tr>
           <th
