@@ -3,9 +3,9 @@
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.seeEnvironment"
-      @click="seeAPIkey"
+      @click="seeEnvironment"
     >
-      <font-awesome-icon :icon="['fa', 'key']" class="text text-white" />
+      <font-awesome-icon :icon="['fa', 'cubes']" class="text text-white" />
     </button>
     <EditModal :title="TitleMessagesLabels.environment" @submitForm="" />
     <button
@@ -33,7 +33,7 @@ const props = defineProps<{
   id: number;
 }>();
 
-function seeAPIkey() {
+function seeEnvironment() {
   router.push({
     name: 'Environments-APIkeys',
     params: { environment_id: props.id },
