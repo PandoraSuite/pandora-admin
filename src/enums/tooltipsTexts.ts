@@ -1,5 +1,5 @@
 export enum TooltipMessages {
-  seeAPIKeys = 'seeAPIKey',
+  seeAPIKey = 'seeAPIKey',
   deleteAPIKey = 'deleteAPIKey',
   editModalTitle = 'editModalTitle',
   refreshService = 'refreshService',
@@ -12,7 +12,7 @@ export enum TooltipMessages {
 }
 
 export const TooltipMessagesLabels: Record<TooltipMessages, string> = {
-  [TooltipMessages.seeAPIKeys]: 'See API key.',
+  [TooltipMessages.seeAPIKey]: 'See API key.',
   [TooltipMessages.deleteAPIKey]: 'Delete API key.',
   [TooltipMessages.editModalTitle]: 'Edit',
   [TooltipMessages.refreshService]: 'Refresh service.',
