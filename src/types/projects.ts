@@ -49,6 +49,16 @@ export interface ProjectServices {
   version: string;
 }
 
+export interface ProjectServicesToRender {
+  assigned_at: string;
+  id: number;
+  max_request: number | string;
+  name: string;
+  next_reset: string;
+  reset_frequency: string;
+  version: string;
+}
+
 export interface NewProject {
   client_id: number;
   name: string;

@@ -32,6 +32,15 @@ export interface EnvironmentService {
   version: string;
 }
 
+export interface EnvironmentServiceToRender {
+  assigned_at: string;
+  available_request: number | string;
+  id: number;
+  max_request: number | string;
+  name: string;
+  version: string;
+}
+
 export interface NewEnvironmentService {
   id: number;
   max_request: number;
