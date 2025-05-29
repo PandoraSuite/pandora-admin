@@ -126,8 +126,6 @@ onMounted(async () => {
   }));
 
   manageIds(id);
-
-  console.log(projects.value);
 });
 
 watch(error, (value, _) => {

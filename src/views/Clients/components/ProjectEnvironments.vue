@@ -98,12 +98,13 @@ import type {
   Project,
   ProjectEnviroments,
   ProjectEnvironmentsToRender,
-  ProjectServices,
+  ProjectServicesToRender,
 } from '../../../types/projects';
 import AssingProjectService from './AssingProjectService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
+import { ServiceRequestsLabels } from '@enums/serviceRequests';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -127,7 +128,7 @@ const currentClient = ref<Client>();
 const projectData = ref<Project>();
 const environmentsData = ref<ProjectEnviroments[]>([]);
 const tableData = ref<FilteredProject>();
-const servicesData = ref<ProjectServices[]>([]);
+const servicesData = ref<ProjectServicesToRender[]>([]);
 const environments = ref<ProjectEnviroments[]>([]);
 const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 
@@ -175,7 +176,10 @@ onMounted(async () => {
   environments.value = useMapWithServices(environmentsData.value);
   environmentsToRender.value = environments.value.map((project) => ({
     ...project,
-    project_id: project.project_id === projectById.id ? projectById.name : 'Unknown Environment'
+    project_id:
+      project.project_id === projectById.id
+        ? projectById.name
+        : 'Unknown Environment',
   }));
 
   manageIds(clientId, projectId);
@@ -193,7 +197,12 @@ watch(
         status: newData.status,
       };
 
-      servicesData.value = projectData.value?.services || [];
+      servicesData.value = (projectData.value?.services || []).map((card) => ({
+        ...card,
+        max_request: card.max_request === -1 ? ServiceRequestsLabels.unlimited : card.max_request,
+        reset_frequency:
+          card.reset_frequency === '' ? ServiceRequestsLabels.none : card.reset_frequency,
+      }));
       idsStore.setServicesForCards(projectData.value?.services || []);
     }
   },

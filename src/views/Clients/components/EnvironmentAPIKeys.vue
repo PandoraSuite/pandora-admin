@@ -86,7 +86,7 @@ import { storeToRefs } from 'pinia';
 import type { APIKey, NewAPIKey } from '../../../types/apiKeys';
 import type {
   Environment,
-  EnvironmentService,
+  EnvironmentServiceToRender,
   FilteredEnvironment,
   NewEnvironment,
   NewEnvironmentService,
@@ -98,6 +98,7 @@ import { useClientsStore } from '@store/useClientsStore';
 import type { Client } from '../../../types/clients';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
+import { ServiceRequestsLabels } from '@enums/serviceRequests';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -124,7 +125,7 @@ const currentClient = ref<Client>();
 const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
 const tableData = ref<FilteredEnvironment>();
-const servicesData = ref<EnvironmentService[]>([]);
+const servicesData = ref<EnvironmentServiceToRender[]>([]);
 
 async function createAPIKey(payload: NewAPIKey) {
   const response = await apiKeysStore.createAPIKey(payload);
@@ -184,7 +185,12 @@ watch(
         status: newData.status,
       };
 
-      servicesData.value = environmentData.value?.services || [];
+      servicesData.value = (environmentData.value?.services || []).map((card) => ({
+        ...card,
+        max_request: card.max_request === -1 ? ServiceRequestsLabels.unlimited : card.max_request,
+        available_request:
+          card.available_request === -1 ? ServiceRequestsLabels.unlimited : card.available_request,
+      }));
       idsStore.setServicesForCards(environmentData.value?.services || []);
     }
   },
