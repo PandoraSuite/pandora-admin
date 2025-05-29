@@ -10,7 +10,8 @@ export const useIdsStore = defineStore('ids', () => {
   const projectId = ref<number | null>(null);
   const environmentId = ref<number | null>(null);
 
-  const servicesForCards = ref<ProjectServices[] | EnvironmentService[]>([]);
+  const projectServices = ref<ProjectServices[]>([]);
+  const environmentsServices = ref<EnvironmentService[]>([]);
 
   // --- GETTERS ---
 
@@ -47,10 +48,16 @@ export const useIdsStore = defineStore('ids', () => {
     environmentId.value = null;
   };
 
-  const setServicesForCards = (
-    servicesList: ProjectServices[] | EnvironmentService[],
+  const setProjectServices = (
+    servicesList: ProjectServices[],
   ) => {
-    servicesForCards.value = servicesList;
+    projectServices.value = servicesList;
+  };
+
+  const setEnvironmentServices = (
+    servicesList: EnvironmentService[],
+  ) => {
+    environmentsServices.value = servicesList;
   };
 
   return {
@@ -58,7 +65,8 @@ export const useIdsStore = defineStore('ids', () => {
     serviceId,
     projectId,
     environmentId,
-    servicesForCards,
+    projectServices,
+    environmentsServices,
     setClientId,
     setServiceId,
     setProjectId,
@@ -67,6 +75,7 @@ export const useIdsStore = defineStore('ids', () => {
     clearServiceId,
     clearProjectId,
     clearEnvironmentId,
-    setServicesForCards,
+    setProjectServices,
+    setEnvironmentServices,
   };
 });
