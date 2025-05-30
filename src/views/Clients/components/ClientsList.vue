@@ -33,6 +33,7 @@ import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
@@ -42,7 +43,7 @@ const { error } = storeToRefs(clientsStore);
 async function createClient(payload: ClientPayload) {
   const response = await clientsStore.createClient(payload);
   if (response) {
-    useToastStore().showToast('Client created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.clientCreated, ToastMessages.isSuccess);
   }
 }
 
