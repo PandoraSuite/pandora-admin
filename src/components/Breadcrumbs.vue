@@ -1,5 +1,5 @@
 <template>
-  <div class="breadcrumbs text-sm ml-[5%]">
+  <div class="breadcrumbs ml-[5%] text-sm">
     <ul>
       <li>
         <RouterLink to="/home" class="text-lg">
@@ -7,14 +7,10 @@
         </RouterLink>
       </li>
       <li v-for="(crumb, index) in breadcrumbs" :key="index">
-        <RouterLink
-          v-if="index !== breadcrumbs.length - 1"
-          :to="crumb.to"
-          class="text-lg"
-        >
+        <RouterLink v-if="crumb.to" :to="crumb.to" class="text-lg">
           {{ crumb.label }}
         </RouterLink>
-        <h3 v-else-if="index === 0" class="text-lg">
+        <h3 v-else class="text-lg">
           {{ crumb.label }}
         </h3>
       </li>
@@ -93,9 +89,12 @@ watchEffect(async () => {
     const prev = segments[i - 1] || null;
     const path = '/' + segments.slice(0, i + 1).join('/');
 
+    // Determina si el segmento es un ID numérico
+    const isIdSegment = isNumeric(current);
+
     let label = routeNameMap[current] || decodeURIComponent(current);
 
-    if (isNumeric(current) && prev) {
+    if (isIdSegment && prev) {
       switch (prev) {
         case 'clients':
           label = await getClientName(Number(current));
@@ -109,7 +108,14 @@ watchEffect(async () => {
       }
     }
 
-    newBreadcrumbs.push({ to: path, label });
+    // Evita que el ID sea el último segmento
+    const isLastSegment = i === segments.length - 1;
+    const isLastId = isIdSegment && isLastSegment;
+
+    newBreadcrumbs.push({
+      to: !isIdSegment && !isLastId ? path : '',
+      label,
+    });
   }
 
   breadcrumbs.value = newBreadcrumbs;
