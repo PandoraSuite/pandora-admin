@@ -62,7 +62,7 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="apikeys" :quickActionsComponent="APIKeyQuickActions" />
+      <Table :tableData="apiKeysToRender" :quickActionsComponent="APIKeyQuickActions" />
     </section>
   </div>
 </template>
@@ -83,7 +83,7 @@ import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
-import type { APIKey, NewAPIKey } from '../../../types/apiKeys';
+import type { APIKey, APIKeyToRender, NewAPIKey } from '../../../types/apiKeys';
 import type {
   Environment,
   EnvironmentServiceToRender,
@@ -126,6 +126,7 @@ const idsStore = useIdsStore();
 const currentClient = ref<Client>();
 const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
+const apiKeysToRender = ref<APIKeyToRender[]>([]);
 const tableData = ref<FilteredEnvironment>();
 const servicesData = ref<EnvironmentServiceToRender[]>([]);
 
@@ -171,6 +172,13 @@ onMounted(async () => {
   environmentData.value = environmentById as Environment;
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
+  apiKeysToRender.value = apikeys.value.map((apiKey) => ({
+    ...apiKey,
+    environment_id:
+      apiKey.environment_id === environmentById.id
+        ? environmentById.name
+        : 'Unknown API Keys',
+  }));
 
   manageIds(clientId, projectId, environmentId);
 });
