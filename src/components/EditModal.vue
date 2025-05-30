@@ -1,7 +1,7 @@
 <template>
   <button
     class="tooltip btn tooltip-top bg-success btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-    :data-tip="`Edit ${props.title}.`"
+    :data-tip="`${TooltipMessagesLabels.editModalTitle} ${props.title}.`"
     @click="openModal()"
   >
     <font-awesome-icon
@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts" generic="T">
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { ref, type DefineComponent } from 'vue';
 
 const formComponentRef = ref<any>(null);

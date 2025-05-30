@@ -23,6 +23,7 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
+  faCubes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -50,6 +51,7 @@ library.add(
   faTrashCan,
   faHouse,
   faKey,
+  faCubes,
 );
 
 export default FontAwesomeIcon;

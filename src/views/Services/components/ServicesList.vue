@@ -3,7 +3,7 @@
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'service'"
+        :title="TitleMessagesLabels.service"
         :buttonText="ModalButtonTextLabels.create"
         :formComponent="CreateServiceForm"
         @submitForm="createService"
@@ -32,6 +32,8 @@ import type { ServicePayload } from '../../../types/services';
 import CreateServiceForm from './CreateServiceForm.vue';
 import ServiceQuickActions from './ServiceQuickActions.vue';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 
@@ -41,7 +43,7 @@ const { error } = storeToRefs(servicesStore);
 async function createService(payload: ServicePayload) {
   const response = await servicesStore.createNewService(payload);
   if (response) {
-    useToastStore().showToast('Service created successfully', 'success');
+    useToastStore().showToast(ToastMessagesLabels.serviceCreated, ToastMessages.isSuccess);
   }
 }
 
@@ -51,7 +53,7 @@ onMounted(async () => {
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

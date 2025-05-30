@@ -15,6 +15,23 @@ export interface Project {
   status: string;
 }
 
+export interface ProjectToRender {
+  id: number;
+  name: string;
+  client_id: string;
+  created_at: string;
+  services: {
+    assigned_at: string;
+    id: number;
+    max_request: number;
+    name: string;
+    next_reset: string;
+    reset_frequency: string;
+    version: string;
+  }[];
+  status: string;
+}
+
 export interface FilteredProject {
   id: number;
   name: string;
@@ -26,6 +43,16 @@ export interface ProjectServices {
   assigned_at: string;
   id: number;
   max_request: number;
+  name: string;
+  next_reset: string;
+  reset_frequency: string;
+  version: string;
+}
+
+export interface ProjectServicesToRender {
+  assigned_at: string;
+  id: number;
+  max_request: number | string;
   name: string;
   next_reset: string;
   reset_frequency: string;
@@ -63,14 +90,30 @@ export interface NewProjectService {
 
 export interface ProjectEnviroments {
   created_at: string;
-  id: 0;
+  id: number;
   name: string;
-  project_id: 0;
+  project_id: number;
   services: {
     assigned_at: string;
-    available_request: 0;
-    id: 0;
-    max_request: 0;
+    available_request: number;
+    id: number;
+    max_request: number;
+    name: string;
+    version: string;
+  }[];
+  status: string;
+}
+
+export interface ProjectEnvironmentsToRender {
+  created_at: string;
+  id: number;
+  name: string;
+  project_id: string;
+  services: {
+    assigned_at: string;
+    available_request: number;
+    id: number;
+    max_request: number;
     name: string;
     version: string;
   }[];

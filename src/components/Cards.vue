@@ -4,7 +4,7 @@
       <component
         :is="props.createActionComponent"
         :formComponent="assingFormComponent"
-        :title="'service'"
+        :title="TitleMessagesLabels.service"
         :buttonText="props.buttonText"
         @submitForm="submitForm"
       />
@@ -86,19 +86,20 @@
 <script setup lang="ts" generic="T">
 import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
-import type { EnvironmentService } from '../types/environments';
-import type { ProjectServices } from '../types/projects';
+import type { EnvironmentServiceToRender } from '../types/environments';
+import type { ProjectServicesToRender } from '../types/projects';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const props = defineProps<{
   projectId: number;
-  cardsData: ProjectServices[] | EnvironmentService[];
+  cardsData: ProjectServicesToRender[] | EnvironmentServiceToRender[];
   buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;
   createActionComponent: DefineComponent<{}, {}, any>;
   assingFormComponent: DefineComponent<{}, {}, any>;
 }>();
 
-const internalCards = ref<ProjectServices[] | EnvironmentService[]>([]);
+const internalCards = ref<ProjectServicesToRender[] | EnvironmentServiceToRender[]>([]);
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;

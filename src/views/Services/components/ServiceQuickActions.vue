@@ -1,13 +1,13 @@
 <template>
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
-      :title="'service'"
+      :title="TitleMessagesLabels.service"
       :formComponent="EditServiceForm"
       @submitForm="editService"
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Delete service."
+      :data-tip="TooltipMessagesLabels.deleteService"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -18,6 +18,8 @@
 import EditModal from '@components/EditModal.vue';
 // import { useToastStore } from '@store/useToastStore';
 import EditServiceForm from './EditServiceForm.vue';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 // import type { UpdateService } from '../../../types/services';
 // import { useServicesStore } from '@store/useServicesStore';
 

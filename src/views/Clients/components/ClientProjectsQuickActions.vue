@@ -2,7 +2,7 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="See project."
+      :data-tip="TooltipMessagesLabels.seeProject"
       @click="seeProject"
     >
       <font-awesome-icon
@@ -10,10 +10,10 @@
         class="text text-white"
       />
     </button>
-    <EditModal :title="'project'" @submitForm="" />
+    <EditModal :title="TitleMessagesLabels.project" @submitForm="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Delete client."
+      :data-tip="TooltipMessagesLabels.deleteProject"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -26,6 +26,8 @@ import { useRouter } from 'vue-router';
 import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const projectStore = useProjectsStore();
 const router = useRouter();

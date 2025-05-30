@@ -3,24 +3,30 @@
     <section
       class="mt-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
     >
-      <h1 class="row-span-2 w-[80%] text-4xl md:text-2xl lg:text-3xl">
-        {{ currentClient?.name }}
-      </h1>
-      <h3 class="w-[90%] md:text-lg xl:text-xl">
-        <span class="font-bold">email: </span>
-        <a
-          v-if="currentClient?.email"
-          :href="`mailto:${currentClient.email}`"
-          target="_blank"
-          class="hover:underline md:text-lg xl:text-xl"
-        >
-          {{ currentClient?.email }}
-        </a>
-      </h3>
-      <h3 class="w-[90%] md:text-lg xl:text-xl">
-        <span class="font-bold">type: </span>
-        {{ currentClient?.type }}
-      </h3>
+      <div class="col-span-1 row-span-2 w-[60%]">
+        <h1 class="text-4xl md:text-2xl lg:text-3xl">
+          {{ currentClient?.name }}
+        </h1>
+      </div>
+      <div class="col-span-1 row-span-1 w-[40%]">
+        <h3 class="md:text-lg xl:text-xl">
+          <span class="font-bold">email: </span>
+          <a
+            v-if="currentClient?.email"
+            :href="`mailto:${currentClient.email}`"
+            target="_blank"
+            class="hover:underline md:text-lg xl:text-xl"
+          >
+            {{ currentClient?.email }}
+          </a>
+        </h3>
+      </div>
+      <div class="col-span-1 row-span-1 w-[40%]">
+        <h3 class="md:text-lg xl:text-xl">
+          <span class="font-bold">type: </span>
+          {{ currentClient?.type }}
+        </h3>
+      </div>
     </section>
     <div class="divider"></div>
     <section
@@ -51,7 +57,7 @@
     </section>
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
-        :title="'API key'"
+        :title="TitleMessagesLabels.apiKey"
         :buttonText="ModalButtonTextLabels.create"
         @submitForm="createAPIKey"
       />
@@ -62,7 +68,10 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="apikeys" :quickActionsComponent="APIKeyQuickActions" />
+      <Table
+        :tableData="apiKeysToRender"
+        :quickActionsComponent="APIKeyQuickActions"
+      />
     </section>
   </div>
 </template>
@@ -77,27 +86,30 @@ import {
 } from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
-import { useMapWithServices } from '@composables/useMapWithServices';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ServiceRequestsLabels } from '@enums/serviceRequests';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
+import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
-import type { APIKey, NewAPIKey } from '../../../types/apiKeys';
+import type { APIKey, APIKeyToRender, NewAPIKey } from '../../../types/apiKeys';
+import type { Client } from '../../../types/clients';
 import type {
   Environment,
-  EnvironmentService,
+  EnvironmentServiceToRender,
   FilteredEnvironment,
   NewEnvironment,
   NewEnvironmentService,
 } from '../../../types/environments';
+import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
-import { useClientsStore } from '@store/useClientsStore';
-import type { Client } from '../../../types/clients';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -123,51 +135,79 @@ const idsStore = useIdsStore();
 const currentClient = ref<Client>();
 const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
+const apiKeysToRender = ref<APIKeyToRender[]>([]);
 const tableData = ref<FilteredEnvironment>();
-const servicesData = ref<EnvironmentService[]>([]);
-const environments = ref([]);
+const servicesData = ref<EnvironmentServiceToRender[]>([]);
 
 async function createAPIKey(payload: NewAPIKey) {
   const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
-    useToastStore().showToast('API key created successfully', 'success');
+    useToastStore().showToast(
+      ToastMessagesLabels.apiKeyCreated,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData();
 }
 
 async function assignService(payload: NewEnvironmentService) {
   const response = await environmentStore.assignEnvironmentService(
-    projectId,
+    environmentId,
     payload,
   );
   if (response) {
-    useToastStore().showToast('Service assigned successfully', 'success');
+    useToastStore().showToast(
+      ToastMessagesLabels.serviceAssigned,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData();
 }
 
-async function loadData() {
-  const [ client, environmentById ] = await Promise.all([
+async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
+  const [client, environmentById] = await Promise.all([
     clientStore.getClientById(clientId),
     environmentStore.getEnvironmentById(environmentId),
   ]);
 
-  return { client, environmentById };
+  return {
+    client: client ?? ({} as Client),
+    environmentById: environmentById ?? ({} as Environment),
+  };
 }
 
-onMounted(async () => {
-  const { client, environmentById } = await loadData();
-  currentClient.value = client as Client;
-  environmentData.value = environmentById as Environment;
-  apikeys.value =
-    (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
-
-  environments.value = useMapWithServices(environmentData.value);
-
+function manageIds(
+  clientId: number,
+  projectId: number,
+  environmentId: number,
+): void {
+  idsStore.clearEnvironmentId();
   idsStore.setEnvironmentId(environmentId);
   if (!idsStore.projectId) {
     idsStore.setProjectId(projectId);
   } else if (!idsStore.clientId) {
     idsStore.setClientId(clientId);
   }
+}
+
+async function refreshData(): Promise<void> {
+  const { client, environmentById } = await loadData();
+  currentClient.value = client as Client;
+  environmentData.value = environmentById as Environment;
+  apikeys.value =
+    (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
+  apiKeysToRender.value = apikeys.value.map((apiKey) => ({
+    ...apiKey,
+    environment_id:
+      apiKey.environment_id === environmentById.id
+        ? environmentById.name
+        : 'Unknown API Keys',
+  }));
+}
+
+onMounted(async () => {
+  refreshData();
+  manageIds(clientId, projectId, environmentId);
 });
 
 watch(
@@ -182,8 +222,20 @@ watch(
         status: newData.status,
       };
 
-      servicesData.value = environmentData.value?.services || [];
-      idsStore.setServicesForCards(environmentData.value?.services || []);
+      servicesData.value = (environmentData.value?.services || []).map(
+        (card) => ({
+          ...card,
+          max_request:
+            card.max_request === -1
+              ? ServiceRequestsLabels.unlimited
+              : card.max_request,
+          available_request:
+            card.available_request === -1
+              ? ServiceRequestsLabels.unlimited
+              : card.available_request,
+        }),
+      );
+      idsStore.setEnvironmentServices(environmentData.value?.services || []);
     }
   },
   { immediate: true },
@@ -191,7 +243,7 @@ watch(
 
 watch(error, (value, _) => {
   if (value) {
-    useToastStore().showToast(value, 'error');
+    useToastStore().showToast(value, ToastMessages.isError);
   }
 });
 

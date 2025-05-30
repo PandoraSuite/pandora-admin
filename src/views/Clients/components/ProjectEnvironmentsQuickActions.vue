@@ -2,15 +2,15 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <button
       class="tooltip btn tooltip-top bg-accent btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="See API keys."
-      @click="seeAPIkey"
+      :data-tip="TooltipMessagesLabels.seeEnvironment"
+      @click="seeEnvironment"
     >
-      <font-awesome-icon :icon="['fa', 'key']" class="text text-white" />
+      <font-awesome-icon :icon="['fa', 'cubes']" class="text text-white" />
     </button>
-    <EditModal :title="'API key'" @submitForm="" />
+    <EditModal :title="TitleMessagesLabels.environment" @submitForm="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Delete API key."
+      :data-tip="TooltipMessagesLabels.deleteEnvironment"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -23,6 +23,8 @@ import { useRouter } from 'vue-router';
 import EditModal from '@components/EditModal.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const projectStore = useProjectsStore();
 const router = useRouter();
@@ -31,7 +33,7 @@ const props = defineProps<{
   id: number;
 }>();
 
-function seeAPIkey() {
+function seeEnvironment() {
   router.push({
     name: 'Environments-APIkeys',
     params: { environment_id: props.id },

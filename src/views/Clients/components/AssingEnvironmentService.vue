@@ -53,7 +53,7 @@
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
-import { useServicesStore } from '@store/useServicesStore';
+import { useIdsStore } from '@store/useIdsStore';
 
 const environmentServiceId = ref<number | null>(null);
 const environmentServiceIdError = ref<string | null>(null);
@@ -67,12 +67,12 @@ const selectedServices = ref<
   }[]
 >([]);
 
-const serviceStore = useServicesStore();
-const { services } = storeToRefs(serviceStore);
+const idsStore = useIdsStore();
+const { projectServices } = storeToRefs(idsStore);
 
 // Computed property to filter available services based on selected services.
 const availableServices = computed(() =>
-  services.value.filter(
+  projectServices.value.filter(
     (service) => !selectedServices.value.some((s) => s.id === service.id),
   ),
 );
@@ -134,7 +134,6 @@ function submitForm() {
 }
 
 onMounted(() => {
-  serviceStore.getServices();
   selectedServices.value = [];
 });
 

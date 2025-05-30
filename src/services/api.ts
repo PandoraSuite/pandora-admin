@@ -4,6 +4,7 @@ import { loadToken } from '@composables/token';
 import router from '@router/index';
 import { useAuthStore } from '@store/useAuthStore';
 import { useToastStore } from '@store/useToastStore';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 // Axios instance with base configuration.
 const api = axios.create({
@@ -43,11 +44,10 @@ api.interceptors.response.use(
       // Handle invalid login.
       message = error.response.data.error;
 
-      toastStore.showToast(message, 'error');
+      toastStore.showToast(message, ToastMessages.isError);
     } else if (error.status === 401) {
       // Handle 401 errors and log out user.
-      message = 'Session expired. Please log in again.';
-      toastStore.showToast(message, 'error');
+      toastStore.showToast(ToastMessagesLabels.sessionExpired, ToastMessages.isError);
 
       authStore.setRedirectPath(currentRoute);
 

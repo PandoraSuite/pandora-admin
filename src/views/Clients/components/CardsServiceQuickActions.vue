@@ -1,9 +1,9 @@
 <template>
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
-    <EditModal :title="'service'" />
+    <EditModal :title="TitleMessagesLabels.service" />
     <button
       class="tooltip btn tooltip-top bg-quick-action btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Refresh service."
+      :data-tip="TooltipMessagesLabels.refreshService"
     >
       <font-awesome-icon
         :icon="['fas', 'arrows-rotate']"
@@ -12,7 +12,7 @@
     </button>
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      data-tip="Remove service."
+      :data-tip="TooltipMessagesLabels.removeService"
       @click="removeService"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
@@ -22,6 +22,8 @@
 
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 

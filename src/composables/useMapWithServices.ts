@@ -1,9 +1,15 @@
 interface Service {
+  available_request?: number;
+  assigned_at: string;
+  id: number;
+  max_request?: number;
   name: string;
+  next_reset?: string;
+  reset_frequency?: string;
   version: string;
 }
 
-interface EntityWithServices {
+export interface EntityWithServices {
   services?: Service[] | null;
 }
 
