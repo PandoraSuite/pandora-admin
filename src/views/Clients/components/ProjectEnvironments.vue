@@ -82,7 +82,10 @@ import {
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ServiceRequestsLabels } from '@enums/serviceRequests';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -104,9 +107,6 @@ import AssingProjectService from './AssingProjectService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
-import { ServiceRequestsLabels } from '@enums/serviceRequests';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -137,15 +137,23 @@ const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 async function createEnvironment(payload: NewEnvironment) {
   const response = await environmentStore.createEnvironment(payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.environmentCreated, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.environmentCreated,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData();
 }
 
 async function assignService(payload: NewProjectService) {
   const response = await projectStore.assignProjectServices(projectId, payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.serviceAssigned, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.serviceAssigned,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData()
 }
 
 async function loadData(): Promise<ProjectEnvironmentsLoadData> {
@@ -168,7 +176,7 @@ function manageIds(clientId: number, projectId: number): void {
   }
 }
 
-onMounted(async () => {
+async function refreshData(): Promise<void> {
   const { client, projectById } = await loadData();
   projectData.value = projectById as Project;
   currentClient.value = client as Client;
@@ -183,6 +191,10 @@ onMounted(async () => {
         ? projectById.name
         : 'Unknown Environment',
   }));
+}
+
+onMounted(async () => {
+  refreshData();
 
   manageIds(clientId, projectId);
 });
@@ -201,9 +213,14 @@ watch(
 
       servicesData.value = (projectData.value?.services || []).map((card) => ({
         ...card,
-        max_request: card.max_request === -1 ? ServiceRequestsLabels.unlimited : card.max_request,
+        max_request:
+          card.max_request === -1
+            ? ServiceRequestsLabels.unlimited
+            : card.max_request,
         reset_frequency:
-          card.reset_frequency === '' ? ServiceRequestsLabels.none : card.reset_frequency,
+          card.reset_frequency === ''
+            ? ServiceRequestsLabels.none
+            : card.reset_frequency,
       }));
       idsStore.setProjectServices(projectData.value?.services || []);
     }

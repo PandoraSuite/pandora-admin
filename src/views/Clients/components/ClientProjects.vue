@@ -95,6 +95,7 @@ async function createProject(payload: NewProject) {
   if (response) {
     useToastStore().showToast(ToastMessagesLabels.environmentCreated, ToastMessages.isSuccess);
   }
+  refreshData()
 }
 
 async function loadData(): Promise<ClientProjectsLoadData> {
@@ -116,7 +117,7 @@ function manageIds(id: number): void {
   idsStore.setClientId(id);
 }
 
-onMounted(async () => {
+async function refreshData(): Promise<void> {
   const { client, clientProjects } = await loadData();
   projectsList.value = clientProjects as Project[];
   currentClient.value = client as Client;
@@ -126,6 +127,10 @@ onMounted(async () => {
     ...project,
     client_id: project.client_id === client.id ? client.name : 'Unknown Client'
   }));
+}
+
+onMounted(async () => {
+  refreshData();
 
   manageIds(id);
 });

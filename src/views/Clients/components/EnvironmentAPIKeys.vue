@@ -62,7 +62,10 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="apiKeysToRender" :quickActionsComponent="APIKeyQuickActions" />
+      <Table
+        :tableData="apiKeysToRender"
+        :quickActionsComponent="APIKeyQuickActions"
+      />
     </section>
   </div>
 </template>
@@ -77,13 +80,19 @@ import {
 } from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ServiceRequestsLabels } from '@enums/serviceRequests';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
+import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
 import type { APIKey, APIKeyToRender, NewAPIKey } from '../../../types/apiKeys';
+import type { Client } from '../../../types/clients';
 import type {
   Environment,
   EnvironmentServiceToRender,
@@ -91,16 +100,10 @@ import type {
   NewEnvironment,
   NewEnvironmentService,
 } from '../../../types/environments';
+import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
-import { useClientsStore } from '@store/useClientsStore';
-import type { Client } from '../../../types/clients';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
-import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
-import { ServiceRequestsLabels } from '@enums/serviceRequests';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -133,8 +136,12 @@ const servicesData = ref<EnvironmentServiceToRender[]>([]);
 async function createAPIKey(payload: NewAPIKey) {
   const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.apiKeyCreated, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.apiKeyCreated,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData();
 }
 
 async function assignService(payload: NewEnvironmentService) {
@@ -143,20 +150,31 @@ async function assignService(payload: NewEnvironmentService) {
     payload,
   );
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.serviceAssigned, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.serviceAssigned,
+      ToastMessages.isSuccess,
+    );
   }
+  refreshData();
 }
 
 async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
-  const [ client, environmentById ] = await Promise.all([
+  const [client, environmentById] = await Promise.all([
     clientStore.getClientById(clientId),
     environmentStore.getEnvironmentById(environmentId),
   ]);
 
-  return { client: client ?? {} as Client, environmentById: environmentById ?? {} as Environment };
+  return {
+    client: client ?? ({} as Client),
+    environmentById: environmentById ?? ({} as Environment),
+  };
 }
 
-function manageIds(clientId: number, projectId: number, environmentId: number): void {
+function manageIds(
+  clientId: number,
+  projectId: number,
+  environmentId: number,
+): void {
   idsStore.clearEnvironmentId();
   idsStore.setEnvironmentId(environmentId);
   if (!idsStore.projectId) {
@@ -166,7 +184,7 @@ function manageIds(clientId: number, projectId: number, environmentId: number): 
   }
 }
 
-onMounted(async () => {
+async function refreshData(): Promise<void> {
   const { client, environmentById } = await loadData();
   currentClient.value = client as Client;
   environmentData.value = environmentById as Environment;
@@ -179,7 +197,10 @@ onMounted(async () => {
         ? environmentById.name
         : 'Unknown API Keys',
   }));
+}
 
+onMounted(async () => {
+  refreshData();
   manageIds(clientId, projectId, environmentId);
 });
 
@@ -195,12 +216,19 @@ watch(
         status: newData.status,
       };
 
-      servicesData.value = (environmentData.value?.services || []).map((card) => ({
-        ...card,
-        max_request: card.max_request === -1 ? ServiceRequestsLabels.unlimited : card.max_request,
-        available_request:
-          card.available_request === -1 ? ServiceRequestsLabels.unlimited : card.available_request,
-      }));
+      servicesData.value = (environmentData.value?.services || []).map(
+        (card) => ({
+          ...card,
+          max_request:
+            card.max_request === -1
+              ? ServiceRequestsLabels.unlimited
+              : card.max_request,
+          available_request:
+            card.available_request === -1
+              ? ServiceRequestsLabels.unlimited
+              : card.available_request,
+        }),
+      );
       idsStore.setEnvironmentServices(environmentData.value?.services || []);
     }
   },
