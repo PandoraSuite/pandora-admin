@@ -3,24 +3,30 @@
     <section
       class="mt-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
     >
-      <h1 class="row-span-2 w-[80%] text-4xl md:text-2xl lg:text-3xl">
-        {{ currentClient?.name }}
-      </h1>
-      <h3 class="w-[90%] md:text-lg xl:text-xl">
-        <span class="font-bold">email: </span>
-        <a
-          v-if="currentClient?.email"
-          :href="`mailto:${currentClient.email}`"
-          target="_blank"
-          class="hover:underline md:text-lg xl:text-xl"
-        >
-          {{ currentClient?.email }}
-        </a>
-      </h3>
-      <h3 class="w-[90%] md:text-lg xl:text-xl">
-        <span class="font-bold">type: </span>
-        {{ currentClient?.type }}
-      </h3>
+      <div class="col-span-1 row-span-2 w-[60%]">
+        <h1 class="text-4xl md:text-2xl lg:text-3xl">
+          {{ currentClient?.name }}
+        </h1>
+      </div>
+      <div class="col-span-1 row-span-1 w-[40%]">
+        <h3 class="md:text-lg xl:text-xl">
+          <span class="font-bold">email: </span>
+          <a
+            v-if="currentClient?.email"
+            :href="`mailto:${currentClient.email}`"
+            target="_blank"
+            class="hover:underline md:text-lg xl:text-xl"
+          >
+            {{ currentClient?.email }}
+          </a>
+        </h3>
+      </div>
+      <div class="col-span-1 row-span-1 w-[40%]">
+        <h3 class="md:text-lg xl:text-xl">
+          <span class="font-bold">type: </span>
+          {{ currentClient?.type }}
+        </h3>
+      </div>
     </section>
     <div class="divider"></div>
     <section
