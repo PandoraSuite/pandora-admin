@@ -51,7 +51,7 @@
               ><font-awesome-icon icon="user" class="mr-2" />Sign in</span
             >
           </button>
-          <p class="mt-5 text-center text-subtitle">Version xxx</p>
+          <p class="mt-5 text-center text-subtitle">BETA</p>
         </form>
       </div>
     </div>

@@ -1,14 +1,14 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
-    <section
-      class="mt-5 ml-[5%] grid w-[50%] grid-cols-2 grid-rows-2 items-center gap-y-2 self-start"
+     <section
+      class="mt-5 ml-[5%] grid w-[50%] md:w-[60%] sm:w-[70%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start "
     >
-      <div class="col-span-1 row-span-2 w-[60%]">
+      <div class="row-span-2 col-span-1 w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
           {{ currentClient?.name }}
         </h1>
       </div>
-      <div class="col-span-1 row-span-1 w-[40%]">
+      <div class="row-span-1 col-span-2 w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">email: </span>
           <a
@@ -21,7 +21,7 @@
           </a>
         </h3>
       </div>
-      <div class="col-span-1 row-span-1 w-[40%]">
+      <div class="row-span-1 col-span-2 w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">type: </span>
           {{ currentClient?.type }}
@@ -59,6 +59,7 @@
       <CreateModal
         :title="TitleMessagesLabels.apiKey"
         :buttonText="ModalButtonTextLabels.create"
+        :formComponent="CreateAPIKeyForm"
         @submitForm="createAPIKey"
       />
       <SearchInput
@@ -110,6 +111,7 @@ import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
+import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =

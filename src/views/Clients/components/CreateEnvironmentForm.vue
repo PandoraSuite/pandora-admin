@@ -49,7 +49,7 @@
           {{ getServiceVersion(service.id) }}
         </p>
         <button
-          class="btn absolute top-2 right-2 btn-circle text-white btn-ghost btn-sm hover:bg-error"
+          class="btn absolute top-2 right-2 btn-circle btn-ghost btn-sm hover:bg-error"
           @click="removeServiceSelection(j)"
         >
           X
