@@ -6,7 +6,7 @@
       @click="seeProjects"
     >
       <font-awesome-icon
-        :icon="['fa', 'diagram-project']"
+        :icon="['fa', 'user-group']"
         class="text text-white"
       />
     </button>

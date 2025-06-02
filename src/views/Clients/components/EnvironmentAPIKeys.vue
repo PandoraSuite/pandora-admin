@@ -59,6 +59,7 @@
       <CreateModal
         :title="TitleMessagesLabels.apiKey"
         :buttonText="ModalButtonTextLabels.create"
+        :formComponent="CreateAPIKeyForm"
         @submitForm="createAPIKey"
       />
       <SearchInput
@@ -110,6 +111,7 @@ import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
+import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
