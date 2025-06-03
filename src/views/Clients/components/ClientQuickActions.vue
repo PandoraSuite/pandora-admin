@@ -5,10 +5,7 @@
       :data-tip="TooltipMessagesLabels.seeClient"
       @click="seeProjects"
     >
-      <font-awesome-icon
-        :icon="['fa', 'user-group']"
-        class="text text-white"
-      />
+      <font-awesome-icon :icon="['fa', 'user-group']" class="text text-white" />
     </button>
     <EditModal
       :title="TitleMessagesLabels.client"
@@ -28,12 +25,12 @@
 import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
 import { type UpdateClient } from '../../../types/clients';
 import EditClientForm from './EditClientForm.vue';
-import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const clientStore = useClientsStore();
 const router = useRouter();

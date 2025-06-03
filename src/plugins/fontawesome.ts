@@ -4,6 +4,7 @@ import {
   faBars,
   faChartSimple,
   faCodeBranch,
+  faCubes,
   faDiagramProject,
   faEye,
   faEyeSlash,
@@ -23,7 +24,6 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
-  faCubes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 

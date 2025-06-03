@@ -17,9 +17,9 @@
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
 // import { useToastStore } from '@store/useToastStore';
-import EditServiceForm from './EditServiceForm.vue';
-import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { TitleMessagesLabels } from '@enums/componentTitle';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
+import EditServiceForm from './EditServiceForm.vue';
 // import type { UpdateService } from '../../../types/services';
 // import { useServicesStore } from '@store/useServicesStore';
 

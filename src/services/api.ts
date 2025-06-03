@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 import { loadToken } from '@composables/token';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import router from '@router/index';
 import { useAuthStore } from '@store/useAuthStore';
 import { useToastStore } from '@store/useToastStore';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 // Axios instance with base configuration.
 const api = axios.create({
@@ -47,7 +47,10 @@ api.interceptors.response.use(
       toastStore.showToast(message, ToastMessages.isError);
     } else if (error.status === 401) {
       // Handle 401 errors and log out user.
-      toastStore.showToast(ToastMessagesLabels.sessionExpired, ToastMessages.isError);
+      toastStore.showToast(
+        ToastMessagesLabels.sessionExpired,
+        ToastMessages.isError,
+      );
 
       authStore.setRedirectPath(currentRoute);
 

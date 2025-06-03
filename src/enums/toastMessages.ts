@@ -18,6 +18,6 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.environmentCreated]: 'Environment created successfully.',
   [ToastMessages.projectCreated]: 'Project created successfully.',
   [ToastMessages.serviceCreated]: 'Service created successfully.',
-  [ToastMessages.clientCreated]:  'Client created successfully',
+  [ToastMessages.clientCreated]: 'Client created successfully',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
 };
