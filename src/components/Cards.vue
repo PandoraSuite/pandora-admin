@@ -86,9 +86,9 @@
 <script setup lang="ts" generic="T">
 import { onMounted, ref, watch, type DefineComponent } from 'vue';
 
+import { TitleMessagesLabels } from '@enums/componentTitle';
 import type { EnvironmentServiceToRender } from '../types/environments';
 import type { ProjectServicesToRender } from '../types/projects';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const props = defineProps<{
   projectId: number;
@@ -99,7 +99,9 @@ const props = defineProps<{
   assingFormComponent: DefineComponent<{}, {}, any>;
 }>();
 
-const internalCards = ref<ProjectServicesToRender[] | EnvironmentServiceToRender[]>([]);
+const internalCards = ref<
+  ProjectServicesToRender[] | EnvironmentServiceToRender[]
+>([]);
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;

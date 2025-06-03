@@ -48,15 +48,11 @@ export const useIdsStore = defineStore('ids', () => {
     environmentId.value = null;
   };
 
-  const setProjectServices = (
-    servicesList: ProjectServices[],
-  ) => {
+  const setProjectServices = (servicesList: ProjectServices[]) => {
     projectServices.value = servicesList;
   };
 
-  const setEnvironmentServices = (
-    servicesList: EnvironmentService[],
-  ) => {
+  const setEnvironmentServices = (servicesList: EnvironmentService[]) => {
     environmentsServices.value = servicesList;
   };
 

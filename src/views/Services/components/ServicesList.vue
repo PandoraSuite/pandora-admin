@@ -25,15 +25,15 @@ import { onMounted, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useServicesStore } from '@store/useServicesStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../../components/Table.vue';
 import type { ServicePayload } from '../../../types/services';
 import CreateServiceForm from './CreateServiceForm.vue';
 import ServiceQuickActions from './ServiceQuickActions.vue';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 
@@ -43,7 +43,10 @@ const { error } = storeToRefs(servicesStore);
 async function createService(payload: ServicePayload) {
   const response = await servicesStore.createNewService(payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.serviceCreated, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.serviceCreated,
+      ToastMessages.isSuccess,
+    );
   }
 }
 

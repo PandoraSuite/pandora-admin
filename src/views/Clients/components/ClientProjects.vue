@@ -1,14 +1,14 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] grid w-[50%] md:w-[60%] sm:w-[70%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start "
+      class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="row-span-2 col-span-1 w-[70%]">
+      <div class="col-span-1 row-span-2 w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
           {{ currentClient?.name }}
         </h1>
       </div>
-      <div class="row-span-1 col-span-2 w-[90%]">
+      <div class="col-span-2 row-span-1 w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">email: </span>
           <a
@@ -21,7 +21,7 @@
           </a>
         </h3>
       </div>
-      <div class="row-span-1 col-span-2 w-[90%]">
+      <div class="col-span-2 row-span-1 w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">type: </span>
           {{ currentClient?.type }}
@@ -65,7 +65,9 @@ import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
 import Table from '@components/Table.vue';
 import { useMapWithServices } from '@composables/useMapWithServices';
+import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
@@ -73,11 +75,13 @@ import { useToastStore } from '@store/useToastStore';
 import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
 import type { ClientProjectsLoadData } from '../../../types/loadData';
-import type { NewProject, Project, ProjectToRender } from '../../../types/projects';
+import type {
+  NewProject,
+  Project,
+  ProjectToRender,
+} from '../../../types/projects';
 import ClientProjectsQuickActions from './ClientProjectsQuickActions.vue';
 import CreateClientProjectForm from './CreateClientProjectForm.vue';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
-import { TitleMessagesLabels } from '@enums/componentTitle';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
@@ -99,9 +103,12 @@ const projectsToRender = ref<ProjectToRender[]>([]);
 async function createProject(payload: NewProject) {
   const response = await projectStore.createProject(payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.environmentCreated, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.environmentCreated,
+      ToastMessages.isSuccess,
+    );
   }
-  refreshData()
+  refreshData();
 }
 
 async function loadData(): Promise<ClientProjectsLoadData> {
@@ -131,7 +138,7 @@ async function refreshData(): Promise<void> {
   projects.value = useMapWithServices(projectsList.value);
   projectsToRender.value = projects.value.map((project) => ({
     ...project,
-    client_id: project.client_id === client.id ? client.name : 'Unknown Client'
+    client_id: project.client_id === client.id ? client.name : 'Unknown Client',
   }));
 }
 

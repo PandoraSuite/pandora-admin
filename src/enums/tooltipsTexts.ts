@@ -10,7 +10,7 @@ export enum TooltipMessages {
   deleteClient = 'deleteClient',
   deleleService = 'deleteService',
   seeEnvironment = 'seeEnvironment',
-  deleteEnvironment = 'deleteEnvironment'
+  deleteEnvironment = 'deleteEnvironment',
 }
 
 export const TooltipMessagesLabels: Record<TooltipMessages, string> = {

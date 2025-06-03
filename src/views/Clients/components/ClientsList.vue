@@ -25,15 +25,15 @@ import { onMounted, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
+import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ModalButtonTextLabels } from '@enums/modalButtonText';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../../components/Table.vue';
 import type { ClientPayload } from '../../../types/clients';
 import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
-import { ModalButtonTextLabels } from '@enums/modalButtonText';
-import { TitleMessagesLabels } from '@enums/componentTitle';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
@@ -43,7 +43,10 @@ const { error } = storeToRefs(clientsStore);
 async function createClient(payload: ClientPayload) {
   const response = await clientsStore.createClient(payload);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.clientCreated, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.clientCreated,
+      ToastMessages.isSuccess,
+    );
   }
 }
 
