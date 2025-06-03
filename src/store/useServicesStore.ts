@@ -6,6 +6,7 @@ import type {
   NewService,
   Service,
   ServiceFilterParams,
+  UpdateServiceStatus,
 } from '../types/services';
 
 export const useServicesStore = defineStore('services', () => {
@@ -41,11 +42,49 @@ export const useServicesStore = defineStore('services', () => {
     isLoading.value = false;
   };
 
+  const updateServiceStatus = async (
+    id: number,
+    payload: UpdateServiceStatus,
+  ) => {
+    isLoading.value = true;
+    const response = await repositories.services.updateServiceStatus(
+      id,
+      payload,
+    );
+    if (response.success) {
+      const index = services.value.findIndex((service) => service.id === id);
+      if (index !== -1) {
+        services.value[index] = { ...services.value[index], ...payload };
+      }
+      return response.success;
+    } else {
+      error.value = response.error;
+    }
+    isLoading.value = false;
+  };
+
+  const deleteService = async (id: number) => {
+    isLoading.value = true;
+    const response = await repositories.services.deleteService(id);
+    if (response.success) {
+      const index = services.value.findIndex((service) => service.id === id);
+      if (index !== -1) {
+        services.value.splice(index, 1);
+      }
+      return response.success;
+    } else {
+      error.value = response.error;
+    }
+    isLoading.value = false;
+  };
+
   return {
     error,
     services,
     isLoading,
     getServices,
     createNewService,
+    updateServiceStatus,
+    deleteService,
   };
 });
