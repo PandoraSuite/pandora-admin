@@ -4,30 +4,29 @@
     @submit.prevent="submitForm"
   >
     <label
-      for="service_name"
+      for="service_status"
       class="mr-auto"
-      :class="[serviceNameError ? 'text-error' : 'text']"
-      >Name:</label
+      :class="[serviceStatusError ? 'text-error' : 'text']"
+      >Status:</label
     >
-    <input
-      id="service_name"
-      v-model="serviceName"
-      type="text"
+    <select
+      id="service_status"
+      v-model="serviceStatus"
       placeholder=""
       @input="clearErrors($event)"
       class="input w-full border bg-background outline-1"
-    />
-    <p v-if="serviceNameError" class="text-sm text-error">
-      {{ serviceNameError }}
+    >
+      <option
+        v-for="(optionLabel, optionValue, i) in ServicesStatusLabels"
+        :key="i"
+        :value="optionValue"
+      >
+        {{ optionLabel }}
+      </option>
+    </select>
+    <p v-if="serviceStatusError" class="text-sm text-error">
+      {{ serviceStatusError }}
     </p>
-    <label for="service_version" class="mr-auto">Version:</label>
-    <input
-      id="service_version"
-      v-model="serviceVersion"
-      type="text"
-      placeholder=""
-      class="input w-full border bg-background outline-1"
-    />
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
       Save
     </button>
@@ -36,11 +35,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { UpdateService } from '../../../types/services';
 
-const serviceName = ref<string>('');
-const serviceNameError = ref<string | null>(null);
-const serviceVersion = ref<string>('');
+import type { UpdateServiceStatus } from '../../../types/services';
+import { ServicesStatusLabels } from '@enums/servicesStatus';
+
+const serviceStatus = ref<string>('');
+const serviceStatusError = ref<string | null>(null);
 
 // Clear error messages when the user interacts with the input fields.
 function clearErrors(event: Event) {
@@ -48,35 +48,30 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'service_name':
-      serviceNameError.value = null;
+    case 'service_status':
+      serviceStatusError.value = null;
       break;
   }
 }
 
 const emit = defineEmits<{
-  (e: 'submit', data: UpdateService): void;
+  (e: 'submit', data: UpdateServiceStatus): void;
 }>();
 
 function resetForm() {
-  serviceName.value = '';
-  serviceVersion.value = '';
+  serviceStatus.value = '';
 
-  serviceNameError.value = null;
+  serviceStatusError.value = null;
 }
 
 function submitForm() {
-  if (serviceName.value.length < 3) {
-    serviceNameError.value = 'Service name must be at least 3 characters long';
+  if (!serviceStatus.value) {
+    serviceStatusError.value = 'Service status is required';
     return;
   }
 
-  if (serviceName.value) {
-    emit('submit', { name: serviceName.value });
-  }
-
-  if (serviceVersion.value) {
-    emit('submit', { version: serviceVersion.value });
+  if (serviceStatus.value) {
+    emit('submit', { status: serviceStatus.value });
   }
 
   resetForm();
