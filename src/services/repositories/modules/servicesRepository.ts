@@ -6,6 +6,7 @@ import type {
   NewService,
   Service,
   ServiceFilterParams,
+  UpdateServiceStatus,
 } from '../../../types/services';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
@@ -17,6 +18,11 @@ export interface ServicesRequests {
     params?: ServiceFilterParams,
   ): Promise<StandardResponse<Service[]>>;
   createService(body: NewService): Promise<StandardResponse<Service>>;
+  updateServiceStatus(
+    id: number,
+    body: UpdateServiceStatus,
+  ): Promise<StandardResponse<Service>>;
+  deleteService(id: number): Promise<StandardResponse<true>>;
 }
 
 export default <ServicesRequests>{
@@ -53,6 +59,44 @@ export default <ServicesRequests>{
       return {
         success: true,
         data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  async updateServiceStatus(
+    id: number,
+    body: UpdateServiceStatus,
+  ): Promise<StandardResponse<Service>> {
+    try {
+      const response = await api.patch<Service>(
+        `${RESOURCE}/${id}/status`,
+        body,
+      );
+      const processedResponse = response.data;
+      // Access the backend response to capture 'created_at' and format it to local time and date.
+      processedResponse.created_at = datetimeFormatter.format(
+        new Date(processedResponse.created_at),
+      );
+      return {
+        success: true,
+        data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  async deleteService(id: number): Promise<StandardResponse<true>> {
+    try {
+      await api.delete<true>(`${RESOURCE}/${id}`);
+      return {
+        success: true,
       };
     } catch (err) {
       const error = err as AxiosError;
