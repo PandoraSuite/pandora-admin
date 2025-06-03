@@ -16,6 +16,10 @@ export interface UpdateService {
   version?: string;
 }
 
+export interface UpdateServiceStatus {
+  status: string;
+}
+
 export interface ServicePayload {
   name: string;
   version: string;
