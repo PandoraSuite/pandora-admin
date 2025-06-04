@@ -34,13 +34,17 @@ import Table from '../../../components/Table.vue';
 import type { ClientPayload } from '../../../types/clients';
 import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
+import { useIdsStore } from '@store/useIdsStore';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
 const clientsStore = useClientsStore();
 const { error } = storeToRefs(clientsStore);
+const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
-async function createClient(payload: ClientPayload) {
+async function createClient(payload: ClientPayload): Promise<void> {
   const response = await clientsStore.createClient(payload);
   if (response) {
     useToastStore().showToast(
@@ -50,8 +54,20 @@ async function createClient(payload: ClientPayload) {
   }
 }
 
+function clearIds() {
+  idsStore.clearClientId();
+  idsStore.clearProjectId();
+  idsStore.clearEnvironmentId();
+}
+
+function resetClientData() {
+  breadcrumbStore.clearAllState();
+}
+
 onMounted(async () => {
   await clientsStore.getClients();
+  clearIds();
+  resetClientData();
 });
 
 watch(error, (value, _) => {

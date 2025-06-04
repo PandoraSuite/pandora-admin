@@ -112,6 +112,8 @@ import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
+import type { Project } from '../../../types/projects';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -133,8 +135,10 @@ const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const apiKeysStore = useAPIKeysStore();
 const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
 const currentClient = ref<Client>();
+const currentProject = ref<Project>();
 const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
 const apiKeysToRender = ref<APIKeyToRender[]>([]);
@@ -167,15 +171,39 @@ async function assignService(payload: NewEnvironmentService) {
 }
 
 async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
-  const [client, environmentById] = await Promise.all([
+  const [client, projectById, environmentById] = await Promise.all([
     clientStore.getClientById(clientId),
+    projectStore.getProjectById(projectId),
     environmentStore.getEnvironmentById(environmentId),
   ]);
 
   return {
     client: client ?? ({} as Client),
+    projectById: projectById ?? ({} as Project),
     environmentById: environmentById ?? ({} as Environment),
   };
+}
+
+// Scatter data to the breadcrumb navigation
+function scatterCrumbs(): void {
+  const client = breadcrumbStore.client;
+  const project = breadcrumbStore.project;
+  const environment = breadcrumbStore.environment;
+  if (!client && currentClient.value) {
+    breadcrumbStore.setClient(currentClient.value);
+  }
+  if (!project && currentProject.value) {
+    breadcrumbStore.setProject(currentProject.value);
+  }
+  if (!environment && environmentData.value) {
+    breadcrumbStore.setEnvironment(environmentData.value);
+  } else if (
+    environment &&
+    environmentData.value &&
+    environment.id !== environmentData.value.id
+  ) {
+    breadcrumbStore.setEnvironment(environmentData.value);
+  }
 }
 
 function manageIds(
@@ -193,8 +221,9 @@ function manageIds(
 }
 
 async function refreshData(): Promise<void> {
-  const { client, environmentById } = await loadData();
+  const { client, projectById, environmentById } = await loadData();
   currentClient.value = client as Client;
+  currentProject.value = projectById as Project;
   environmentData.value = environmentById as Environment;
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
@@ -205,6 +234,8 @@ async function refreshData(): Promise<void> {
         ? environmentById.name
         : 'Unknown API Keys',
   }));
+
+  scatterCrumbs();
 }
 
 onMounted(async () => {

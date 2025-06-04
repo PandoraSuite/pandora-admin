@@ -92,6 +92,7 @@ import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -131,6 +132,7 @@ const projectStore = useProjectsStore();
 const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
 const currentClient = ref<Client>();
 const projectData = ref<Project>();
@@ -173,6 +175,24 @@ async function loadData(): Promise<ProjectEnvironmentsLoadData> {
   };
 }
 
+// Scatter data to the breadcrumb navigation
+function scatterCrumbs(): void {
+  const client = breadcrumbStore.client;
+  const project = breadcrumbStore.project;
+  if (!client && currentClient.value) {
+    breadcrumbStore.setClient(currentClient.value);
+  }
+  if (!project && projectData.value) {
+    breadcrumbStore.setProject(projectData.value);
+  } else if (
+    project &&
+    projectData.value &&
+    project.id !== projectData.value.id
+  ) {
+    breadcrumbStore.setProject(projectData.value);
+  }
+}
+
 function manageIds(clientId: number, projectId: number): void {
   idsStore.clearProjectId();
   idsStore.clearEnvironmentId();
@@ -197,6 +217,7 @@ async function refreshData(): Promise<void> {
         ? projectById.name
         : 'Unknown Environment',
   }));
+  scatterCrumbs();
 }
 
 onMounted(async () => {
