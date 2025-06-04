@@ -9,6 +9,7 @@ export enum ToastMessages {
   projectCreated = 'projectCreated',
   environmentCreated = 'environmentCreated',
   apiKeyCreated = 'apiKeyCreated',
+  apiKeyUpdated = 'apiKeyUpdated',
   sessionExpired = 'sessionExpired',
 }
 
@@ -23,5 +24,6 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.projectCreated]: 'Project created successfully.',
   [ToastMessages.environmentCreated]: 'Environment created successfully.',
   [ToastMessages.apiKeyCreated]: 'API key created successfully.',
+  [ToastMessages.apiKeyUpdated]: 'API key updated successfully.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
 };
