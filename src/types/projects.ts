@@ -119,3 +119,13 @@ export interface ProjectEnvironmentsToRender {
   }[];
   status: string;
 }
+
+export interface UpdateProjectName {
+  name: string;
+}
+
+export interface UpdateProjectServices {
+  max_request?: number;
+  next_reset?: string;
+  reset_frequency?: string;
+}
