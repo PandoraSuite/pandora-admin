@@ -7,6 +7,9 @@ import type {
   NewProjectService,
   Project,
   ProjectEnviroments,
+  ProjectServices,
+  UpdateProjectName,
+  UpdateProjectServices,
 } from '../../../types/projects';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
@@ -24,6 +27,15 @@ export interface ProjectsRequests {
     id: number,
     body: NewProjectService,
   ): Promise<StandardResponse<true>>;
+  updateProjectName(
+    id: number,
+    body: UpdateProjectName,
+  ): Promise<StandardResponse<Project>>;
+  updateProjectService(
+    project_id: number,
+    service_id: number,
+    body: UpdateProjectServices,
+  ): Promise<StandardResponse<ProjectServices>>;
   deleteProjectService(
     id: number,
     service_id: number,
@@ -118,6 +130,7 @@ export default <ProjectsRequests>{
       return handleHttpError(error);
     }
   },
+
   // Assigns a service to a project by its id.
   async assingProjectServices(
     id: number,
@@ -127,6 +140,66 @@ export default <ProjectsRequests>{
       await api.post<true>(`${RESOURCE}/${id}/services`, body);
       return {
         success: true,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Update project's name by its id.
+  async updateProjectName(
+    id: number,
+    body: UpdateProjectName,
+  ): Promise<StandardResponse<Project>> {
+    try {
+      const response = await api.patch<Project>(`${RESOURCE}/${id}`, body);
+      const processedResponse = response.data;
+      // Access the backend response to capture 'created_at' and format it to local time and date.
+      processedResponse.created_at = datetimeFormatter.format(
+        new Date(processedResponse.created_at),
+      );
+      processedResponse.services = processedResponse.services.map(
+        (service) => ({
+          ...service,
+          assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
+          next_reset: datetimeFormatter.format(new Date(service.next_reset)),
+        }),
+      );
+      return {
+        success: true,
+        data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Update services assigned to a project.
+  async updateProjectService(
+    project_id: number,
+    service_id: number,
+    body: UpdateProjectServices,
+  ): Promise<StandardResponse<ProjectServices>> {
+    try {
+      const response = await api.patch<ProjectServices>(
+        `${RESOURCE}/${project_id}/services/${service_id}`,
+        body,
+      );
+      const processedResponse = response.data;
+      // Access the backend response to capture 'assigned_at' and format it to local time and date.
+      processedResponse.assigned_at = datetimeFormatter.format(
+        new Date(processedResponse.assigned_at),
+      );
+      processedResponse.next_reset = datetimeFormatter.format(
+        new Date(processedResponse.next_reset),
+      );
+      return {
+        success: true,
+        data: processedResponse,
       };
     } catch (err) {
       const error = err as AxiosError;

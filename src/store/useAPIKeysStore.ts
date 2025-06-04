@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 import { repositories } from '@services/repositories';
-import type { APIKey, NewAPIKey } from '../types/apiKeys';
+import type { APIKey, NewAPIKey, UpdateAPIKey } from '../types/apiKeys';
 
 export const useAPIKeysStore = defineStore('apiKeys', () => {
   // --- STATE ---
   const error = ref<string | null>(null);
-  const apiKeys = ref<APIKey>();
+  const apiKeys = ref<APIKey[]>([]);
   const isLoading = ref<boolean>(false);
 
   // --- GETTERS ---
@@ -17,7 +17,22 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
     isLoading.value = true;
     const response = await repositories.apiKeys.createAPIKey(payload);
     if (response.success) {
-      apiKeys.value = response.data as APIKey;
+      apiKeys.value.push(response.data as APIKey);
+      return response.success;
+    } else {
+      error.value = response.error;
+    }
+    isLoading.value = false;
+  };
+
+  const updateAPIKey = async (id: number, payload: UpdateAPIKey) => {
+    isLoading.value = true;
+    const response = await repositories.apiKeys.updateAPIKey(id, payload);
+    if (response.success) {
+      const index = apiKeys.value.findIndex((apiKey) => apiKey.id === id);
+      if (index !== -1) {
+        apiKeys.value[index] = { ...apiKeys.value[index], ...payload };
+      }
       return response.success;
     } else {
       error.value = response.error;
@@ -30,5 +45,6 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
     apiKeys,
     isLoading,
     createAPIKey,
+    updateAPIKey,
   };
 });
