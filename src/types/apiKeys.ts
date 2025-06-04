@@ -24,3 +24,7 @@ export interface NewAPIKey {
   environment_id: number;
   expires_at: string;
 }
+
+export interface UpdateAPIKey {
+  expires_at: string;
+}
