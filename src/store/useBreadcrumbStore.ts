@@ -32,6 +32,22 @@ export const useBreadcrumbStore = defineStore('breadcrumb', () => {
     environment.value = data;
   };
 
+  const clearService = () => {
+    service.value = null;
+  };
+
+  const clearClient = () => {
+    client.value = null;
+  };
+
+  const clearProject = () => {
+    project.value = null;
+  };
+
+  const clearEnvironment = () => {
+    environment.value = null;
+  };
+
   const clearAllState = () => {
     service.value = null;
     client.value = null;
@@ -48,6 +64,10 @@ export const useBreadcrumbStore = defineStore('breadcrumb', () => {
     setService,
     setProject,
     setEnvironment,
+    clearService,
+    clearClient,
+    clearProject,
+    clearEnvironment,
     clearAllState,
   };
 });

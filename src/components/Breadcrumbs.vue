@@ -19,20 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import { useClientsStore } from '@store/useClientsStore';
-import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
-import { useProjectsStore } from '@store/useProjectsStore';
 import { ref, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
+
 const route = useRoute();
 
-const clientStore = useClientsStore();
-const projectStore = useProjectsStore();
-const environmentStore = useEnvironmentsStore();
-
-// Stores dynamically loaded names.
-const dynamicNames = ref<Record<string, string>>({});
+const breadcrumbStore = useBreadcrumbStore();
 
 function isNumeric(str: string) {
   return /^\d+$/.test(str);
@@ -50,37 +44,22 @@ const routeNameMap: Record<string, string> = {
   home: 'Dashboard',
 };
 
-async function getProjectName(id: number): Promise<string> {
-  const key = id;
-  if (dynamicNames.value[key]) return dynamicNames.value[key];
-
-  const response = await projectStore.getProjectById(id);
-  const name = response?.name || `#${id}`;
-  dynamicNames.value[key] = name;
+function getClientName(): string {
+  const name = breadcrumbStore.client?.name ?? 'Unknown Client';
   return name;
 }
 
-async function getClientName(id: number): Promise<string> {
-  const key = id;
-  if (dynamicNames.value[key]) return dynamicNames.value[key];
-
-  const response = await clientStore.getClientById(id);
-  const name = response?.name || `#${id}`;
-  dynamicNames.value[key] = name;
+function getProjectName(): string {
+  const name = breadcrumbStore.project?.name ?? 'Unknown Project';
   return name;
 }
 
-async function getEnvironmentName(id: number): Promise<string> {
-  const key = id;
-  if (dynamicNames.value[key]) return dynamicNames.value[key];
-
-  const response = await environmentStore.getEnvironmentById(id);
-  const name = response?.name || `#${id}`;
-  dynamicNames.value[key] = name;
+function getEnvironmentName(): string {
+  const name = breadcrumbStore.environment?.name ?? 'Unknown Environment';
   return name;
 }
 
-watchEffect(async () => {
+watchEffect(() => {
   const segments = route.path.split('/').filter(Boolean);
   const newBreadcrumbs: { to: string; label: string }[] = [];
 
@@ -89,7 +68,7 @@ watchEffect(async () => {
     const prev = segments[i - 1] || null;
     const path = '/' + segments.slice(0, i + 1).join('/');
 
-    // Determina si el segmento es un ID numérico
+    // Determines whether the segment is a numeric ID.
     const isIdSegment = isNumeric(current);
 
     let label = routeNameMap[current] || decodeURIComponent(current);
@@ -97,18 +76,18 @@ watchEffect(async () => {
     if (isIdSegment && prev) {
       switch (prev) {
         case 'clients':
-          label = await getClientName(Number(current));
+          label = getClientName();
           break;
         case 'projects':
-          label = await getProjectName(Number(current));
+          label = getProjectName();
           break;
         case 'environments':
-          label = await getEnvironmentName(Number(current));
+          label = getEnvironmentName();
           break;
       }
     }
 
-    // Evita que el ID sea el último segmento
+    // Prevents the ID from being the last segment.
     const isLastSegment = i === segments.length - 1;
     const isLastId = isIdSegment && isLastSegment;
 
