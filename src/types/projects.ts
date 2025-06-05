@@ -18,7 +18,7 @@ export interface Project {
 export interface ProjectToRender {
   id: number;
   name: string;
-  client_id: string;
+  client_name: string;
   created_at: string;
   services: {
     assigned_at: string;
@@ -108,7 +108,7 @@ export interface ProjectEnvironmentsToRender {
   created_at: string;
   id: number;
   name: string;
-  project_id: string;
+  project_name: string;
   services: {
     assigned_at: string;
     available_request: number;

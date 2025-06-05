@@ -132,7 +132,6 @@ function scatterCrumbs(): void {
     breadcrumbStore.clearEnvironment();
     breadcrumbStore.setClient(currentClient.value);
   }
-
 }
 
 function manageIds(id: number): void {
@@ -148,10 +147,13 @@ async function refreshData(): Promise<void> {
   currentClient.value = client as Client;
 
   projects.value = useMapWithServices(projectsList.value);
-  projectsToRender.value = projects.value.map((project) => ({
-    ...project,
-    client_id: project.client_id === client.id ? client.name : 'Unknown Client',
-  }));
+  projectsToRender.value = projects.value.map((project) => {
+    const { client_id, ...rest } = project;
+    return {
+      ...rest,
+      client_name: client_id === client.id ? client.name : 'Unknown Client',
+    };
+  });
 
   scatterCrumbs();
 }

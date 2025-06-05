@@ -1,7 +1,7 @@
 <template>
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
-      :title="TitleMessagesLabels.service"
+      :title="TitleMessagesLabels.serviceStatus"
       :formComponent="EditServiceForm"
       @submitForm="updateServiceStatus"
     />

@@ -227,13 +227,15 @@ async function refreshData(): Promise<void> {
   environmentData.value = environmentById as Environment;
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
-  apiKeysToRender.value = apikeys.value.map((apiKey) => ({
-    ...apiKey,
-    environment_id:
-      apiKey.environment_id === environmentById.id
-        ? environmentById.name
-        : 'Unknown API Keys',
-  }));
+  apiKeysToRender.value = apikeys.value.map((apiKey) => {
+    const {environment_id, ...rest} = apiKey;
+    return {
+      ...rest,
+      environment_name:
+        apiKey.environment_id === environmentById.id
+          ? environmentById.name
+          : 'Unknown API Keys',
+    }});
 
   scatterCrumbs();
 }

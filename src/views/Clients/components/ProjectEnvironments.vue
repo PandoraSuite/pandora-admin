@@ -211,13 +211,16 @@ async function refreshData(): Promise<void> {
     (await projectStore.getProjectEnvironments(projectId)) || [];
 
   environments.value = useMapWithServices(environmentsData.value);
-  environmentsToRender.value = environments.value.map((project) => ({
-    ...project,
-    project_id:
-      project.project_id === projectById.id
-        ? projectById.name
-        : 'Unknown Environment',
-  }));
+  environmentsToRender.value = environments.value.map((project) => {
+    const { project_id, ...rest } = project;
+    return {
+      ...rest,
+      project_name:
+        project_id === projectById.id
+          ? projectById.name
+          : 'Unknown Environment',
+    };
+  });
   scatterCrumbs();
 }
 
