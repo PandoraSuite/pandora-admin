@@ -20,7 +20,7 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.serviceCreated]: 'Service created successfully.',
   [ToastMessages.serviceStatusUpdated]: 'Service updated successfully.',
   [ToastMessages.serviceDeleted]: 'Service deleted successfully.',
-  [ToastMessages.clientCreated]:  'Client created successfully.',
+  [ToastMessages.clientCreated]: 'Client created successfully.',
   [ToastMessages.projectCreated]: 'Project created successfully.',
   [ToastMessages.environmentCreated]: 'Environment created successfully.',
   [ToastMessages.apiKeyCreated]: 'API key created successfully.',

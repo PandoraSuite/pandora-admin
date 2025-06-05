@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] flex flex-row w-[50%] items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
+      class="mt-5 ml-[5%] flex w-[50%] flex-row items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
       <div class="w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
@@ -79,6 +79,7 @@ import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -95,12 +96,11 @@ import type {
   NewEnvironmentService,
 } from '../../../types/environments';
 import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
+import type { Project } from '../../../types/projects';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
 import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
-import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
-import type { Project } from '../../../types/projects';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =
@@ -215,14 +215,15 @@ async function refreshData(): Promise<void> {
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
   apiKeysToRender.value = apikeys.value.map((apiKey) => {
-    const {environment_id, ...rest} = apiKey;
+    const { environment_id, ...rest } = apiKey;
     return {
       ...rest,
       environment_name:
         apiKey.environment_id === environmentById.id
           ? environmentById.name
           : 'Unknown API Keys',
-    }});
+    };
+  });
 
   scatterCrumbs();
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] flex flex-row w-[50%] items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
+      class="mt-5 ml-[5%] flex w-[50%] flex-row items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
       <div class="w-[40%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">

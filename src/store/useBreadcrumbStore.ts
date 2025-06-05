@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import type { Service } from '../types/services';
 import type { Client } from '../types/clients';
-import type { Project } from '../types/projects';
 import type { Environment } from '../types/environments';
+import type { Project } from '../types/projects';
+import type { Service } from '../types/services';
 
 export const useBreadcrumbStore = defineStore('breadcrumb', () => {
   // --- STATE ---
@@ -53,7 +53,7 @@ export const useBreadcrumbStore = defineStore('breadcrumb', () => {
     client.value = null;
     project.value = null;
     environment.value = null;
-  }
+  };
 
   return {
     service,

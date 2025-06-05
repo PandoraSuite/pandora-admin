@@ -28,14 +28,14 @@ import SearchInput from '@components/SearchInput.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
+import { useIdsStore } from '@store/useIdsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../../components/Table.vue';
 import type { ClientPayload } from '../../../types/clients';
 import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
-import { useIdsStore } from '@store/useIdsStore';
-import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 

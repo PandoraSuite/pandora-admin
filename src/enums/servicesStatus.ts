@@ -1,7 +1,7 @@
 export enum ServicesStatus {
   active = 'active',
   deactivated = 'deactivated',
-  deprecated = 'deprecated'
+  deprecated = 'deprecated',
 }
 
 export const ServicesStatusLabels: Record<ServicesStatus, string> = {

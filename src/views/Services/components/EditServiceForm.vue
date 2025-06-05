@@ -36,8 +36,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import type { UpdateServiceStatus } from '../../../types/services';
 import { ServicesStatusLabels } from '@enums/servicesStatus';
+import type { UpdateServiceStatus } from '../../../types/services';
 
 const serviceStatus = ref<string>('');
 const serviceStatusError = ref<string | null>(null);

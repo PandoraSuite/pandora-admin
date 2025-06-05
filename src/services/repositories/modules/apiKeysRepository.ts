@@ -13,7 +13,7 @@ export interface APIKeyRequests {
   updateAPIKey(
     id: number,
     body: UpdateAPIKey,
-  ): Promise<StandardResponse<APIKey>>
+  ): Promise<StandardResponse<APIKey>>;
 }
 
 export default <APIKeyRequests>{
