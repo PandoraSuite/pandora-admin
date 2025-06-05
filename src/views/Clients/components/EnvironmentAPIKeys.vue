@@ -145,7 +145,7 @@ const apiKeysToRender = ref<APIKeyToRender[]>([]);
 const tableData = ref<FilteredEnvironment>();
 const servicesData = ref<EnvironmentServiceToRender[]>([]);
 
-async function createAPIKey(payload: NewAPIKey) {
+async function createAPIKey(payload: NewAPIKey): Promise<void> {
   const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
     useToastStore().showToast(
@@ -156,7 +156,7 @@ async function createAPIKey(payload: NewAPIKey) {
   refreshData();
 }
 
-async function assignService(payload: NewEnvironmentService) {
+async function assignService(payload: NewEnvironmentService): Promise<void> {
   const response = await environmentStore.assignEnvironmentService(
     environmentId,
     payload,

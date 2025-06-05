@@ -142,7 +142,7 @@ const servicesData = ref<ProjectServicesToRender[]>([]);
 const environments = ref<ProjectEnviroments[]>([]);
 const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 
-async function createEnvironment(payload: NewEnvironment) {
+async function createEnvironment(payload: NewEnvironment): Promise<void> {
   const response = await environmentStore.createEnvironment(payload);
   if (response) {
     useToastStore().showToast(
@@ -153,7 +153,7 @@ async function createEnvironment(payload: NewEnvironment) {
   refreshData();
 }
 
-async function assignService(payload: NewProjectService) {
+async function assignService(payload: NewProjectService): Promise<void> {
   const response = await projectStore.assignProjectServices(projectId, payload);
   if (response) {
     useToastStore().showToast(
@@ -189,6 +189,7 @@ function scatterCrumbs(): void {
     projectData.value &&
     project.id !== projectData.value.id
   ) {
+    breadcrumbStore.clearEnvironment();
     breadcrumbStore.setProject(projectData.value);
   }
 }

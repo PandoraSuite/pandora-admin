@@ -129,6 +129,7 @@ async function loadData(): Promise<ClientProjectsLoadData> {
 function scatterCrumbs(): void {
   const client = breadcrumbStore.client;
   if (!client && currentClient.value) {
+    breadcrumbStore.clearEnvironment();
     breadcrumbStore.setClient(currentClient.value);
   }
 
