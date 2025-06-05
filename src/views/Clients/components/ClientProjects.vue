@@ -3,7 +3,7 @@
     <section
       class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="col-span-1 row-span-2 w-[70%]">
+      <div class="col-span-1 row-span-2 w-[100%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
           {{ currentClient?.name }}
         </h1>

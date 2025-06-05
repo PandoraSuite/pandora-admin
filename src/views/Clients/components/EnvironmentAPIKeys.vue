@@ -1,30 +1,17 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
+      class="mt-5 ml-[5%] flex flex-row w-[50%] items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="col-span-1 row-span-2 w-[70%]">
+      <div class="w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
-          {{ currentClient?.name }}
+          {{ environmentData?.name }}
         </h1>
       </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
+      <div class="w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">email: </span>
-          <a
-            v-if="currentClient?.email"
-            :href="`mailto:${currentClient.email}`"
-            target="_blank"
-            class="hover:underline md:text-lg xl:text-xl"
-          >
-            {{ currentClient?.email }}
-          </a>
-        </h3>
-      </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
-        <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">type: </span>
-          {{ currentClient?.type }}
+          <span class="font-bold">status: </span>
+          {{ environmentData?.status }}
         </h3>
       </div>
     </section>
