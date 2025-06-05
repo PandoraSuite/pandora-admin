@@ -11,7 +11,7 @@ export interface APIKey {
 
 export interface APIKeyToRender {
   created_at: string;
-  environment_id: string;
+  environment_name: string;
   expires_at: string;
   id: number;
   key: string;

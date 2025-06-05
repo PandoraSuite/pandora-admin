@@ -39,7 +39,9 @@
           Projects
         </RouterLink>
       </li>
-      <p class="bottom-[10px] mt-auto px-[12px] text-subtitle">BETA</p>
+      <p class="bottom-[10px] mt-auto px-[12px] text-xs text-subtitle">
+        v0.1.0-beta.1
+      </p>
     </ul>
   </div>
 </template>

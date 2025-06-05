@@ -11,7 +11,7 @@
       <SearchInput placeholder="Filter" @search="handleSearch" disabled />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projects" :id="''" :name="''" />
+      <Table :tableData="projects" :id="''" />
     </section>
   </div>
 </template>
@@ -79,7 +79,7 @@ const projects = projectsList.value.map((project: ClientProjects) => ({
   })(),
 }));
 
-async function createClient(payload: NewProject) {
+async function createClient(payload: NewProject): Promise<void> {
   const response = await projectsStore.createProject(payload);
   if (response) {
     useToastStore().showToast(

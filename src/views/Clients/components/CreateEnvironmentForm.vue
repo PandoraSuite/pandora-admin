@@ -119,7 +119,6 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
 import { useIdsStore } from '@store/useIdsStore';
-import { useServicesStore } from '@store/useServicesStore';
 
 const environmentName = ref<string>('');
 const environmentNameError = ref<string | null>(null);
@@ -135,8 +134,6 @@ const selectedServices = ref<
   }[]
 >([]);
 
-const serviceStore = useServicesStore();
-const { services } = storeToRefs(serviceStore);
 const idsStore = useIdsStore();
 const { projectServices } = storeToRefs(idsStore);
 
@@ -153,13 +150,13 @@ const availableServices = computed(() =>
 
 // Utility functions to display name.
 function getServiceName(id: number | null): string {
-  const service = services.value.find((s) => s.id === id);
+  const service = projectServices.value.find((s) => s.id === id);
   return service ? service.name : 'Unknown';
 }
 
 // Utility functions to display version.
 function getServiceVersion(id: number | null): string {
-  const service = services.value.find((s) => s.id === id);
+  const service = projectServices.value.find((s) => s.id === id);
   return service ? service.version : '';
 }
 

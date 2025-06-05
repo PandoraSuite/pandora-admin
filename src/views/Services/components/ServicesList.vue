@@ -40,7 +40,7 @@ const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 const servicesStore = useServicesStore();
 const { error } = storeToRefs(servicesStore);
 
-async function createService(payload: ServicePayload) {
+async function createService(payload: ServicePayload): Promise<void> {
   const response = await servicesStore.createNewService(payload);
   if (response) {
     useToastStore().showToast(

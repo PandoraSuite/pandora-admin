@@ -1,30 +1,17 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
+      class="mt-5 ml-[5%] flex w-[50%] flex-row items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="col-span-1 row-span-2 w-[70%]">
+      <div class="w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
-          {{ currentClient?.name }}
+          {{ breadcrumbStore.environment?.name }}
         </h1>
       </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
+      <div class="w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">email: </span>
-          <a
-            v-if="currentClient?.email"
-            :href="`mailto:${currentClient.email}`"
-            target="_blank"
-            class="hover:underline md:text-lg xl:text-xl"
-          >
-            {{ currentClient?.email }}
-          </a>
-        </h3>
-      </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
-        <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">type: </span>
-          {{ currentClient?.type }}
+          <span class="font-bold">status: </span>
+          {{ breadcrumbStore.environment?.status }}
         </h3>
       </div>
     </section>
@@ -92,6 +79,7 @@ import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -108,6 +96,7 @@ import type {
   NewEnvironmentService,
 } from '../../../types/environments';
 import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
+import type { Project } from '../../../types/projects';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
 import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
@@ -133,15 +122,17 @@ const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const apiKeysStore = useAPIKeysStore();
 const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
 const currentClient = ref<Client>();
+const currentProject = ref<Project>();
 const environmentData = ref<Environment>();
 const apikeys = ref<APIKey[]>([]);
 const apiKeysToRender = ref<APIKeyToRender[]>([]);
 const tableData = ref<FilteredEnvironment>();
 const servicesData = ref<EnvironmentServiceToRender[]>([]);
 
-async function createAPIKey(payload: NewAPIKey) {
+async function createAPIKey(payload: NewAPIKey): Promise<void> {
   const response = await apiKeysStore.createAPIKey(payload);
   if (response) {
     useToastStore().showToast(
@@ -152,7 +143,7 @@ async function createAPIKey(payload: NewAPIKey) {
   refreshData();
 }
 
-async function assignService(payload: NewEnvironmentService) {
+async function assignService(payload: NewEnvironmentService): Promise<void> {
   const response = await environmentStore.assignEnvironmentService(
     environmentId,
     payload,
@@ -167,15 +158,39 @@ async function assignService(payload: NewEnvironmentService) {
 }
 
 async function loadData(): Promise<EnvironmentAPiKeysLoadData> {
-  const [client, environmentById] = await Promise.all([
+  const [client, projectById, environmentById] = await Promise.all([
     clientStore.getClientById(clientId),
+    projectStore.getProjectById(projectId),
     environmentStore.getEnvironmentById(environmentId),
   ]);
 
   return {
     client: client ?? ({} as Client),
+    projectById: projectById ?? ({} as Project),
     environmentById: environmentById ?? ({} as Environment),
   };
+}
+
+// Scatter data to the breadcrumb navigation
+function scatterCrumbs(): void {
+  const client = breadcrumbStore.client;
+  const project = breadcrumbStore.project;
+  const environment = breadcrumbStore.environment;
+  if (!client && currentClient.value) {
+    breadcrumbStore.setClient(currentClient.value);
+  }
+  if (!project && currentProject.value) {
+    breadcrumbStore.setProject(currentProject.value);
+  }
+  if (!environment && environmentData.value) {
+    breadcrumbStore.setEnvironment(environmentData.value);
+  } else if (
+    environment &&
+    environmentData.value &&
+    environment.id !== environmentData.value.id
+  ) {
+    breadcrumbStore.setEnvironment(environmentData.value);
+  }
 }
 
 function manageIds(
@@ -193,18 +208,24 @@ function manageIds(
 }
 
 async function refreshData(): Promise<void> {
-  const { client, environmentById } = await loadData();
+  const { client, projectById, environmentById } = await loadData();
   currentClient.value = client as Client;
+  currentProject.value = projectById as Project;
   environmentData.value = environmentById as Environment;
   apikeys.value =
     (await environmentStore.getEnvironmentAPIKeys(environmentId)) || [];
-  apiKeysToRender.value = apikeys.value.map((apiKey) => ({
-    ...apiKey,
-    environment_id:
-      apiKey.environment_id === environmentById.id
-        ? environmentById.name
-        : 'Unknown API Keys',
-  }));
+  apiKeysToRender.value = apikeys.value.map((apiKey) => {
+    const { environment_id, ...rest } = apiKey;
+    return {
+      ...rest,
+      environment_name:
+        apiKey.environment_id === environmentById.id
+          ? environmentById.name
+          : 'Unknown API Keys',
+    };
+  });
+
+  scatterCrumbs();
 }
 
 onMounted(async () => {

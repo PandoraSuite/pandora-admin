@@ -1,30 +1,17 @@
 <template>
   <div class="flex w-full flex-col gap-y-4 px-2">
     <section
-      class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
+      class="mt-5 ml-[5%] flex w-[50%] flex-row items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="col-span-1 row-span-2 w-[70%]">
+      <div class="w-[40%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
-          {{ currentClient?.name }}
+          {{ breadcrumbStore.project?.name }}
         </h1>
       </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
+      <div class="w-[60%]">
         <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">email: </span>
-          <a
-            v-if="currentClient?.email"
-            :href="`mailto:${currentClient.email}`"
-            target="_blank"
-            class="hover:underline md:text-lg xl:text-xl"
-          >
-            {{ currentClient?.email }}
-          </a>
-        </h3>
-      </div>
-      <div class="col-span-2 row-span-1 w-[90%]">
-        <h3 class="md:text-lg xl:text-xl">
-          <span class="font-bold">type: </span>
-          {{ currentClient?.type }}
+          <span class="font-bold">status: </span>
+          {{ breadcrumbStore.project?.status }}
         </h3>
       </div>
     </section>
@@ -92,6 +79,7 @@ import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ServiceRequestsLabels } from '@enums/serviceRequests';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
@@ -131,6 +119,7 @@ const projectStore = useProjectsStore();
 const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
 const currentClient = ref<Client>();
 const projectData = ref<Project>();
@@ -140,7 +129,7 @@ const servicesData = ref<ProjectServicesToRender[]>([]);
 const environments = ref<ProjectEnviroments[]>([]);
 const environmentsToRender = ref<ProjectEnvironmentsToRender[]>([]);
 
-async function createEnvironment(payload: NewEnvironment) {
+async function createEnvironment(payload: NewEnvironment): Promise<void> {
   const response = await environmentStore.createEnvironment(payload);
   if (response) {
     useToastStore().showToast(
@@ -151,7 +140,7 @@ async function createEnvironment(payload: NewEnvironment) {
   refreshData();
 }
 
-async function assignService(payload: NewProjectService) {
+async function assignService(payload: NewProjectService): Promise<void> {
   const response = await projectStore.assignProjectServices(projectId, payload);
   if (response) {
     useToastStore().showToast(
@@ -173,6 +162,25 @@ async function loadData(): Promise<ProjectEnvironmentsLoadData> {
   };
 }
 
+// Scatter data to the breadcrumb navigation
+function scatterCrumbs(): void {
+  const client = breadcrumbStore.client;
+  const project = breadcrumbStore.project;
+  if (!client && currentClient.value) {
+    breadcrumbStore.setClient(currentClient.value);
+  }
+  if (!project && projectData.value) {
+    breadcrumbStore.setProject(projectData.value);
+  } else if (
+    project &&
+    projectData.value &&
+    project.id !== projectData.value.id
+  ) {
+    breadcrumbStore.clearEnvironment();
+    breadcrumbStore.setProject(projectData.value);
+  }
+}
+
 function manageIds(clientId: number, projectId: number): void {
   idsStore.clearProjectId();
   idsStore.clearEnvironmentId();
@@ -190,13 +198,17 @@ async function refreshData(): Promise<void> {
     (await projectStore.getProjectEnvironments(projectId)) || [];
 
   environments.value = useMapWithServices(environmentsData.value);
-  environmentsToRender.value = environments.value.map((project) => ({
-    ...project,
-    project_id:
-      project.project_id === projectById.id
-        ? projectById.name
-        : 'Unknown Environment',
-  }));
+  environmentsToRender.value = environments.value.map((project) => {
+    const { project_id, ...rest } = project;
+    return {
+      ...rest,
+      project_name:
+        project_id === projectById.id
+          ? projectById.name
+          : 'Unknown Environment',
+    };
+  });
+  scatterCrumbs();
 }
 
 onMounted(async () => {

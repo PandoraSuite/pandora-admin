@@ -3,7 +3,7 @@
     <section
       class="mt-5 ml-[5%] grid w-[50%] grid-cols-3 grid-rows-2 items-center gap-y-2 self-start sm:w-[70%] md:w-[60%]"
     >
-      <div class="col-span-1 row-span-2 w-[70%]">
+      <div class="col-span-1 row-span-2 w-[100%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
           {{ currentClient?.name }}
         </h1>
@@ -68,6 +68,7 @@ import { useMapWithServices } from '@composables/useMapWithServices';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ModalButtonTextLabels } from '@enums/modalButtonText';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { useBreadcrumbStore } from '@store/useBreadcrumbStore';
 import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
@@ -89,18 +90,19 @@ const props = defineProps<{
   client_id: string;
 }>();
 
-const id = Number(props.client_id);
+const clientId = Number(props.client_id);
 const projectStore = useProjectsStore();
 const clientStore = useClientsStore();
-const idsStore = useIdsStore();
 const { error } = storeToRefs(clientStore);
+const idsStore = useIdsStore();
+const breadcrumbStore = useBreadcrumbStore();
 
 const projectsList = ref<Project[]>([]);
 const currentClient = ref<Client>();
 const projects = ref<Project[]>([]);
 const projectsToRender = ref<ProjectToRender[]>([]);
 
-async function createProject(payload: NewProject) {
+async function createProject(payload: NewProject): Promise<void> {
   const response = await projectStore.createProject(payload);
   if (response) {
     useToastStore().showToast(
@@ -113,14 +115,23 @@ async function createProject(payload: NewProject) {
 
 async function loadData(): Promise<ClientProjectsLoadData> {
   const [client, clientProjects] = await Promise.all([
-    clientStore.getClientById(id),
-    clientStore.getClientProjects(id),
+    clientStore.getClientById(clientId),
+    clientStore.getClientProjects(clientId),
   ]);
 
   return {
     client: client ?? ({} as Client),
     clientProjects: clientProjects ?? ([] as Project[]),
   };
+}
+
+// Scatter data to the breadcrumb navigation
+function scatterCrumbs(): void {
+  const client = breadcrumbStore.client;
+  if (!client && currentClient.value) {
+    breadcrumbStore.clearEnvironment();
+    breadcrumbStore.setClient(currentClient.value);
+  }
 }
 
 function manageIds(id: number): void {
@@ -136,16 +147,20 @@ async function refreshData(): Promise<void> {
   currentClient.value = client as Client;
 
   projects.value = useMapWithServices(projectsList.value);
-  projectsToRender.value = projects.value.map((project) => ({
-    ...project,
-    client_id: project.client_id === client.id ? client.name : 'Unknown Client',
-  }));
+  projectsToRender.value = projects.value.map((project) => {
+    const { client_id, ...rest } = project;
+    return {
+      ...rest,
+      client_name: client_id === client.id ? client.name : 'Unknown Client',
+    };
+  });
+
+  scatterCrumbs();
 }
 
 onMounted(async () => {
   refreshData();
-
-  manageIds(id);
+  manageIds(clientId);
 });
 
 watch(error, (value, _) => {

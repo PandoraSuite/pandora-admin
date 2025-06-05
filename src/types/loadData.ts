@@ -14,5 +14,6 @@ export interface ProjectEnvironmentsLoadData {
 
 export interface EnvironmentAPiKeysLoadData {
   client: Client;
+  projectById: Project;
   environmentById: Environment;
 }
