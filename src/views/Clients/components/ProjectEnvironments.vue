@@ -5,13 +5,13 @@
     >
       <div class="w-[40%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
-          {{ projectData?.name }}
+          {{ breadcrumbStore.project?.name }}
         </h1>
       </div>
       <div class="w-[60%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">status: </span>
-          {{ projectData?.status }}
+          {{ breadcrumbStore.project?.status }}
         </h3>
       </div>
     </section>

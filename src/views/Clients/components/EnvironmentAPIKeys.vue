@@ -5,13 +5,13 @@
     >
       <div class="w-[70%]">
         <h1 class="text-4xl md:text-2xl lg:text-3xl">
-          {{ environmentData?.name }}
+          {{ breadcrumbStore.environment?.name }}
         </h1>
       </div>
       <div class="w-[90%]">
         <h3 class="md:text-lg xl:text-xl">
           <span class="font-bold">status: </span>
-          {{ environmentData?.status }}
+          {{ breadcrumbStore.environment?.status }}
         </h3>
       </div>
     </section>
