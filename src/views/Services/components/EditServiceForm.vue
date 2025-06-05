@@ -24,7 +24,7 @@
         {{ optionLabel }}
       </option>
     </select>
-    <p v-if="serviceStatusError" class="text-sm text-error">
+    <p v-if="serviceStatusError" class="text-sm text-error mr-auto">
       {{ serviceStatusError }}
     </p>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
