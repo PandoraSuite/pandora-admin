@@ -25,10 +25,11 @@ export const useProjectsStore = defineStore('projects', () => {
     const response = await repositories.projects.getProjects();
     if (response.success) {
       projects.value = response.data as Project[];
+      isLoading.value = false;
     } else {
       error.value = response.error;
+      isLoading.value = false;
     }
-    isLoading.value = false;
   };
 
   const createProject = async (payload: NewProject) => {
@@ -85,9 +86,9 @@ export const useProjectsStore = defineStore('projects', () => {
   };
 
   // Update project's name by its id.
-  const updateProjectName = async (id: number, payload: UpdateProjectName) => {
+  const updateProject = async (id: number, payload: UpdateProjectName) => {
     isLoading.value = true;
-    const response = await repositories.projects.updateProjectName(id, payload);
+    const response = await repositories.projects.updateProject(id, payload);
     if (response.success) {
       const index = projects.value.findIndex((project) => project.id === id);
       if (index !== -1) {
@@ -158,7 +159,7 @@ export const useProjectsStore = defineStore('projects', () => {
     getProjectById,
     getProjectEnvironments,
     assignProjectServices,
-    updateProjectName,
+    updateProject,
     updateProjectService,
     deleteProjectService,
   };

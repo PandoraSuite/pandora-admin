@@ -27,7 +27,7 @@ export interface ProjectsRequests {
     id: number,
     body: NewProjectService,
   ): Promise<StandardResponse<true>>;
-  updateProjectName(
+  updateProject(
     id: number,
     body: UpdateProjectName,
   ): Promise<StandardResponse<Project>>;
@@ -149,7 +149,7 @@ export default <ProjectsRequests>{
   },
 
   // Update project's name by its id.
-  async updateProjectName(
+  async updateProject(
     id: number,
     body: UpdateProjectName,
   ): Promise<StandardResponse<Project>> {
