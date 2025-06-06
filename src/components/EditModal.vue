@@ -22,7 +22,7 @@
       >
         X
       </button>
-      <h3 class="justify-self-start text-lg font-bold">
+      <h3 class="justify-self-start text-lg font-bold text-xl">
         Edit {{ props.title }}.
       </h3>
 
