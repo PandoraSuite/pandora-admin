@@ -66,7 +66,7 @@ async function updateProject(data: unknown): Promise<void> {
       ToastMessagesLabels.projectUpdated,
       ToastMessages.isSuccess,
     );
-    // Emite el evento 'projectUpdated'
+    // Emit the 'projectUpdated' event.
     emit('itemUpdated');
   }
 }
