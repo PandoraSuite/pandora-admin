@@ -99,7 +99,7 @@ import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import type { Project } from '../../../types/projects';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
-import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
+import ProjectServiceQuickActions from './CardsProjectServiceQuickActions.vue';
 import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
