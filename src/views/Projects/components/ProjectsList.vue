@@ -10,7 +10,7 @@
       />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table :tableData="projects" :quickActionsComponent="ProjectsQuickActions" />
+      <Table :table-data="projects" :quick-actions-component="ProjectsQuickActions"  @item-updated="handleProjectUpdated" />
     </section>
   </div>
 </template>
@@ -67,6 +67,12 @@ async function createClient(payload: NewProject): Promise<void> {
       ToastMessages.isSuccess,
     );
   }
+  loadProjectsData();
+}
+
+// Event handler for when a project is updated.
+function handleProjectUpdated() {
+  console.log('Project updated, reloading projects data...');
   loadProjectsData();
 }
 

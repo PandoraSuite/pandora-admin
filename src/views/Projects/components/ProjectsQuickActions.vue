@@ -30,6 +30,13 @@ const props = defineProps<{
   id: number;
 }>();
 
+// This event is emitted when the project is updated successfully.
+// It is used to notify the parent component that the project has been updated.
+// This allows the parent component to refresh the project list or perform any other necessary actions.
+const emit = defineEmits<{
+  (e: 'itemUpdated'): void;
+}>();
+
 async function updateProject(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
   const payload = data as UpdateProjectName;
@@ -39,6 +46,8 @@ async function updateProject(data: unknown): Promise<void> {
       ToastMessagesLabels.projectUpdated,
       ToastMessages.isSuccess,
     );
+    // Emite el evento 'projectUpdated'
+    emit('itemUpdated');
   }
 }
 </script>

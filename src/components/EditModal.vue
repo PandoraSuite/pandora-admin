@@ -30,6 +30,7 @@
         ref="formComponentRef"
         :is="props.formComponent"
         @submit="handleFormSubmit"
+        @item-updated="$emit('itemUpdated')"
       />
     </div>
   </dialog>
@@ -49,6 +50,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;
+  (e: 'itemUpdated'): void;
 }>();
 
 const toggleModal = ref<HTMLDialogElement | null>(null);
