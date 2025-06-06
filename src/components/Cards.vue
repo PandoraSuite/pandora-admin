@@ -3,9 +3,9 @@
     <section>
       <component
         :is="props.createActionComponent"
-        :formComponent="assingFormComponent"
+        :form-component="assingFormComponent"
         :title="TitleMessagesLabels.service"
-        :buttonText="props.buttonText"
+        :button-text="props.buttonText"
         @submitForm="submitForm"
       />
     </section>
@@ -68,8 +68,9 @@
           <div class="mt-3 card-actions justify-end">
             <component
               :is="props.quickActionComponent"
-              :serviceId="card.id"
-              :projectId="projectId"
+              :service-id="card.id"
+              :project-id="projectId"
+              @itemUpdated="emit('itemUpdated')"
             />
           </div>
         </div>
@@ -105,6 +106,7 @@ const internalCards = ref<
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;
+  (e: 'itemUpdated'): void;
 }>();
 
 function submitForm(data: T) {
