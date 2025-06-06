@@ -2,7 +2,7 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
       :title="TitleMessagesLabels.project"
-      :formComponent="EditProjectForm"
+      :form-component="EditProjectForm"
       @submitForm="updateProject"
     />
     <button

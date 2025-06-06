@@ -72,7 +72,6 @@ async function createClient(payload: NewProject): Promise<void> {
 
 // Event handler for when a project is updated.
 function handleProjectUpdated() {
-  console.log('Project updated, reloading projects data...');
   loadProjectsData();
 }
 
