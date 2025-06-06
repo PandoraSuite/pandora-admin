@@ -140,7 +140,7 @@ const emit = defineEmits<{
     e: 'submit',
     data: {
       id: number;
-      max_request: number;
+      max_requests: number;
       reset_frequency: string;
     },
   ): void;
@@ -170,7 +170,7 @@ function submitForm() {
 
   emit('submit', {
     id: projectServiceId.value,
-    max_request: projectServiceMaxRequests.value,
+    max_requests: projectServiceMaxRequests.value,
     reset_frequency: projectServiceResetFrequency.value,
   });
   resetForm();

@@ -6,7 +6,7 @@ export interface Project {
   services: {
     assigned_at: string;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     next_reset: string;
     reset_frequency: string;
@@ -23,7 +23,7 @@ export interface ProjectToRender {
   services: {
     assigned_at: string;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     next_reset: string;
     reset_frequency: string;
@@ -42,7 +42,7 @@ export interface FilteredProject {
 export interface ProjectServices {
   assigned_at: string;
   id: number;
-  max_request: number;
+  max_requests: number;
   name: string;
   next_reset: string;
   reset_frequency: string;
@@ -52,7 +52,7 @@ export interface ProjectServices {
 export interface ProjectServicesToRender {
   assigned_at: string;
   id: number;
-  max_request: number | string;
+  max_requests: number | string;
   name: string;
   next_reset: string;
   reset_frequency: string;
@@ -64,7 +64,7 @@ export interface NewProject {
   name: string;
   services: {
     id: number;
-    max_request: number;
+    max_requests: number;
     reset_frequency: string;
   }[];
   status: string;
@@ -84,7 +84,7 @@ export interface ClientProjects {
 
 export interface NewProjectService {
   id: number;
-  max_request: number;
+  max_requests: number;
   reset_frequency: string;
 }
 
@@ -97,7 +97,7 @@ export interface ProjectEnviroments {
     assigned_at: string;
     available_request: number;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     version: string;
   }[];
@@ -113,7 +113,7 @@ export interface ProjectEnvironmentsToRender {
     assigned_at: string;
     available_request: number;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     version: string;
   }[];
@@ -125,7 +125,7 @@ export interface UpdateProjectName {
 }
 
 export interface UpdateProjectServices {
-  max_request?: number;
+  max_requests?: number;
   next_reset?: string;
   reset_frequency?: string;
 }
