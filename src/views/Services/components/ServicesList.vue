@@ -4,16 +4,16 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="TitleMessagesLabels.service"
-        :buttonText="ModalButtonTextLabels.create"
-        :formComponent="CreateServiceForm"
-        @submitForm="createService"
+        :button-text="ModalButtonTextLabels.create"
+        :form-component="CreateServiceForm"
+        @submit-form="createService"
       />
       <SearchInput placeholder="Filter by Status" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
       <Table
         :tableData="servicesStore.services"
-        :quickActionsComponent="ServiceQuickActions"
+        :quick-actions-component="ServiceQuickActions"
       />
     </section>
   </div>
