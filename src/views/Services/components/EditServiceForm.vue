@@ -14,7 +14,7 @@
       v-model="serviceStatus"
       placeholder=""
       @input="clearErrors($event)"
-      class="input w-full border bg-background outline-1"
+      class="select input w-full border bg-background outline-1"
     >
       <option
         v-for="(optionLabel, optionValue, i) in ServicesStatusLabels"
