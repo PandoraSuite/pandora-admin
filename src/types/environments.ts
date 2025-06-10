@@ -7,7 +7,7 @@ export interface Environment {
     assigned_at: string;
     available_request: number;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     version: string;
   }[];
@@ -19,7 +19,7 @@ export interface NewEnvironment {
   project_id: number;
   services: {
     id: number;
-    max_request: number;
+    max_requests: number;
   }[];
 }
 
@@ -27,7 +27,7 @@ export interface EnvironmentService {
   assigned_at: string;
   available_request: number;
   id: number;
-  max_request: number;
+  max_requests: number;
   name: string;
   version: string;
 }
@@ -36,14 +36,14 @@ export interface EnvironmentServiceToRender {
   assigned_at: string;
   available_request: number | string;
   id: number;
-  max_request: number | string;
+  max_requests: number | string;
   name: string;
   version: string;
 }
 
 export interface NewEnvironmentService {
   id: number;
-  max_request: number;
+  max_requests: number;
 }
 
 export interface FilteredEnvironment {

@@ -52,7 +52,7 @@ export interface ProjectServices {
 export interface ProjectServicesToRender {
   assigned_at: string;
   id: number;
-  max_request: number | string;
+  max_requests: number | string;
   name: string;
   next_reset: string;
   reset_frequency: string;
