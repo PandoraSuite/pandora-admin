@@ -1,11 +1,11 @@
 export enum ServicesStatus {
-  active = 'active',
-  deactivated = 'deactivated',
+  enabled = 'enabled',
+  disabled = 'disabled',
   deprecated = 'deprecated',
 }
 
 export const ServicesStatusLabels: Record<ServicesStatus, string> = {
-  [ServicesStatus.active]: 'Active',
-  [ServicesStatus.deactivated]: 'Deactivated',
+  [ServicesStatus.enabled]: 'Enabled',
+  [ServicesStatus.disabled]: 'Disabled',
   [ServicesStatus.deprecated]: 'Deprecated',
 };
