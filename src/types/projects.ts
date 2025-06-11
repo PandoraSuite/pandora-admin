@@ -129,3 +129,35 @@ export interface UpdateProjectServices {
   next_reset?: string;
   reset_frequency?: string;
 }
+
+export interface ResetRequestsServiceQuota {
+  recalculate_next_reset: boolean;
+}
+
+export interface ResetRequestsServiceQuotaResponse {
+  environment_services: [
+    {
+      id: number;
+      name: string;
+      service: {
+        assigned_at: string;
+        available_requests: number;
+        id: number;
+        max_requests: number;
+        name: string;
+        version: string;
+      };
+      status: string;
+    }
+  ];
+  project_service: {
+    assigned_at: string;
+    id: number;
+    max_requests: number;
+    name: string;
+    next_reset: string;
+    reset_frequency: string;
+    version: string;
+  },
+  reset_count: number;
+}

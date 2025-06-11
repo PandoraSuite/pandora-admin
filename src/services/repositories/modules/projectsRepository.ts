@@ -8,6 +8,7 @@ import type {
   Project,
   ProjectEnviroments,
   ProjectServices,
+  ResetRequestsServiceQuotaResponse,
   UpdateProjectName,
   UpdateProjectServices,
 } from '../../../types/projects';
@@ -36,6 +37,11 @@ export interface ProjectsRequests {
     service_id: number,
     body: UpdateProjectServices,
   ): Promise<StandardResponse<ProjectServices>>;
+  resetRequestsServiceQuota(
+    project_id: number,
+    service_id: number,
+  ): Promise<StandardResponse<ResetRequestsServiceQuotaResponse>>;
+  deleteProject(id: number): Promise<StandardResponse<true>>;
   deleteProjectService(
     id: number,
     service_id: number,
@@ -208,6 +214,27 @@ export default <ProjectsRequests>{
     }
   },
 
+  async resetRequestsServiceQuota(
+    project_id: number,
+    service_id: number,
+  ): Promise<StandardResponse<ResetRequestsServiceQuotaResponse>> {
+    try {
+      const response = await api.post<ResetRequestsServiceQuotaResponse>(
+        `${RESOURCE}/${project_id}/services/${service_id}/reset-requests`,
+        {},
+      );
+      const processedResponse = response.data;
+      return {
+        success: true,
+        data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
   // Deletes a service from a project by its id.
   async deleteProjectService(
     id: number,
@@ -215,6 +242,20 @@ export default <ProjectsRequests>{
   ): Promise<StandardResponse<true>> {
     try {
       await api.delete<true>(`${RESOURCE}/${id}/services/${service_id}`);
+      return {
+        success: true,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Deletes a project by its id.
+  async deleteProject(id: number): Promise<StandardResponse<true>> {
+    try {
+      await api.delete<true>(`${RESOURCE}/${id}`);
       return {
         success: true,
       };
