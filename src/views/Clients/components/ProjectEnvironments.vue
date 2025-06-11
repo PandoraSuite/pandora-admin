@@ -25,13 +25,14 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Cards
-        :cardsData="servicesData"
-        :quickActionComponent="ProjectServiceQuickActions"
-        :createActionComponent="CreateServiceModal"
-        :assingFormComponent="AssingProjectService"
-        :projectId="projectId"
-        :buttonText="ModalButtonTextLabels.assign"
+        :cards-data="servicesData"
+        :quick-action-component="ProjectServiceQuickActions"
+        :create-action-component="CreateServiceModal"
+        :assing-form-component="AssingProjectService"
+        :project-id="projectId"
+        :button-text="ModalButtonTextLabels.assign"
         @submitForm="assignService"
+        @item-updated="handleServiceUpdated"
       />
     </section>
     <div class="divider"></div>
@@ -45,8 +46,8 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="TitleMessagesLabels.environment"
-        :buttonText="ModalButtonTextLabels.create"
-        :formComponent="CreateEnvironmentForm"
+        :button-text="ModalButtonTextLabels.create"
+        :form-component="CreateEnvironmentForm"
         @submitForm="createEnvironment"
       />
       <SearchInput
@@ -57,8 +58,8 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="environmentsToRender"
-        :quickActionsComponent="ProjectEvironmentsQuickActions"
+        :table-data="environmentsToRender"
+        :quick-actions-component="ProjectEvironmentsQuickActions"
       />
     </section>
   </div>
@@ -98,7 +99,7 @@ import type {
   ProjectServicesToRender,
 } from '../../../types/projects';
 import AssingProjectService from './AssingProjectService.vue';
-import ProjectServiceQuickActions from './CardsServiceQuickActions.vue';
+import ProjectServiceQuickActions from './CardsProjectServiceQuickActions.vue';
 import CreateEnvironmentForm from './CreateEnvironmentForm.vue';
 import ProjectEvironmentsQuickActions from './ProjectEnvironmentsQuickActions.vue';
 
@@ -209,6 +210,11 @@ async function refreshData(): Promise<void> {
     };
   });
   scatterCrumbs();
+}
+
+// Event handler for when a service is updated.
+function handleServiceUpdated() {
+  refreshData();
 }
 
 onMounted(async () => {

@@ -14,7 +14,7 @@
       v-model="serviceStatus"
       placeholder=""
       @input="clearErrors($event)"
-      class="input w-full border bg-background outline-1"
+      class="select input w-full border bg-background outline-1"
     >
       <option
         v-for="(optionLabel, optionValue, i) in ServicesStatusLabels"
@@ -24,7 +24,7 @@
         {{ optionLabel }}
       </option>
     </select>
-    <p v-if="serviceStatusError" class="text-sm text-error">
+    <p v-if="serviceStatusError" class="text-sm text-error mr-auto">
       {{ serviceStatusError }}
     </p>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">

@@ -15,7 +15,7 @@
   --color-error: #e57373;
   --color-quick-action: #5c85d6;
   --color-accent: #00d1bc;
-  --text-primary: #1a1a1a;
+  --color-text: #1a1a1a;
   --text-secondary: #1a1a1a;
   --color-border: #e5e5e5;
   --color-sidebar: #ffffff;
@@ -37,7 +37,7 @@
   --color-error: #e57373;
   --color-quick-action: #5c85d6;
   --color-accent: #00d1bc;
-  --text-primary: #1a1a1a;
+  --color-text: #1a1a1a;
   --text-secondary: #1a1a1a;
   --color-border: #b4b2b2;
   --color-sidebar: #ffffff;
@@ -60,7 +60,7 @@
   --color-error: #ef5350;
   --color-quick-action: #3a66d6;
   --color-accent: #00d1bc;
-  --text-primary: #ffffff;
+  --color-text: #ffffff;
   --text-secondary: #ebdddd;
   --color-border: #73647a;
   --color-sidebar: #432153;
@@ -94,7 +94,7 @@
   h6,
   th {
     font-family: var(--font-titles);
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   p,
@@ -102,7 +102,7 @@
   td {
     font-family: var(--font-texts);
     line-height: 1.5;
-    color: var(--text-primary);
+    color: var(--color-text);
     font-size: 16px;
   }
 }

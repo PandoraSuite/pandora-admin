@@ -22,7 +22,7 @@
       >
         X
       </button>
-      <h3 class="justify-self-start text-lg font-bold">
+      <h3 class="justify-self-start font-bold text-xl">
         Edit {{ props.title }}.
       </h3>
 
@@ -30,6 +30,7 @@
         ref="formComponentRef"
         :is="props.formComponent"
         @submit="handleFormSubmit"
+        @item-updated="$emit('itemUpdated')"
       />
     </div>
   </dialog>
@@ -49,6 +50,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'submitForm', data: T): void;
+  (e: 'itemUpdated'): void;
 }>();
 
 const toggleModal = ref<HTMLDialogElement | null>(null);

@@ -17,6 +17,7 @@ import {
   faMoon,
   faPenToSquare,
   faPlus,
+  faQuestion,
   faRightFromBracket,
   faServer,
   faSignOutAlt,
@@ -52,6 +53,7 @@ library.add(
   faHouse,
   faKey,
   faCubes,
+  faQuestion,
 );
 
 export default FontAwesomeIcon;

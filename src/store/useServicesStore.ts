@@ -23,11 +23,11 @@ export const useServicesStore = defineStore('services', () => {
     const response = await repositories.services.getServices(params);
     if (response.success) {
       services.value = response.data as Service[];
+      isLoading.value = false;
     } else {
       error.value = response.error;
+      isLoading.value = false;
     }
-
-    isLoading.value = false;
   };
 
   const createNewService = async (payload: NewService) => {
@@ -35,11 +35,12 @@ export const useServicesStore = defineStore('services', () => {
     const response = await repositories.services.createService(payload);
     if (response.success) {
       services.value.push(response.data as Service); // Update state if necessary
+      isLoading.value = false;
       return response.success;
     } else {
       error.value = response.error;
+      isLoading.value = false;
     }
-    isLoading.value = false;
   };
 
   const updateServiceStatus = async (
@@ -56,11 +57,34 @@ export const useServicesStore = defineStore('services', () => {
       if (index !== -1) {
         services.value[index] = { ...services.value[index], ...payload };
       }
+      isLoading.value = false;
       return response.success;
     } else {
       error.value = response.error;
+      isLoading.value = false;
     }
-    isLoading.value = false;
+  };
+
+  const getServiceRequestsHistory = async (
+    id: number,
+    params?: {
+      execution_status?: string;
+      request_time_from?: string;
+      request_time_to?: string;
+    },
+  ) => {
+    isLoading.value = true;
+    const response = await repositories.services.getServiceRequestsHistory(
+      id,
+      params,
+    );
+    if (response.success) {
+      isLoading.value = false;
+      return response.data; // Assuming this returns the history data
+    } else {
+      error.value = response.error;
+      isLoading.value = false;
+    }
   };
 
   const deleteService = async (id: number) => {
@@ -71,11 +95,12 @@ export const useServicesStore = defineStore('services', () => {
       if (index !== -1) {
         services.value.splice(index, 1);
       }
+      isLoading.value = false;
       return response.success;
     } else {
       error.value = response.error;
+      isLoading.value = false;
     }
-    isLoading.value = false;
   };
 
   return {
@@ -85,6 +110,7 @@ export const useServicesStore = defineStore('services', () => {
     getServices,
     createNewService,
     updateServiceStatus,
+    getServiceRequestsHistory,
     deleteService,
   };
 });

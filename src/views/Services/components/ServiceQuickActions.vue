@@ -2,8 +2,8 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
       :title="TitleMessagesLabels.serviceStatus"
-      :formComponent="EditServiceForm"
-      @submitForm="updateServiceStatus"
+      :form-component="EditServiceForm"
+      @submit-form="updateServiceStatus"
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"

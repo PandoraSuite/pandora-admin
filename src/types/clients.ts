@@ -32,7 +32,7 @@ export interface ClientProjects {
   services: {
     assigned_at: string;
     id: number;
-    max_request: number;
+    max_requests: number;
     name: string;
     next_reset: string;
     reset_frequency: string;

@@ -32,6 +32,7 @@
               ref="formComponentRef"
               :is="props.quickActionsComponent"
               :id="item.id"
+              @item-updated="$emit('itemUpdated')"
             />
           </td>
         </tr>
@@ -70,6 +71,11 @@ const props = defineProps<{
   tableData: T[];
   quickActionsComponent: DefineComponent<{}, {}, any>;
   // {} = props, {} = raw bindings, any = slots
+}>();
+
+// Event to emit when a table item is updated via the quickaction form.
+const emit = defineEmits<{
+  (e: 'itemUpdated'): void;
 }>();
 
 const tableColumns = ref<(keyof T)[]>([]);

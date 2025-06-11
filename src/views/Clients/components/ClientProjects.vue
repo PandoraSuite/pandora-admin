@@ -39,20 +39,17 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="TitleMessagesLabels.project"
-        :buttonText="ModalButtonTextLabels.create"
-        :formComponent="CreateClientProjectForm"
+        :button-text="ModalButtonTextLabels.create"
+        :form-component="CreateClientProjectForm"
         @submitForm="createProject"
       />
-      <SearchInput
-        placeholder="Filter by Type"
-        @search="handleSearch"
-        disabled
-      />
+      <SearchInput placeholder="Filter by Status" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="projectsToRender"
-        :quickActionsComponent="ClientProjectsQuickActions"
+        :table-data="projectsToRender"
+        :quick-actions-component="ClientProjectsQuickActions"
+        @item-updated="handleProjectUpdated"
       />
     </section>
   </div>
@@ -158,6 +155,11 @@ async function refreshData(): Promise<void> {
   scatterCrumbs();
 }
 
+// Event handler for when a project is updated.
+function handleProjectUpdated() {
+  refreshData();
+}
+
 onMounted(async () => {
   refreshData();
   manageIds(clientId);
@@ -168,16 +170,5 @@ watch(error, (value, _) => {
     useToastStore().showToast(value, ToastMessages.isError);
   }
 });
-
-// Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-async function handleSearch(searchValue: string): Promise<void> {
-  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-  if (searchValue) {
-    await clientStore.getClients();
-  } else {
-    // If searchValue is empty (e.g., user cleared the input).
-    await clientStore.getClients();
-  }
-}
 </script>
 <style scoped></style>

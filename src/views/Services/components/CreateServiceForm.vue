@@ -77,9 +77,22 @@ function resetForm() {
 }
 
 function submitForm() {
-  if (!serviceName.value || !serviceVersion.value) {
+    serviceNameError.value = null;
+  serviceVersionError.value = null;
+
+  let isValid = true;
+
+  if (!serviceName.value) {
     serviceNameError.value = 'Service name is required';
+    isValid = false;
+  }
+
+  if (!serviceVersion.value) {
     serviceVersionError.value = 'Service version is required';
+    isValid = false;
+  }
+
+  if (!isValid) {
     return;
   }
 
