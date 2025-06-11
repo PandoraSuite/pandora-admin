@@ -66,7 +66,7 @@
       <h2 class="my-2 font-bold">Add a Service to the Project</h2>
       <span>
         <p
-          v-if="!clicked || clicked && !toggleForm"
+          v-if="!clicked || (clicked && !toggleForm)"
           @click="showSection()"
           class="cursor-pointer text-xl font-bold"
         >
@@ -132,16 +132,39 @@
         <p v-if="projectServiceIdError" class="text-sm text-error">
           {{ projectServiceIdError }}
         </p>
-        <label
-          for="services_max_requests"
-          :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
-          >Max Requests:</label
-        >
+        <span class="flex flex-row items-center justify-between">
+          <label
+            for="services_max_requests"
+            :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
+            >Max Requests:</label
+          >
+          <span class="flex flex-row items-center gap-2">
+            <label for="unlimited_requests">Unlimited</label>
+            <span
+              class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
+              data-tip="If checked, the service will have unlimited requests."
+            >
+              <font-awesome-icon
+                :icon="['fas', 'question']"
+                class="mx-auto my-auto text-xs text-white"
+              />
+            </span>
+            <input
+              id="unlimited_requests"
+              type="checkbox"
+              v-model="isUnlimited"
+              class="checkbox my-auto checkbox-sm"
+              @input="clearErrors($event)"
+              @change="handleUnlimitedToggle"
+            />
+          </span>
+        </span>
         <input
           id="services_max_requests"
-          v-model="projectServiceMaxRequests"
+          v-model="displayedProjectServiceMaxRequests"
           type="number"
-          placeholder=""
+          :placeholder="isUnlimited ? 'Unlimited' : ''"
+          :disabled="isUnlimited"
           @input="clearErrors($event)"
           class="input w-full bg-background outline-1"
         />
@@ -214,6 +237,7 @@ const projectServiceResetFrequency = ref<string>('');
 const projectServiceResetFrequencyError = ref<string | null>(null);
 const clicked = ref<boolean>(false);
 const toggleForm = ref<boolean>(false);
+const isUnlimited = ref<boolean>(false);
 const selectedServices = ref<
   {
     id: number | null;
@@ -267,14 +291,24 @@ function addServiceSelection() {
   projectServiceMaxRequestsError.value = null;
   projectServiceResetFrequencyError.value = null;
 
-  if (
-    !projectServiceId.value ||
-    !projectServiceMaxRequests.value ||
-    !projectServiceResetFrequency.value
-  ) {
+  let isValid = true; // Flag to control if all validations pass.
+
+  if (!projectServiceId.value) {
     projectServiceIdError.value = 'Service is required';
+    isValid = false;
+  }
+
+  if (!projectServiceMaxRequests.value) {
     projectServiceMaxRequestsError.value = 'Max Requests is required';
+    isValid = false;
+  }
+
+  if (!projectServiceResetFrequency.value) {
     projectServiceResetFrequencyError.value = 'Reset Frequency is required';
+    isValid = false;
+  }
+
+  if (!isValid) {
     return;
   }
 
@@ -298,6 +332,31 @@ function resetServiceSelection() {
   projectServiceId.value = null;
   projectServiceMaxRequests.value = null;
   projectServiceResetFrequency.value = '';
+  isUnlimited.value = false;
+  displayedProjectServiceMaxRequests.value = null;
+}
+
+// Computed property to handle the display of max requests input.
+const displayedProjectServiceMaxRequests = computed({
+  get() {
+    // If isUnlimited is true, we return an empty string to indicate unlimited requests.
+    return isUnlimited.value ? '' : projectServiceMaxRequests.value;
+  },
+  set(newValue) {
+    // When the user types, we update projectServiceMaxRequests directly. We ensure it is a number or null.
+    projectServiceMaxRequests.value = newValue === '' ? null : Number(newValue);
+  },
+});
+
+// Handle the toggle checkbox for unlimited requests.
+function handleUnlimitedToggle() {
+  console.log(isUnlimited.value);
+
+  if (isUnlimited.value) {
+    projectServiceMaxRequests.value = -1; // Set to -1 to indicate unlimited requests.
+  } else {
+    projectServiceMaxRequests.value = null; // Reset to null when not unlimited.
+  }
 }
 
 // Clear error messages when the user interacts with the input fields.
@@ -320,6 +379,8 @@ function clearErrors(event: Event) {
       break;
     case 'services_max_requests':
       projectServiceMaxRequestsError.value = null;
+      isUnlimited.value = false; // Reset unlimited state when the user interacts with the input.
+      displayedProjectServiceMaxRequests.value = null; // Reset the displayed value.
       break;
     case 'service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
@@ -337,6 +398,8 @@ function resetForm() {
 
   selectedServices.value = [];
   clicked.value = false;
+  isUnlimited.value = false;
+  displayedProjectServiceMaxRequests.value = null;
 
   // Reset error messages.
   clientIdError.value = null;
@@ -368,10 +431,29 @@ function submitForm() {
   projectNameError.value = null;
   projectStatusError.value = null;
 
-  if (!clientId.value || !projectName.value || !projectStatus.value) {
+  let isValid = true; // Flag to control if all validations pass.
+
+  if (!clientId.value) {
     clientIdError.value = 'Client is required';
+    isValid = false;
+  }
+
+  if (!projectName.value) {
     projectNameError.value = 'Name is required';
+    isValid = false;
+  }
+
+  if (!projectStatus.value) {
     projectStatusError.value = 'Status is required';
+    isValid = false;
+  }
+
+  if (isValid === false) {
+    return;
+  }
+
+  if (clientId.value === null) {
+    clientIdError.value = 'Client is required';
     return;
   }
 
