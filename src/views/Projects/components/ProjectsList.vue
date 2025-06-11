@@ -4,11 +4,11 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="TitleMessagesLabels.project"
-        :buttonText="ModalButtonTextLabels.create"
-        :formComponent="CreateProjectForm"
-        @submitForm="createClient"
+        :button-text="ModalButtonTextLabels.create"
+        :form-component="CreateProjectForm"
+        @submit-form="createClient"
       />
-      <SearchInput placeholder="Filter by Status" disabled />
+      <SearchInput placeholder="Filter by Status" disabled  />
     </section>
     <section class="flex w-[90%] self-center">
       <Table

@@ -66,11 +66,18 @@
       <h2 class="my-2 font-bold">Add a Service to the Project</h2>
       <span>
         <p
-          v-if="!clicked"
-          @click="toggleSection()"
+          v-if="!clicked || clicked && !toggleForm"
+          @click="showSection()"
           class="cursor-pointer text-xl font-bold"
         >
           +
+        </p>
+        <p
+          v-if="toggleForm && clicked"
+          @click="hideSection()"
+          class="cursor-pointer text-xl font-bold"
+        >
+          -
         </p>
       </span>
     </div>
@@ -89,7 +96,7 @@
           {{ getServiceVersion(service.id) }}
         </p>
         <button
-          class="btn absolute top-2 right-2 btn-circle text-white btn-ghost btn-sm hover:bg-error"
+          class="btn absolute top-2 right-2 btn-circle text-text btn-ghost btn-sm hover:bg-error"
           @click="removeServiceSelection(j)"
         >
           X
@@ -98,79 +105,84 @@
 
       <div class="divider"></div>
 
-      <label
-        for="service_id"
-        :class="[projectServiceIdError ? 'text-error' : 'text']"
-        >Service:</label
+      <div
+        v-if="toggleForm"
+        class="flex flex-col gap-4 transition-discrete ease-in-out"
       >
-      <select
-        id="service_id"
-        v-model="projectServiceId"
-        placeholder=""
-        @input="clearErrors($event)"
-        class="select w-full bg-background outline-1"
-      >
-        <option
-          v-for="service in availableServices"
-          :key="service.id"
-          :value="service.id"
+        <label
+          for="service_id"
+          :class="[projectServiceIdError ? 'text-error' : 'text']"
+          >Service:</label
         >
-          {{ service.name }}
-        </option>
-      </select>
-      <p v-if="projectServiceIdError" class="text-sm text-error">
-        {{ projectServiceIdError }}
-      </p>
-      <label
-        for="services_max_requests"
-        :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
-        >Max Requests:</label
-      >
-      <input
-        id="services_max_requests"
-        v-model="projectServiceMaxRequests"
-        type="number"
-        placeholder=""
-        @input="clearErrors($event)"
-        class="input w-full bg-background outline-1"
-      />
-      <p v-if="projectServiceMaxRequestsError" class="text-sm text-error">
-        {{ projectServiceMaxRequestsError }}
-      </p>
-      <label
-        for="service_reset_frequency"
-        :class="[projectServiceResetFrequencyError ? 'text-error' : 'text']"
-        >Reset Frequency:</label
-      >
-      <select
-        id="service_reset_frequency"
-        v-model="projectServiceResetFrequency"
-        placeholder=""
-        @input="clearErrors($event)"
-        class="select w-full bg-background outline-1"
-      >
-        <option
-          v-for="(
-            frequenceLabel, frequenceValue, k
-          ) in ResetServiceFrequencyLabels"
-          :key="k"
-          :value="frequenceValue"
+        <select
+          id="service_id"
+          v-model="projectServiceId"
+          placeholder=""
+          @input="clearErrors($event)"
+          class="select w-full bg-background outline-1"
         >
-          {{ frequenceLabel }}
-        </option>
-      </select>
-      <p v-if="projectServiceResetFrequencyError" class="text-sm text-error">
-        {{ projectServiceResetFrequencyError }}
-      </p>
+          <option
+            v-for="service in availableServices"
+            :key="service.id"
+            :value="service.id"
+          >
+            {{ service.name }}
+          </option>
+        </select>
+        <p v-if="projectServiceIdError" class="text-sm text-error">
+          {{ projectServiceIdError }}
+        </p>
+        <label
+          for="services_max_requests"
+          :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
+          >Max Requests:</label
+        >
+        <input
+          id="services_max_requests"
+          v-model="projectServiceMaxRequests"
+          type="number"
+          placeholder=""
+          @input="clearErrors($event)"
+          class="input w-full bg-background outline-1"
+        />
+        <p v-if="projectServiceMaxRequestsError" class="text-sm text-error">
+          {{ projectServiceMaxRequestsError }}
+        </p>
+        <label
+          for="service_reset_frequency"
+          :class="[projectServiceResetFrequencyError ? 'text-error' : 'text']"
+          >Reset Frequency:</label
+        >
+        <select
+          id="service_reset_frequency"
+          v-model="projectServiceResetFrequency"
+          placeholder=""
+          @input="clearErrors($event)"
+          class="select w-full bg-background outline-1"
+        >
+          <option
+            v-for="(
+              frequenceLabel, frequenceValue, k
+            ) in ResetServiceFrequencyLabels"
+            :key="k"
+            :value="frequenceValue"
+          >
+            {{ frequenceLabel }}
+          </option>
+        </select>
+        <p v-if="projectServiceResetFrequencyError" class="text-sm text-error">
+          {{ projectServiceResetFrequencyError }}
+        </p>
 
-      <button
-        type="button"
-        class="btn mx-auto mb-4 w-fit bg-accent text-white"
-        @click="addServiceSelection"
-      >
-        Add Service
-      </button>
-      <div class="divider"></div>
+        <button
+          type="button"
+          class="btn mx-auto mb-4 w-fit bg-accent text-white"
+          @click="addServiceSelection"
+        >
+          Add Service
+        </button>
+        <div class="divider"></div>
+      </div>
     </div>
 
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
@@ -201,10 +213,11 @@ const projectServiceMaxRequestsError = ref<string | null>(null);
 const projectServiceResetFrequency = ref<string>('');
 const projectServiceResetFrequencyError = ref<string | null>(null);
 const clicked = ref<boolean>(false);
+const toggleForm = ref<boolean>(false);
 const selectedServices = ref<
   {
     id: number | null;
-    max_request: number | null;
+    max_requests: number | null;
     reset_frequency: string;
   }[]
 >([]);
@@ -214,8 +227,19 @@ const { clients } = storeToRefs(clientStore);
 const serviceStore = useServicesStore();
 const { services } = storeToRefs(serviceStore);
 
-function toggleSection() {
-  clicked.value = !clicked.value;
+function showSection() {
+  clicked.value = true;
+  toggleForm.value = true;
+}
+
+function hideSection() {
+  if (toggleForm.value && selectedServices.value.length > 0) {
+    toggleForm.value = false;
+  }
+  if (selectedServices.value.length === 0) {
+    clicked.value = false;
+    toggleForm.value = false;
+  }
 }
 
 // Computed property to filter available services based on selected services.
@@ -256,7 +280,7 @@ function addServiceSelection() {
 
   selectedServices.value.push({
     id: projectServiceId.value,
-    max_request: projectServiceMaxRequests.value,
+    max_requests: projectServiceMaxRequests.value,
     reset_frequency: projectServiceResetFrequency.value,
   });
 
@@ -311,6 +335,9 @@ function resetForm() {
   projectServiceMaxRequests.value = null;
   projectServiceResetFrequency.value = '';
 
+  selectedServices.value = [];
+  clicked.value = false;
+
   // Reset error messages.
   clientIdError.value = null;
   projectNameError.value = null;
@@ -328,7 +355,7 @@ const emit = defineEmits<{
       name: string;
       services: {
         id: number;
-        max_request: number;
+        max_requests: number;
         reset_frequency: string;
       }[];
       status: string;
@@ -353,7 +380,7 @@ function submitForm() {
     name: projectName.value,
     services: selectedServices.value.map((service) => ({
       id: service.id as number,
-      max_request: service.max_request as number,
+      max_requests: service.max_requests as number,
       reset_frequency: service.reset_frequency,
     })),
     status: projectStatus.value,
@@ -372,19 +399,4 @@ defineExpose({
 });
 </script>
 
-<style scoped>
-select,
-::picker(select) {
-  appearance: base;
-}
-
-option {
-  background: var(--color-background);
-  &:hover {
-    background: var(--color-tertiary);
-  }
-  &:checked {
-    background: var(--color-tertiary);
-  }
-}
-</style>
+<style scoped></style>
