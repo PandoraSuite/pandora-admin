@@ -15,6 +15,7 @@
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.deleteClient"
+      @click="deleteClient(props.id)"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -26,6 +27,7 @@ import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useClientsStore } from '@store/useClientsStore';
 import { useToastStore } from '@store/useToastStore';
@@ -39,6 +41,13 @@ const props = defineProps<{
   id: number;
 }>();
 
+// This event is emitted when the project is updated successfully.
+// It is used to notify the parent component that the project has been updated.
+// This allows the parent component to refresh the project list or perform any other necessary actions.
+const emit = defineEmits<{
+  (e: 'itemUpdated'): void;
+}>();
+
 async function editClient(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
   const payload = data as UpdateClient;
@@ -46,6 +55,8 @@ async function editClient(data: unknown): Promise<void> {
   if (response) {
     useToastStore().showToast('Client edited successfully', 'success');
   }
+  // Emit the 'projectUpdated' event.
+  emit('itemUpdated');
 }
 
 function seeProjects() {
@@ -53,6 +64,18 @@ function seeProjects() {
     name: 'Client-Projects',
     params: { client_id: props.id },
   });
+}
+
+async function deleteClient(id: number): Promise<void> {
+  const response = await clientStore.deleteClient(id);
+  if (response) {
+    useToastStore().showToast(
+      ToastMessagesLabels.clientDeleted,
+      ToastMessages.isSuccess,
+    );
+    // Emit the 'projectUpdated' event.
+    emit('itemUpdated');
+  }
 }
 </script>
 
