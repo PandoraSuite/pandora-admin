@@ -333,25 +333,41 @@ function resetServiceSelection() {
   projectServiceMaxRequests.value = null;
   projectServiceResetFrequency.value = '';
   isUnlimited.value = false;
-  displayedProjectServiceMaxRequests.value = null;
 }
 
 // Computed property to handle the display of max requests input.
 const displayedProjectServiceMaxRequests = computed({
   get() {
-    // If isUnlimited is true, we return an empty string to indicate unlimited requests.
-    return isUnlimited.value ? '' : projectServiceMaxRequests.value;
+    // Case 1: If it is unlimited, we always want the input to be empty to display the placeholder.
+    if (isUnlimited.value) {
+      return '';
+    }
+    // Case 2: If it's NOT unlimited, but the underlying value is 0 or null, we also want the input to be visually empty to display the placeholder. This is crucial for inputs with type="number" where 0 is displayed as "0".
+    if (
+      projectServiceMaxRequests.value === null ||
+      projectServiceMaxRequests.value === 0
+    ) {
+      return '';
+    }
+    // Case 3: In any other case (it is a positive number other than 0), we show the actual numerical value.
+    return projectServiceMaxRequests.value;
   },
-  set(newValue) {
-    // When the user types, we update projectServiceMaxRequests directly. We ensure it is a number or null.
-    projectServiceMaxRequests.value = newValue === '' ? null : Number(newValue);
+  set(newValue: string | null) {
+    // If the user deletes all the content of the input (newValue will be an empty string '') or if null is assigned directly, we reset the underlying value to null.
+    if (newValue === '' || newValue === null) {
+      projectServiceMaxRequests.value = null;
+    } else {
+      const numValue = Number(newValue);
+      // We ensure that the result of the conversion is a valid number (not NaN). `type="number"` in HTML already helps prevent non-numeric input.
+      if (!isNaN(numValue)) {
+        projectServiceMaxRequests.value = numValue;
+      }
+    }
   },
 });
 
 // Handle the toggle checkbox for unlimited requests.
 function handleUnlimitedToggle() {
-  console.log(isUnlimited.value);
-
   if (isUnlimited.value) {
     projectServiceMaxRequests.value = -1; // Set to -1 to indicate unlimited requests.
   } else {
@@ -380,7 +396,6 @@ function clearErrors(event: Event) {
     case 'services_max_requests':
       projectServiceMaxRequestsError.value = null;
       isUnlimited.value = false; // Reset unlimited state when the user interacts with the input.
-      displayedProjectServiceMaxRequests.value = null; // Reset the displayed value.
       break;
     case 'service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
@@ -399,7 +414,6 @@ function resetForm() {
   selectedServices.value = [];
   clicked.value = false;
   isUnlimited.value = false;
-  displayedProjectServiceMaxRequests.value = null;
 
   // Reset error messages.
   clientIdError.value = null;
