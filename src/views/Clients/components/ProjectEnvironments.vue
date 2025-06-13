@@ -51,8 +51,7 @@
         @submitForm="createEnvironment"
       />
       <SearchInput
-        placeholder="Filter by Type"
-        @search="handleSearch"
+        placeholder="Filter by Status"
         disabled
       />
     </section>
@@ -257,16 +256,5 @@ watch(error, (value, _) => {
     useToastStore().showToast(value, ToastMessages.isError);
   }
 });
-
-// Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-async function handleSearch(searchValue: string): Promise<void> {
-  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-  if (searchValue) {
-    await clientStore.getClients();
-  } else {
-    // If searchValue is empty (e.g., user cleared the input).
-    await clientStore.getClients();
-  }
-}
 </script>
 <style scoped></style>
