@@ -237,10 +237,10 @@ watch(
 
       servicesData.value = (projectData.value?.services || []).map((card) => ({
         ...card,
-        max_request:
-          card.max_request === -1
+        max_requests:
+          card.max_requests === -1
             ? ServiceRequestsLabels.unlimited
-            : card.max_request,
+            : card.max_requests,
         reset_frequency:
           card.reset_frequency === ''
             ? ServiceRequestsLabels.none
