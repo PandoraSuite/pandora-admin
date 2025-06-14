@@ -31,7 +31,7 @@
         :assing-form-component="AssingProjectService"
         :project-id="projectId"
         :button-text="ModalButtonTextLabels.assign"
-        @submitForm="assignService"
+        @submit-form="assignService"
         @item-updated="handleServiceUpdated"
       />
     </section>
@@ -48,7 +48,7 @@
         :title="TitleMessagesLabels.environment"
         :button-text="ModalButtonTextLabels.create"
         :form-component="CreateEnvironmentForm"
-        @submitForm="createEnvironment"
+        @submit-form="createEnvironment"
       />
       <SearchInput
         placeholder="Filter by Status"
