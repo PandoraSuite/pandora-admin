@@ -5,15 +5,11 @@
       :form-component="EditProjectServicesForm"
       @submit-form="updateService"
     />
-    <button
-      class="tooltip btn tooltip-top bg-quick-action btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-      :data-tip="TooltipMessagesLabels.refreshService"
-    >
-      <font-awesome-icon
-        :icon="['fas', 'arrows-rotate']"
-        class="text text-white"
-      />
-    </button>
+    <RefreshModal
+      :title="TitleMessagesLabels.service"
+      :form-component="RecalculateNextResetForm"
+      @submit-form="resetServiceQuota"
+    />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.removeService"
@@ -33,6 +29,8 @@ import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
 import EditProjectServicesForm from './EditProjectServicesForm.vue';
 import type { UpdateProjectServices } from '../../../types/projects';
+import RefreshModal from '@components/RefreshModal.vue';
+import RecalculateNextResetForm from './RecalculateNextResetForm.vue';
 
 const projectStore = useProjectsStore();
 
@@ -75,6 +73,22 @@ async function updateService(data: unknown): Promise<void> {
     );
     emit('itemUpdated');
   } 
+}
+
+async function resetServiceQuota(data: unknown): Promise<void> {
+  const payload = data as boolean;
+  const response = await projectStore.resetRequestsServiceQuota(
+    props.projectId,
+    props.serviceId,
+    payload,
+  );
+  if (response) {
+    useToastStore().showToast(
+      ToastMessagesLabels.serviceQuotaRefreshed,
+      ToastMessages.isSuccess,
+    );
+    emit('itemUpdated');
+  }
 }
 </script>
 
