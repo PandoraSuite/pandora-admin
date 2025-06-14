@@ -134,6 +134,10 @@ export interface ResetRequestsServiceQuota {
   recalculate_next_reset: boolean;
 }
 
+export interface RefreshServiceQuota {
+  recalculate_next_reset: boolean;
+}
+
 export interface ResetRequestsServiceQuotaResponse {
   environment_services: [
     {
