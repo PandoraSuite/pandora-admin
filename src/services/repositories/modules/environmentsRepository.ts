@@ -32,6 +32,7 @@ export interface EnvironmentsRequests {
     id: number,
     service_id: number,
   ): Promise<StandardResponse<EnvironmentService>>;
+  deleteEnvironment(id: number): Promise<StandardResponse<true>>;
 }
 
 export default <EnvironmentsRequests>{
@@ -149,6 +150,20 @@ export default <EnvironmentsRequests>{
       return {
         success: true,
         data: response.data,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Deletes an environment by its id.
+  async deleteEnvironment(id: number): Promise<StandardResponse<true>> {
+    try {
+      await api.delete<true>(`${RESOURCE}/${id}`);
+      return {
+        success: true,
       };
     } catch (err) {
       const error = err as AxiosError;

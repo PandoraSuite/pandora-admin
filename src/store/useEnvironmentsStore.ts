@@ -100,6 +100,21 @@ export const useEnvironmentsStore = defineStore('environments', () => {
     isLoading.value = false;
   };
 
+  // Deletes an environment by its id.
+  const deleteEnvironment = async (id: number) => {
+    isLoading.value = true;
+    const response = await repositories.environments.deleteEnvironment(id);
+    if (response.success) {
+      environments.value = environments.value.filter((env) => env.id !== id);
+      isLoading.value = false;
+
+      return response.success;
+    } else {
+      error.value = response.error;
+      isLoading.value = false;
+    }
+  };
+
   return {
     error,
     environments,
@@ -110,5 +125,6 @@ export const useEnvironmentsStore = defineStore('environments', () => {
     assignEnvironmentService,
     deleteEnvironmentService,
     resetServiceQuota,
+    deleteEnvironment,
   };
 });
