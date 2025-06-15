@@ -59,6 +59,7 @@
       <Table
         :table-data="environmentsToRender"
         :quick-actions-component="ProjectEvironmentsQuickActions"
+        @item-updated="handleEnvironmentUpdated"
       />
     </section>
   </div>
@@ -213,6 +214,10 @@ async function refreshData(): Promise<void> {
 
 // Event handler for when a service is updated.
 function handleServiceUpdated() {
+  refreshData();
+}
+
+function handleEnvironmentUpdated() {
   refreshData();
 }
 
