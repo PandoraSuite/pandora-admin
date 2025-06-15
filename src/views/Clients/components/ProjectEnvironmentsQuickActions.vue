@@ -7,10 +7,11 @@
     >
       <font-awesome-icon :icon="['fa', 'cubes']" class="text text-white" />
     </button>
-    <EditModal :title="TitleMessagesLabels.environment" @submitForm="" />
+    <EditModal :title="TitleMessagesLabels.environment" @submit-form="" />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.deleteEnvironment"
+      @click="deleteEnvironment(props.id)"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -21,16 +22,25 @@
 import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
-import { useProjectsStore } from '@store/useProjectsStore';
 import { type UpdateClient } from '../../../types/clients';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { TitleMessagesLabels } from '@enums/componentTitle';
+import { useToastStore } from '@store/useToastStore';
+import { ToastMessagesLabels, ToastMessages } from '@enums/toastMessages';
+import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 
-const projectStore = useProjectsStore();
+const environmentStore = useEnvironmentsStore();
 const router = useRouter();
 
 const props = defineProps<{
   id: number;
+}>();
+
+// This event is emitted when the project is updated successfully.
+// It is used to notify the parent component that the project has been updated.
+// This allows the parent component to refresh the project list or perform any other necessary actions.
+const emit = defineEmits<{
+  (e: 'itemUpdated'): void;
 }>();
 
 function seeEnvironment() {
@@ -47,6 +57,15 @@ async function editClient(data: unknown): Promise<void> {
   // if (response) {
   //   useToastStore().showToast('Client edited successfully', 'success');
   // }
+}
+
+async function deleteEnvironment(id: number): Promise<void> {
+  const response = await environmentStore.deleteEnvironment(id);
+  if (response) {
+    useToastStore().showToast(ToastMessagesLabels.environmentDeleted, ToastMessages.isSuccess);
+  }
+  // Emit the 'itemUpdated' event.
+  emit('itemUpdated');
 }
 </script>
 
