@@ -77,13 +77,17 @@
       {{ projectServiceMaxRequestsError }}
     </p>
 
-    <label for="service_reset_frequency" class="text text-lg text-text"
+    <label
+      for="service_reset_frequency"
+      class="text text-lg"
+      :class="[projectServiceResetFrequencyError ? 'text-error' : 'text-text']"
       >Reset Frequency:</label
     >
     <select
       id="service_reset_frequency"
       v-model="projectServiceResetFrequency"
       placeholder=""
+      @input="clearErrors($event)"
       class="select w-full bg-background text-text outline-1"
     >
       <option
@@ -96,6 +100,9 @@
         {{ frequenceLabel }}
       </option>
     </select>
+    <p v-if="projectServiceResetFrequencyError" class="text-sm text-error">
+      {{ projectServiceResetFrequencyError }}
+    </p>
 
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
       Save
@@ -133,21 +140,29 @@ function clearErrors(event: Event) {
   switch (field) {
     case 'service_max_requests':
       projectServiceMaxRequestsError.value = null;
+      projectServiceResetFrequencyError.value = null;
+      projectServiceNextResetError.value = null;
       break;
     case 'service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
+      projectServiceNextResetError.value = null;
+      break;
+    case 'service_next_reset':
+      projectServiceNextResetError.value = null;
       break;
   }
 }
 
 function resetForm() {
-  projectServiceNextReset.value = '';
-  projectServiceMaxRequests.value = 0;
-  projectServiceResetFrequency.value = '';
+  projectServiceNextReset.value = null;
+  projectServiceMaxRequests.value = null;
+  projectServiceResetFrequency.value = null;
   isUnlimited.value = false;
 
   // Reset error messages.
   projectServiceMaxRequestsError.value = null;
+  projectServiceResetFrequencyError.value = null;
+  projectServiceNextResetError.value = null;
 }
 
 watch(projectServiceNextReset, (newValue) => {
@@ -252,50 +267,68 @@ function submitForm() {
 
   // --- Apply Validation Rules and Build Payload Conditionally. ---
 
-  // If 'max_requests' is present, 'reset_frequency' MUST be present.
-  // Also implicitly, if 'reset_frequency' is present, 'max_requests' must also be present.
-  if (hasMaxRequests || hasResetFrequency) {
-    // If at least one of the two is present, we validate the pair.
-    if (!hasMaxRequests) {
-      // If it has Reset Frequency but no Max Requests.
-      projectServiceMaxRequestsError.value =
-        'Max Requests is required if Reset Frequency is set.';
-      isValid = false;
-    }
-    if (!hasResetFrequency) {
-      // If it has Max Requests but no Reset Frequency.
-      projectServiceResetFrequencyError.value =
-        'Reset Frequency is required if Max Requests is set.';
-      isValid = false;
-    }
-
-    // If both are present and the previous validation didn't fail.
-    if (hasMaxRequests && hasResetFrequency) {
-      payload.max_requests = projectServiceMaxRequests.value as number;
-      payload.reset_frequency = projectServiceResetFrequency.value ?? undefined;
-    }
-  }
-
-  // 'next_reset' is optional and can be sent alone.
   if (hasNextReset) {
-    payload.next_reset = projectServiceNextReset.value ?? undefined;
+    // If Next Reset is set, it must be accompanied by Reset Frequency and Max Requests.
+    if (!hasResetFrequency && !hasMaxRequests) {
+      projectServiceNextResetError.value =
+        'Next Reset is not allowed without Max Requests and Reset Frequency.';
+      projectServiceResetFrequencyError.value =
+        'Reset Frequency is required if Next Reset is set.';
+      projectServiceMaxRequestsError.value = 'Max Requests is required.';
+      isValid = false;
+    }
+
+    if (hasResetFrequency) {
+      // If Next Reset and Reset Frequency are set, it must also have Max Requests.
+      if (!hasMaxRequests) {
+        projectServiceNextResetError.value =
+          'Next Reset is not allowed without Max Requests.';
+        projectServiceMaxRequestsError.value = 'Max Requests is required.';
+        isValid = false;
+      }
+    }
+
+    if (hasMaxRequests) {
+      // If Next Reset and Max Requests are set, it must also have Reset Frequency.
+      if (!hasResetFrequency) {
+        projectServiceNextResetError.value =
+          'Next Reset is not allowed without Reset Frequency.';
+        projectServiceResetFrequencyError.value =
+          'Reset Frequency is required.';
+        isValid = false;
+      }
+    }
   }
 
-  // --- Final Verification. ---
+  // If Reset Frequency is set, it must be accompanied by Max Requests.
+  if (hasResetFrequency) {
+    if (!hasMaxRequests) {
+      projectServiceResetFrequencyError.value =
+        'Reset Frequency is not allowed without Max Requests.';
+      projectServiceMaxRequestsError.value = 'Max Requests is required.';
+      isValid = false;
+    }
+  }
 
-  // If none of the above validations failed (isValid is still true)
-  // and if there is no data in the payload (meaning the user did not fill in any relevant fields),
-  // we might want an additional validation to prevent empty submissions if not allowed.
-  if (Object.keys(payload).length === 0 && !isValid) {
-    // If the payload is empty and THERE ARE ERRORS, we just return.
-    return;
-  } else if (Object.keys(payload).length === 0 && isValid) {
-    // If the payload is empty and there are NO ERRORS (e.g. all optional fields are empty).
-    projectServiceNextResetError.value = 'At least one field must be provided.';
-    projectServiceMaxRequestsError.value =
-      'At least one field must be provided.';
+  // Max Requests is always required. And can be set without Next Reset or Reset Frequency.
+  if (!hasMaxRequests) {
+    projectServiceMaxRequestsError.value = 'Max Requests is required.';
     isValid = false;
-    return;
+  }
+
+  if (hasMaxRequests) {
+    payload.max_requests = projectServiceMaxRequests.value ?? undefined;
+  }
+
+  if (hasResetFrequency && hasMaxRequests) {
+    payload.reset_frequency = projectServiceResetFrequency.value ?? undefined;
+    payload.max_requests = projectServiceMaxRequests.value ?? undefined;
+  }
+
+  if (hasNextReset && hasResetFrequency && hasMaxRequests) {
+    payload.next_reset = projectServiceNextReset.value ?? undefined;
+    payload.reset_frequency = projectServiceResetFrequency.value ?? undefined;
+    payload.max_requests = projectServiceMaxRequests.value ?? undefined;
   }
 
   if (!isValid) {
