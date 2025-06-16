@@ -53,3 +53,7 @@ export interface FilteredEnvironment {
   project_id: number;
   status: string;
 }
+
+export interface UpdateEnvironmentName {
+  name: string;
+}

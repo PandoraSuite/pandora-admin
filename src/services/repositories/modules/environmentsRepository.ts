@@ -8,6 +8,7 @@ import type {
   EnvironmentService,
   NewEnvironment,
   NewEnvironmentService,
+  UpdateEnvironmentName,
 } from '../../../types/environments';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
@@ -32,6 +33,10 @@ export interface EnvironmentsRequests {
     id: number,
     service_id: number,
   ): Promise<StandardResponse<EnvironmentService>>;
+  updateEnvironment(
+    id: number,
+    body: UpdateEnvironmentName,
+  ): Promise<StandardResponse<Environment>>;
   deleteEnvironment(id: number): Promise<StandardResponse<true>>;
 }
 
@@ -150,6 +155,35 @@ export default <EnvironmentsRequests>{
       return {
         success: true,
         data: response.data,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Updates an environment by its id.
+  async updateEnvironment(
+    id: number,
+    body: UpdateEnvironmentName,
+  ): Promise<StandardResponse<Environment>> {
+    try {
+      const response = await api.patch<Environment>(`${RESOURCE}/${id}`, body);
+      const processedResponse = response.data;
+      // Access the backend response to capture 'created_at' and format it to local time and date.
+      processedResponse.created_at = datetimeFormatter.format(
+        new Date(processedResponse.created_at),
+      );
+      processedResponse.services = processedResponse.services.map(
+        (service) => ({
+          ...service,
+          assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
+        }),
+      );
+      return {
+        success: true,
+        data: processedResponse,
       };
     } catch (err) {
       const error = err as AxiosError;
