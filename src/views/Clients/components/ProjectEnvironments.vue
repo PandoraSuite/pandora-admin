@@ -31,7 +31,7 @@
         :assing-form-component="AssingProjectService"
         :project-id="projectId"
         :button-text="ModalButtonTextLabels.assign"
-        @submitForm="assignService"
+        @submit-form="assignService"
         @item-updated="handleServiceUpdated"
       />
     </section>
@@ -48,11 +48,10 @@
         :title="TitleMessagesLabels.environment"
         :button-text="ModalButtonTextLabels.create"
         :form-component="CreateEnvironmentForm"
-        @submitForm="createEnvironment"
+        @submit-form="createEnvironment"
       />
       <SearchInput
-        placeholder="Filter by Type"
-        @search="handleSearch"
+        placeholder="Filter by Status"
         disabled
       />
     </section>
@@ -60,6 +59,7 @@
       <Table
         :table-data="environmentsToRender"
         :quick-actions-component="ProjectEvironmentsQuickActions"
+        @item-updated="handleEnvironmentUpdated"
       />
     </section>
   </div>
@@ -217,6 +217,10 @@ function handleServiceUpdated() {
   refreshData();
 }
 
+function handleEnvironmentUpdated() {
+  refreshData();
+}
+
 onMounted(async () => {
   refreshData();
 
@@ -237,10 +241,10 @@ watch(
 
       servicesData.value = (projectData.value?.services || []).map((card) => ({
         ...card,
-        max_request:
-          card.max_request === -1
+        max_requests:
+          card.max_requests === -1
             ? ServiceRequestsLabels.unlimited
-            : card.max_request,
+            : card.max_requests,
         reset_frequency:
           card.reset_frequency === ''
             ? ServiceRequestsLabels.none
@@ -257,16 +261,5 @@ watch(error, (value, _) => {
     useToastStore().showToast(value, ToastMessages.isError);
   }
 });
-
-// Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-async function handleSearch(searchValue: string): Promise<void> {
-  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-  if (searchValue) {
-    await clientStore.getClients();
-  } else {
-    // If searchValue is empty (e.g., user cleared the input).
-    await clientStore.getClients();
-  }
-}
 </script>
 <style scoped></style>

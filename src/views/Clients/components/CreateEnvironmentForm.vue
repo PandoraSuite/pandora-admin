@@ -23,14 +23,21 @@
     <div class="divider"></div>
 
     <div class="flex flex-row items-center justify-between">
-      <h2 class="my-2 font-bold">Add a Service to the Environment</h2>
+      <h2 class="my-2 font-bold">Add a Service to the Project</h2>
       <span>
         <p
-          v-if="!clicked"
-          @click="toggleSection()"
+          v-if="!clicked || (clicked && !toggleForm)"
+          @click="showSection()"
           class="cursor-pointer text-xl font-bold"
         >
           +
+        </p>
+        <p
+          v-if="toggleForm && clicked"
+          @click="hideSection()"
+          class="cursor-pointer text-xl font-bold"
+        >
+          -
         </p>
       </span>
     </div>
@@ -58,54 +65,95 @@
 
       <div class="divider"></div>
 
-      <label
-        for="service_id"
-        :class="[environmentServiceIdError ? 'text-error' : 'text']"
-        >Service:</label
+      <div
+        v-if="toggleForm"
+        class="flex flex-col gap-4 transition-discrete ease-in-out"
       >
-      <select
-        id="service_id"
-        v-model="environmentServiceId"
-        placeholder=""
-        @input="clearErrors($event)"
-        class="select w-full bg-background outline-1"
-      >
-        <option
-          v-for="service in availableServices"
-          :key="service.id"
-          :value="service.id"
+        <label
+          for="service_id"
+          :class="[environmentServiceIdError ? 'text-error' : 'text']"
+          >Service:</label
         >
-          {{ service.name }}
-        </option>
-      </select>
-      <p v-if="environmentServiceIdError" class="text-sm text-error">
-        {{ environmentServiceIdError }}
-      </p>
-      <label
-        for="services_max_requests"
-        :class="[environmentServiceMaxRequestsError ? 'text-error' : 'text']"
-        >Max Requests:</label
-      >
-      <input
-        id="services_max_requests"
-        v-model="environmentServiceMaxRequests"
-        type="number"
-        placeholder=""
-        @input="clearErrors($event)"
-        class="input w-full bg-background outline-1"
-      />
-      <p v-if="environmentServiceMaxRequestsError" class="text-sm text-error">
-        {{ environmentServiceMaxRequestsError }}
-      </p>
+        <select
+          id="service_id"
+          v-model="environmentServiceId"
+          placeholder=""
+          @input="clearErrors($event)"
+          class="select w-full bg-background outline-1"
+        >
+          <option
+            v-for="service in availableServices"
+            :key="service.id"
+            :value="service.id"
+          >
+            {{ service.name }}
+          </option>
+        </select>
+        <p v-if="environmentServiceIdError" class="text-sm text-error">
+          {{ environmentServiceIdError }}
+        </p>
+        <span class="flex flex-row items-center justify-between">
+          <span class="flex flex-row items-center gap-2">
+            <span
+               class="tooltip tooltip-right flex btn-circle h-4 w-4 bg-quick-action object-center"
+               data-tip="Consider the maximum of service requests and the total already assigned between environments."
+             >
+               <font-awesome-icon
+                 :icon="['fas', 'question']"
+                 class="mx-auto my-auto text-xs text-white"
+               />
+             </span>
+           <label
+             for="services_max_requests"
+             :class="[
+               environmentServiceMaxRequestsError ? 'text-error' : 'text',
+             ]"
+             >Max Requests:</label
+           >
+          </span>
+          <span class="flex flex-row items-center gap-2">
+            <label for="unlimited_requests">Unlimited</label>
+            <span
+              class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
+              data-tip="If checked, the service will have unlimited requests."
+            >
+              <font-awesome-icon
+                :icon="['fas', 'question']"
+                class="mx-auto my-auto text-xs text-white"
+              />
+            </span>
+            <input
+              id="unlimited_requests"
+              type="checkbox"
+              v-model="isUnlimited"
+              class="checkbox my-auto checkbox-sm"
+              @input="clearErrors($event)"
+              @change="handleUnlimitedToggle"
+            />
+          </span>
+        </span>
+        <input
+          id="services_max_requests"
+          v-model="displayedEnvironmentServiceMaxRequests"
+          type="number"
+          :placeholder="isUnlimited ? 'Unlimited' : ''"
+          :disabled="isUnlimited"
+          @input="clearErrors($event)"
+          class="input w-full bg-background outline-1"
+        />
+        <p v-if="environmentServiceMaxRequestsError" class="text-sm text-error">
+          {{ environmentServiceMaxRequestsError }}
+        </p>
 
-      <button
-        type="button"
-        class="btn mx-auto mb-4 w-fit bg-accent text-white"
-        @click="addServiceSelection"
-      >
-        Add Service
-      </button>
-      <div class="divider"></div>
+        <button
+          type="button"
+          class="btn mx-auto mb-4 w-fit bg-accent text-white"
+          @click="addServiceSelection"
+        >
+          Add Service
+        </button>
+        <div class="divider"></div>
+      </div>
     </div>
 
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">
@@ -127,6 +175,8 @@ const environmentServiceIdError = ref<string | null>(null);
 const environmentServiceMaxRequests = ref<number | null>(null);
 const environmentServiceMaxRequestsError = ref<string | null>(null);
 const clicked = ref<boolean>(false);
+const toggleForm = ref<boolean>(false);
+const isUnlimited = ref<boolean>(false);
 const selectedServices = ref<
   {
     id: number | null;
@@ -137,8 +187,19 @@ const selectedServices = ref<
 const idsStore = useIdsStore();
 const { projectServices } = storeToRefs(idsStore);
 
-function toggleSection() {
-  clicked.value = !clicked.value;
+function showSection() {
+  clicked.value = true;
+  toggleForm.value = true;
+}
+
+function hideSection() {
+  if (toggleForm.value && selectedServices.value.length > 0) {
+    toggleForm.value = false;
+  }
+  if (selectedServices.value.length === 0) {
+    clicked.value = false;
+    toggleForm.value = false;
+  }
 }
 
 // Computed property to filter available services based on selected services.
@@ -165,9 +226,19 @@ function addServiceSelection() {
   environmentServiceIdError.value = null;
   environmentServiceMaxRequestsError.value = null;
 
-  if (!environmentServiceId.value || !environmentServiceMaxRequests.value) {
+  let isValid = true;
+
+  if (!environmentServiceId.value) {
     environmentServiceIdError.value = 'Service is required';
+    isValid = false;
+  }
+
+  if (!environmentServiceMaxRequests.value) {
     environmentServiceMaxRequestsError.value = 'Max Requests is required';
+    isValid = false;
+  }
+
+  if (!isValid) {
     return;
   }
 
@@ -189,6 +260,7 @@ function removeServiceSelection(index: number) {
 function resetServiceSelection() {
   environmentServiceId.value = null;
   environmentServiceMaxRequests.value = null;
+  isUnlimited.value = false;
 }
 
 // Clear error messages when the user interacts with the input fields.
@@ -205,6 +277,7 @@ function clearErrors(event: Event) {
       break;
     case 'services_max_requests':
       environmentServiceMaxRequestsError.value = null;
+      isUnlimited.value = false; // Reset unlimited state when the user interacts with the input.
       break;
   }
 }
@@ -213,11 +286,57 @@ function resetForm() {
   environmentName.value = '';
   environmentServiceId.value = null;
   environmentServiceMaxRequests.value = null;
+  isUnlimited.value = false;
+
+  resetServiceSelection();
+  selectedServices.value = [];
+  clicked.value = false;
+  toggleForm.value = false;
 
   // Reset error messages.
   environmentNameError.value = null;
   environmentServiceIdError.value = null;
   environmentServiceMaxRequestsError.value = null;
+}
+
+// Computed property to handle the display of max requests input.
+const displayedEnvironmentServiceMaxRequests = computed({
+  get() {
+    // Case 1: If it is unlimited, we always want the input to be empty to display the placeholder.
+    if (isUnlimited.value) {
+      return '';
+    }
+    // Case 2: If it's NOT unlimited, but the underlying value is 0 or null, we also want the input to be visually empty to display the placeholder. This is crucial for inputs with type="number" where 0 is displayed as "0".
+    if (
+      environmentServiceMaxRequests.value === null ||
+      environmentServiceMaxRequests.value === 0
+    ) {
+      return '';
+    }
+    // Case 3: In any other case (it is a positive number other than 0), we show the actual numerical value.
+    return environmentServiceMaxRequests.value;
+  },
+  set(newValue: string | null) {
+    // If the user deletes all the content of the input (newValue will be an empty string '') or if null is assigned directly, we reset the underlying value to null.
+    if (newValue === '' || newValue === null) {
+      environmentServiceMaxRequests.value = null;
+    } else {
+      const numValue = Number(newValue);
+      // We ensure that the result of the conversion is a valid number (not NaN). `type="number"` in HTML already helps prevent non-numeric input.
+      if (!isNaN(numValue)) {
+        environmentServiceMaxRequests.value = numValue;
+      }
+    }
+  },
+});
+
+// Handle the toggle checkbox for unlimited requests.
+function handleUnlimitedToggle() {
+  if (isUnlimited.value) {
+    environmentServiceMaxRequests.value = -1; // Set to -1 to indicate unlimited requests.
+  } else {
+    environmentServiceMaxRequests.value = null; // Reset to null when not unlimited.
+  }
 }
 
 const emit = defineEmits<{
@@ -228,7 +347,7 @@ const emit = defineEmits<{
       project_id: number;
       services: {
         id: number;
-        max_request: number;
+        max_requests: number;
       }[];
     },
   ): void;
@@ -248,7 +367,7 @@ function submitForm() {
     project_id: projectId,
     services: selectedServices.value.map((service) => ({
       id: service.id as number,
-      max_request: service.max_request as number,
+      max_requests: service.max_request as number,
     })),
   });
   resetForm();

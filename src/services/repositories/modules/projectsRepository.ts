@@ -8,7 +8,6 @@ import type {
   Project,
   ProjectEnviroments,
   ProjectServices,
-  ResetRequestsServiceQuotaResponse,
   UpdateProjectName,
   UpdateProjectServices,
 } from '../../../types/projects';
@@ -40,7 +39,8 @@ export interface ProjectsRequests {
   resetRequestsServiceQuota(
     project_id: number,
     service_id: number,
-  ): Promise<StandardResponse<ResetRequestsServiceQuotaResponse>>;
+    body: boolean,
+  ): Promise<StandardResponse<true>>;
   deleteProject(id: number): Promise<StandardResponse<true>>;
   deleteProjectService(
     id: number,
@@ -217,16 +217,15 @@ export default <ProjectsRequests>{
   async resetRequestsServiceQuota(
     project_id: number,
     service_id: number,
-  ): Promise<StandardResponse<ResetRequestsServiceQuotaResponse>> {
+    body: boolean,
+  ): Promise<StandardResponse<true>> {
     try {
-      const response = await api.post<ResetRequestsServiceQuotaResponse>(
+      await api.post<true>(
         `${RESOURCE}/${project_id}/services/${service_id}/reset-requests`,
-        {},
+        body,
       );
-      const processedResponse = response.data;
       return {
         success: true,
-        data: processedResponse,
       };
     } catch (err) {
       const error = err as AxiosError;

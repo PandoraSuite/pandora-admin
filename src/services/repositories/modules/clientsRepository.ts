@@ -22,9 +22,11 @@ export interface ClientsRequests {
   updateClient(id: number, body: UpdateClient): Promise<StandardResponse<true>>;
   getClientById(id: number): Promise<StandardResponse<Client>>;
   getClientProjects(id: number): Promise<StandardResponse<ClientProjects[]>>;
+  deleteClient(id: number): Promise<StandardResponse<true>>;
 }
 
 export default <ClientsRequests>{
+  // Fetches a list of clients with optional filtering parameters.
   async getClients(
     params: ClientFilterParams | undefined,
   ): Promise<StandardResponse<Client[]>> {
@@ -47,6 +49,7 @@ export default <ClientsRequests>{
     }
   },
 
+  // Creates a new client.
   async createClient(body: NewClient): Promise<StandardResponse<Client>> {
     try {
       const response = await api.post<Client>(`${RESOURCE}`, body);
@@ -66,6 +69,7 @@ export default <ClientsRequests>{
     }
   },
 
+  // Fetches a client by ID.
   async getClientById(id: number): Promise<StandardResponse<Client>> {
     try {
       const response = await api.get<Client>(`${RESOURCE}/${id}`);
@@ -85,6 +89,7 @@ export default <ClientsRequests>{
     }
   },
 
+  // Updates an existing client by ID.
   async updateClient(
     id: number,
     body: UpdateClient,
@@ -101,6 +106,7 @@ export default <ClientsRequests>{
     }
   },
 
+  // Fetches projects associated with a specific client by ID.
   async getClientProjects(
     id: number,
   ): Promise<StandardResponse<ClientProjects[]>> {
@@ -116,6 +122,20 @@ export default <ClientsRequests>{
       return {
         success: true,
         data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Deletes a client by ID.
+  async deleteClient(id: number): Promise<StandardResponse<true>> {
+    try {
+      await api.delete<true>(`${RESOURCE}/${id}`);
+      return {
+        success: true,
       };
     } catch (err) {
       const error = err as AxiosError;

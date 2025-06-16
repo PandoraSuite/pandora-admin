@@ -13,11 +13,12 @@
     <EditModal
       :title="TitleMessagesLabels.project"
       :form-component="EditProjectForm"
-      @submitForm="updateProject"
+      @submit-form="updateProject"
     />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.deleteProject"
+      @click="deleteProject(props.id)"
     >
       <font-awesome-icon :icon="['fas', 'trash-can']" class="text text-white" />
     </button>
@@ -64,6 +65,18 @@ async function updateProject(data: unknown): Promise<void> {
   if (response) {
     useToastStore().showToast(
       ToastMessagesLabels.projectUpdated,
+      ToastMessages.isSuccess,
+    );
+    // Emit the 'projectUpdated' event.
+    emit('itemUpdated');
+  }
+}
+
+async function deleteProject(id: number): Promise<void> {
+  const response = await projectStore.deleteProject(id);
+  if (response) {
+    useToastStore().showToast(
+      ToastMessagesLabels.projectDeleted,
       ToastMessages.isSuccess,
     );
     // Emit the 'projectUpdated' event.

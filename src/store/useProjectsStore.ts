@@ -7,7 +7,6 @@ import type {
   NewProjectService,
   Project,
   ProjectEnviroments,
-  ResetRequestsServiceQuotaResponse,
   UpdateProjectName,
   UpdateProjectServices,
 } from '../types/projects';
@@ -136,15 +135,23 @@ export const useProjectsStore = defineStore('projects', () => {
     isLoading.value = false;
   };
 
-  const resetRequestsServiceQuota = async (project_id: number, service_id: number) => {
+  const resetRequestsServiceQuota = async (
+    project_id: number,
+    service_id: number,
+    payload: boolean,
+  ) => {
     isLoading.value = true;
-    const responde = await repositories.projects.resetRequestsServiceQuota(project_id, service_id);
+    const responde = await repositories.projects.resetRequestsServiceQuota(
+      project_id,
+      service_id,
+      payload,
+    );
     if (responde.success) {
-      return responde.data as ResetRequestsServiceQuotaResponse;
+      return responde.success;
     } else {
       error.value = responde.error;
     }
-  }
+  };
 
   // Deletes a project by its id.
   const deleteProject = async (id: number) => {

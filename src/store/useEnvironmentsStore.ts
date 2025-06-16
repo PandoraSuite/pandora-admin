@@ -7,6 +7,7 @@ import type {
   Environment,
   NewEnvironment,
   NewEnvironmentService,
+  UpdateEnvironmentName,
 } from '../types/environments';
 
 export const useEnvironmentsStore = defineStore('environments', () => {
@@ -23,22 +24,24 @@ export const useEnvironmentsStore = defineStore('environments', () => {
     const response = await repositories.environments.createEnvironment(payload);
     if (response.success) {
       environments.value.push(response.data as Environment);
+      isLoading.value = false;
       return response.success;
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
-    isLoading.value = false;
   };
 
   const getEnvironmentById = async (id: number) => {
     isLoading.value = true;
     const response = await repositories.environments.getEnvironmentById(id);
     if (response.success) {
+      isLoading.value = false;
       return response.data as Environment;
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
-    isLoading.value = false;
   };
 
   // Retrives the API keys of an environment by its id.
@@ -46,11 +49,12 @@ export const useEnvironmentsStore = defineStore('environments', () => {
     isLoading.value = true;
     const response = await repositories.environments.getEnvironmentAPIKeys(id);
     if (response.success) {
+      isLoading.value = false;
       return response.data as APIKey[];
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
-    isLoading.value = false;
   };
 
   // Assigns a service to an environment by its id.
@@ -64,11 +68,12 @@ export const useEnvironmentsStore = defineStore('environments', () => {
       payload,
     );
     if (response.success) {
+      isLoading.value = false;
       return response.success;
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
-    isLoading.value = false;
   };
 
   // Deletes a service from an environment by its id.
@@ -79,8 +84,10 @@ export const useEnvironmentsStore = defineStore('environments', () => {
       service_id,
     );
     if (response.success) {
+      isLoading.value = false;
       return response.success;
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
   };
@@ -93,11 +100,48 @@ export const useEnvironmentsStore = defineStore('environments', () => {
       service_id,
     );
     if (response.success) {
+      isLoading.value = false;
       return response.success;
     } else {
+      isLoading.value = false;
       error.value = response.error;
     }
     isLoading.value = false;
+  };
+
+  // Updates an environment by its id.
+  const updateEnvironment = async (
+    id: number,
+    payload: UpdateEnvironmentName
+  ) => {
+    isLoading.value = true;
+    const response = await repositories.environments.updateEnvironment(id, payload);
+    if (response.success) {
+      const index = environments.value.findIndex((env) => env.id === id);
+      if (index !== -1) {
+        environments.value[index] = { ...environments.value[index], ...payload };
+      }
+      isLoading.value = false;
+      return response.success;
+    }
+    else {
+      error.value = response.error;
+      isLoading.value = false;
+    }
+  }
+
+  // Deletes an environment by its id.
+  const deleteEnvironment = async (id: number) => {
+    isLoading.value = true;
+    const response = await repositories.environments.deleteEnvironment(id);
+    if (response.success) {
+      environments.value = environments.value.filter((env) => env.id !== id);
+      isLoading.value = false;
+      return response.success;
+    } else {
+      error.value = response.error;
+      isLoading.value = false;
+    }
   };
 
   return {
@@ -110,5 +154,7 @@ export const useEnvironmentsStore = defineStore('environments', () => {
     assignEnvironmentService,
     deleteEnvironmentService,
     resetServiceQuota,
+    updateEnvironment,
+    deleteEnvironment,
   };
 });

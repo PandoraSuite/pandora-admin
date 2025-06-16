@@ -105,12 +105,31 @@ const emit = defineEmits<{
 }>();
 
 function submitForm() {
-  if (!clientType.value || !clientEmail.value || !clientName.value) {
+  clientNameError.value = null;
+  clientEmailError.value = null;
+  clientTypeError.value = null;
+
+  let isValid = true;
+
+  if (!clientName.value) {
     clientNameError.value = 'Client name is required';
+    isValid = false;
+  }
+
+  if (!clientEmail.value) {
     clientEmailError.value = 'Client email is required';
+    isValid = false;
+  }
+
+  if (!clientType.value) {
     clientTypeError.value = 'Client type is required';
+    isValid = false;
+  }
+
+  if (!isValid) {
     return;
   }
+  
   if (!clientEmail.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
     clientEmailError.value = 'Invalid email format';
     return;

@@ -34,11 +34,11 @@
             </p>
           </span>
           <span
-            v-if="'max_request' in card"
+            v-if="'max_requests' in card"
             class="flex flex-row items-center gap-2"
           >
             <p class="text-text-primary text-start font-bold">Max requests:</p>
-            <p class="text-text-primary text-end">{{ card.max_request }}</p>
+            <p class="text-text-primary text-end">{{ card.max_requests }}</p>
           </span>
           <span
             v-if="'next_reset' in card"
