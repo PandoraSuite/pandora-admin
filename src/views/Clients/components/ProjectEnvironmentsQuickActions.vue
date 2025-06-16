@@ -7,7 +7,11 @@
     >
       <font-awesome-icon :icon="['fa', 'cubes']" class="text text-white" />
     </button>
-    <EditModal :title="TitleMessagesLabels.environment" @submit-form="" />
+    <EditModal
+      :title="TitleMessagesLabels.environment"
+      :form-component="EditEnvironmentForm"
+      @submit-form="UpdateEnvironment"
+    />
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.deleteEnvironment"
@@ -22,12 +26,13 @@
 import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
-import { type UpdateClient } from '../../../types/clients';
-import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { TitleMessagesLabels } from '@enums/componentTitle';
-import { useToastStore } from '@store/useToastStore';
-import { ToastMessagesLabels, ToastMessages } from '@enums/toastMessages';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
+import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
+import { useToastStore } from '@store/useToastStore';
+import type { UpdateEnvironmentName } from '../../../types/environments';
+import EditEnvironmentForm from './EditEnvironmentForm.vue';
 
 const environmentStore = useEnvironmentsStore();
 const router = useRouter();
@@ -50,19 +55,27 @@ function seeEnvironment() {
   });
 }
 
-async function editClient(data: unknown): Promise<void> {
+async function UpdateEnvironment(data: unknown): Promise<void> {
   // Assinging the data to a variable of type UpdateClient
-  const payload = data as UpdateClient;
-  // const response = await projectStore.updateProject(props.id, payload);
-  // if (response) {
-  //   useToastStore().showToast('Client edited successfully', 'success');
-  // }
+  const payload = data as UpdateEnvironmentName;
+  const response = await environmentStore.updateEnvironment(props.id, payload);
+  if (response) {
+    useToastStore().showToast(
+      ToastMessagesLabels.environmentUpdated,
+      ToastMessages.isSuccess,
+    );
+  }
+  // Emit the 'itemUpdated' event.
+  emit('itemUpdated');
 }
 
 async function deleteEnvironment(id: number): Promise<void> {
   const response = await environmentStore.deleteEnvironment(id);
   if (response) {
-    useToastStore().showToast(ToastMessagesLabels.environmentDeleted, ToastMessages.isSuccess);
+    useToastStore().showToast(
+      ToastMessagesLabels.environmentDeleted,
+      ToastMessages.isSuccess,
+    );
   }
   // Emit the 'itemUpdated' event.
   emit('itemUpdated');
