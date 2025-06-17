@@ -18,6 +18,7 @@ export enum ToastMessages {
   environmentDeleted = 'environmentDeleted',
   apiKeyCreated = 'apiKeyCreated',
   apiKeyUpdated = 'apiKeyUpdated',
+  apiKeyDeleted = 'apiKeyDeleted',
   sessionExpired = 'sessionExpired',
 }
 
@@ -42,5 +43,6 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.environmentDeleted]: 'Environment deleted successfully.',
   [ToastMessages.apiKeyCreated]: 'API key created successfully.',
   [ToastMessages.apiKeyUpdated]: 'API key updated successfully.',
+  [ToastMessages.apiKeyDeleted]: 'API Key deleted successfully.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
 };
