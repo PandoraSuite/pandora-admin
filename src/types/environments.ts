@@ -57,3 +57,7 @@ export interface FilteredEnvironment {
 export interface UpdateEnvironmentName {
   name: string;
 }
+
+export interface UpdateEnvironmentServices {
+  max_requests: number;
+}
