@@ -5,7 +5,7 @@ export interface Environment {
   project_id: number;
   services: {
     assigned_at: string;
-    available_request: number;
+    available_requests: number;
     id: number;
     max_requests: number;
     name: string;
@@ -25,7 +25,7 @@ export interface NewEnvironment {
 
 export interface EnvironmentService {
   assigned_at: string;
-  available_request: number;
+  available_requests: number;
   id: number;
   max_requests: number;
   name: string;
@@ -34,7 +34,7 @@ export interface EnvironmentService {
 
 export interface EnvironmentServiceToRender {
   assigned_at: string;
-  available_request: number | string;
+  available_requests: number | string;
   id: number;
   max_requests: number | string;
   name: string;
