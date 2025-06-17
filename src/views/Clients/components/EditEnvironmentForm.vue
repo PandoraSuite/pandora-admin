@@ -18,7 +18,7 @@
       class="input w-full border bg-background outline-1"
     />
 
-    <p v-if="environmentNameError" class="text-sm text-error mr-auto">
+    <p v-if="environmentNameError" class="mr-auto text-sm text-error">
       {{ environmentNameError }}
     </p>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">

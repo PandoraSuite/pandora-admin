@@ -5,9 +5,9 @@
     @click="openModal()"
   >
     <font-awesome-icon
-        :icon="['fas', 'arrows-rotate']"
-        class="text text-white"
-      />
+      :icon="['fas', 'arrows-rotate']"
+      class="text text-white"
+    />
   </button>
 
   <dialog
@@ -22,7 +22,7 @@
       >
         X
       </button>
-      <h3 class="justify-self-start font-bold text-xl">
+      <h3 class="justify-self-start text-xl font-bold">
         Refresh available requests for this {{ props.title }}.
       </h3>
 

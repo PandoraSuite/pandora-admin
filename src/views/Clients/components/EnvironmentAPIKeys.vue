@@ -51,10 +51,7 @@
         :form-component="CreateAPIKeyForm"
         @submit-form="createAPIKey"
       />
-      <SearchInput
-        placeholder="Filter by Type"
-        disabled
-      />
+      <SearchInput placeholder="Filter by Type" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table
@@ -100,8 +97,8 @@ import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import type { Project } from '../../../types/projects';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
-import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 import EnvironmentServiceQuickActions from './CardsEnvironmentServiceQuickActions.vue';
+import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
 const CreateServiceModal =

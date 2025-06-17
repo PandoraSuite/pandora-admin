@@ -95,21 +95,21 @@
         <span class="flex flex-row items-center justify-between">
           <span class="flex flex-row items-center gap-2">
             <span
-               class="tooltip tooltip-right flex btn-circle h-4 w-4 bg-quick-action object-center"
-               data-tip="Consider the maximum of service requests and the total already assigned between environments."
-             >
-               <font-awesome-icon
-                 :icon="['fas', 'question']"
-                 class="mx-auto my-auto text-xs text-white"
-               />
-             </span>
-           <label
-             for="services_max_requests"
-             :class="[
-               environmentServiceMaxRequestsError ? 'text-error' : 'text',
-             ]"
-             >Max Requests:</label
-           >
+              class="tooltip tooltip-right flex btn-circle h-4 w-4 bg-quick-action object-center"
+              data-tip="Consider the maximum of service requests and the total already assigned between environments."
+            >
+              <font-awesome-icon
+                :icon="['fas', 'question']"
+                class="mx-auto my-auto text-xs text-white"
+              />
+            </span>
+            <label
+              for="services_max_requests"
+              :class="[
+                environmentServiceMaxRequestsError ? 'text-error' : 'text',
+              ]"
+              >Max Requests:</label
+            >
           </span>
           <span class="flex flex-row items-center gap-2">
             <label for="unlimited_requests">Unlimited</label>

@@ -8,7 +8,7 @@
         :form-component="CreateProjectForm"
         @submit-form="createClient"
       />
-      <SearchInput placeholder="Filter by Status" disabled  />
+      <SearchInput placeholder="Filter by Status" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table

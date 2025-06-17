@@ -94,7 +94,10 @@ export const useEnvironmentsStore = defineStore('environments', () => {
   };
 
   // Resets the quota of a service in an environment by its id.
-  const resetServiceQuota = async (environment_id: number, service_id: number) => {
+  const resetServiceQuota = async (
+    environment_id: number,
+    service_id: number,
+  ) => {
     isLoading.value = true;
     const response = await repositories.environments.resetServiceQuota(
       environment_id,

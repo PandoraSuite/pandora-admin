@@ -22,14 +22,14 @@
 
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
+import RefreshModal from '@components/RefreshModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
-import EditProjectServicesForm from './EditProjectServicesForm.vue';
 import type { UpdateProjectServices } from '../../../types/projects';
-import RefreshModal from '@components/RefreshModal.vue';
+import EditProjectServicesForm from './EditProjectServicesForm.vue';
 import RecalculateNextResetForm from './RecalculateNextResetForm.vue';
 
 const projectStore = useProjectsStore();
@@ -73,7 +73,7 @@ async function updateService(data: unknown): Promise<void> {
       ToastMessages.isSuccess,
     );
     emit('itemUpdated');
-  } 
+  }
 }
 
 async function resetServiceQuota(data: unknown): Promise<void> {

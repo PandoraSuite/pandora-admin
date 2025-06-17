@@ -42,7 +42,7 @@ export interface EnvironmentsRequests {
     environment_id: number,
     service_id: number,
     body: UpdateEnvironmentServices,
-  ): Promise<StandardResponse<EnvironmentService>>
+  ): Promise<StandardResponse<EnvironmentService>>;
   deleteEnvironment(id: number): Promise<StandardResponse<true>>;
 }
 

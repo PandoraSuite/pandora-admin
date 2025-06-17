@@ -30,12 +30,12 @@ import { useRouter } from 'vue-router';
 
 import EditModal from '@components/EditModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
+import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useProjectsStore } from '@store/useProjectsStore';
+import { useToastStore } from '@store/useToastStore';
 import EditProjectForm from '@views/Projects/components/EditProjectForm.vue';
 import type { UpdateProjectName } from '../../../types/projects';
-import { useToastStore } from '@store/useToastStore';
-import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 
 const projectStore = useProjectsStore();
 const router = useRouter();

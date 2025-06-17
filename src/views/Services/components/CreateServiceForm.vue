@@ -77,7 +77,7 @@ function resetForm() {
 }
 
 function submitForm() {
-    serviceNameError.value = null;
+  serviceNameError.value = null;
   serviceVersionError.value = null;
 
   let isValid = true;

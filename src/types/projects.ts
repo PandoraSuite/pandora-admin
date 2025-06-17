@@ -152,7 +152,7 @@ export interface ResetRequestsServiceQuotaResponse {
         version: string;
       };
       status: string;
-    }
+    },
   ];
   project_service: {
     assigned_at: string;
@@ -162,6 +162,6 @@ export interface ResetRequestsServiceQuotaResponse {
     next_reset: string;
     reset_frequency: string;
     version: string;
-  },
+  };
   reset_count: number;
 }

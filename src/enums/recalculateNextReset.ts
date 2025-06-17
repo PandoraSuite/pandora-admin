@@ -3,7 +3,8 @@ export enum RecalculateNextReset {
   no = 0,
 }
 
-export const RecalculateNextResetLabels: Record<RecalculateNextReset, string> = {
-  [RecalculateNextReset.yes]: 'Yes.',
-  [RecalculateNextReset.no]: 'No.',
-};
+export const RecalculateNextResetLabels: Record<RecalculateNextReset, string> =
+  {
+    [RecalculateNextReset.yes]: 'Yes.',
+    [RecalculateNextReset.no]: 'No.',
+  };

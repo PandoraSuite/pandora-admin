@@ -51,10 +51,7 @@
         :form-component="CreateEnvironmentForm"
         @submit-form="createEnvironment"
       />
-      <SearchInput
-        placeholder="Filter by Status"
-        disabled
-      />
+      <SearchInput placeholder="Filter by Status" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table

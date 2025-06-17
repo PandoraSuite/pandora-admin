@@ -3,7 +3,7 @@ export enum ToastMessages {
   isError = 'error',
   serviceAssigned = 'serviceAssigned',
   serviceCreated = 'serviceCreated',
-  serviceUpdated= 'serviceUpdated',
+  serviceUpdated = 'serviceUpdated',
   serviceStatusUpdated = 'serviceStatusUpdated',
   serviceQuotaRefreshed = 'serviceQuotaRefreshed',
   serviceDeleted = 'serviceDeleted',
@@ -28,7 +28,8 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.serviceCreated]: 'Service created successfully.',
   [ToastMessages.serviceUpdated]: 'Service updated successfully.',
   [ToastMessages.serviceStatusUpdated]: 'Service status updated successfully.',
-  [ToastMessages.serviceQuotaRefreshed]: 'Service quota refreshed successfully.',
+  [ToastMessages.serviceQuotaRefreshed]:
+    'Service quota refreshed successfully.',
   [ToastMessages.serviceDeleted]: 'Service deleted successfully.',
   [ToastMessages.serviceRemoved]: 'Service removed successfully.',
   [ToastMessages.clientCreated]: 'Client created successfully.',
