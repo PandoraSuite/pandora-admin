@@ -70,6 +70,7 @@
               :is="props.quickActionComponent"
               :service-id="card.id"
               :project-id="projectId"
+              :environment-id="environmentId"
               @itemUpdated="emit('itemUpdated')"
             />
           </div>
@@ -93,6 +94,7 @@ import type { ProjectServicesToRender } from '../types/projects';
 
 const props = defineProps<{
   projectId: number;
+  environmentId: number;
   cardsData: ProjectServicesToRender[] | EnvironmentServiceToRender[];
   buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;
