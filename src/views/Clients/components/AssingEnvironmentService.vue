@@ -77,6 +77,7 @@
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, ref } from 'vue';
 
+import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useRoute } from 'vue-router';
@@ -89,6 +90,7 @@ const environmentServiceMaxRequestsError = ref<string | null>(null);
 const isUnlimited = ref<boolean>(false);
 const availableProjectServices = ref<ProjectServices[]>([]);
 const currentProjectId = ref<number>();
+const currentEnvironmentId = ref<number>();
 const selectedServices = ref<
   {
     id: number | null;
@@ -99,6 +101,7 @@ const selectedServices = ref<
 const idsStore = useIdsStore();
 const { projectServices } = storeToRefs(idsStore);
 const projectStore = useProjectsStore();
+const environmentStore = useEnvironmentsStore();
 
 const route = useRoute();
 
@@ -219,12 +222,24 @@ function submitForm() {
 
 onMounted(async () => {
   selectedServices.value = [];
+  // We recover the services available in the project if they are not available in the store.
   if (projectServices.value.length === 0) {
     currentProjectId.value = Number(route.params.project_id);
     const response = await projectStore.getProjectById(currentProjectId.value);
     availableProjectServices.value = response?.services ?? [];
     idsStore.setProjectServices(availableProjectServices.value);
   }
+  // We validate which services are already assigned to the project with their ID and remove them from the list of available services.
+  currentEnvironmentId.value = Number(route.params.environment_id);
+  const previousAssigned = await environmentStore.getEnvironmentById(
+    currentEnvironmentId.value || 0,
+  );
+  selectedServices.value.push(
+    ...(previousAssigned?.services || []).map((service) => ({
+      id: service.id,
+      max_requests: service.max_requests,
+    })),
+  );
 });
 
 // Expose the resetForm method so that the parent can call it.
