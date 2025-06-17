@@ -30,6 +30,7 @@
         :create-action-component="CreateServiceModal"
         :assing-form-component="AssingProjectService"
         :project-id="projectId"
+        :environment-id="0"
         :button-text="ModalButtonTextLabels.assign"
         @submit-form="assignService"
         @item-updated="handleServiceUpdated"
