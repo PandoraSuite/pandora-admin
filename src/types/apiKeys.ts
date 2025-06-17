@@ -28,3 +28,7 @@ export interface NewAPIKey {
 export interface UpdateAPIKey {
   expires_at: string;
 }
+
+export interface RevealAPIKey {
+  key: string;
+}
