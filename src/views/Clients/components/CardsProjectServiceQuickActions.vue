@@ -56,6 +56,7 @@ async function removeService() {
       ToastMessagesLabels.serviceRemoved,
       ToastMessages.isSuccess,
     );
+    emit('itemUpdated');
   }
 }
 
