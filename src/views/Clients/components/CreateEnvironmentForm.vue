@@ -23,7 +23,7 @@
     <div class="divider"></div>
 
     <div class="flex flex-row items-center justify-between">
-      <h2 class="my-2 font-bold">Add a Service to the Project</h2>
+      <h2 class="my-2 font-bold">Add a Service to the Environment</h2>
       <span>
         <p
           v-if="!clicked || (clicked && !toggleForm)"
