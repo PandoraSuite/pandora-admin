@@ -12,7 +12,7 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="clientsStore.clients"
+        :tableData="clientsList"
         :quickActionsComponent="QuickActions"
       />
     </section>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onMounted, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -33,16 +33,23 @@ import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../../components/Table.vue';
-import type { ClientPayload } from '../../../types/clients';
+import type { Client, ClientPayload } from '../../../types/clients';
 import QuickActions from './ClientQuickActions.vue';
 import CreateClientForm from './CreateClientForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 
+const clientsList = ref<Client[]>([]);
+
 const clientsStore = useClientsStore();
 const { error } = storeToRefs(clientsStore);
 const idsStore = useIdsStore();
 const breadcrumbStore = useBreadcrumbStore();
+
+async function loadClientsData(): Promise<void> {
+  await clientsStore.getClients();
+  clientsList.value = clientsStore.clients as Client[];
+}
 
 async function createClient(payload: ClientPayload): Promise<void> {
   const response = await clientsStore.createClient(payload);
@@ -51,6 +58,7 @@ async function createClient(payload: ClientPayload): Promise<void> {
       ToastMessagesLabels.clientCreated,
       ToastMessages.isSuccess,
     );
+    loadClientsData();
   }
 }
 
@@ -65,7 +73,7 @@ function resetClientData() {
 }
 
 onMounted(async () => {
-  await clientsStore.getClients();
+  loadClientsData();
   clearIds();
   resetClientData();
 });

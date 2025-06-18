@@ -12,7 +12,7 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="servicesStore.services"
+        :tableData="servicesList"
         :quick-actions-component="ServiceQuickActions"
       />
     </section>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onMounted, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -31,14 +31,21 @@ import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { useServicesStore } from '@store/useServicesStore';
 import { useToastStore } from '@store/useToastStore';
 import Table from '../../../components/Table.vue';
-import type { ServicePayload } from '../../../types/services';
+import type { Service, ServicePayload } from '../../../types/services';
 import CreateServiceForm from './CreateServiceForm.vue';
 import ServiceQuickActions from './ServiceQuickActions.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 
+const servicesList = ref<Service[]>([]);
+
 const servicesStore = useServicesStore();
 const { error } = storeToRefs(servicesStore);
+
+async function loadServicesData(): Promise<void> {
+  await servicesStore.getServices();
+  servicesList.value = servicesStore.services as Service[];
+}
 
 async function createService(payload: ServicePayload): Promise<void> {
   const response = await servicesStore.createNewService(payload);
@@ -47,11 +54,12 @@ async function createService(payload: ServicePayload): Promise<void> {
       ToastMessagesLabels.serviceCreated,
       ToastMessages.isSuccess,
     );
+    loadServicesData();
   }
 }
 
 onMounted(async () => {
-  await servicesStore.getServices();
+  loadServicesData();
 });
 
 watch(error, (value, _) => {
