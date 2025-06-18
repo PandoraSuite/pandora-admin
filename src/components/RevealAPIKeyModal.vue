@@ -139,6 +139,7 @@ function resetAllValues() {
   isVisible.value = false;
 
   passwordError.value = null;
+  cancelScheduledDataReset()
 }
 
 // Method to cancel the visibility of the API key and clear the values.
@@ -157,6 +158,13 @@ function scheduleDataReset(delayMs: number = 60000) {
     );
     resetTimeoutId = null; // Clear the ID after execution.
   }, delayMs);
+}
+// Method to cancel the reset if the user interacts beforehand.
+function cancelScheduledDataReset() {
+  if (resetTimeoutId !== null) {
+    clearTimeout(resetTimeoutId);
+    resetTimeoutId = null;
+  }
 }
 
 async function revealAPIKey(
