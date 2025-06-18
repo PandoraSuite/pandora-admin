@@ -57,6 +57,7 @@
       <Table
         :tableData="apiKeysToRender"
         :quick-actionsComponent="APIKeyQuickActions"
+        @item-updated="handleAPIKeyUpdated"
       />
     </section>
   </div>
@@ -200,7 +201,9 @@ function manageIds(
   idsStore.setEnvironmentId(environmentId);
   if (!idsStore.projectId) {
     idsStore.setProjectId(projectId);
-  } else if (!idsStore.clientId) {
+  }
+
+  if (!idsStore.clientId) {
     idsStore.setClientId(clientId);
   }
 }
@@ -227,6 +230,10 @@ async function refreshData(): Promise<void> {
 }
 
 function handleServiceUpdated() {
+  refreshData();
+}
+
+function handleAPIKeyUpdated() {
   refreshData();
 }
 
