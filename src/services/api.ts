@@ -8,8 +8,8 @@ import { useToastStore } from '@store/useToastStore';
 
 // Axios instance with base configuration.
 const api = axios.create({
-  baseURL: 'http://localhost:8081/',
-  timeout: 10000, // Maximum wait time in milliseconds.
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: Number(import.meta.env.VITE_DEFAULT_TIMEOUT), // Maximum wait time in milliseconds.
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -17,8 +17,8 @@ const api = axios.create({
 });
 
 const apiReauth = axios.create({
-  baseURL: 'http://localhost:8081/',
-  timeout: 10000, // Maximum wait time in milliseconds.
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: Number(import.meta.env.VITE_DEFAULT_TIMEOUT), // Maximum wait time in milliseconds.
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
