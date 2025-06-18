@@ -1,6 +1,7 @@
 export enum ToastMessages {
   isSuccess = 'success',
   isError = 'error',
+  isInfo = 'info',
   serviceAssigned = 'serviceAssigned',
   serviceCreated = 'serviceCreated',
   serviceUpdated = 'serviceUpdated',
@@ -19,12 +20,14 @@ export enum ToastMessages {
   apiKeyCreated = 'apiKeyCreated',
   apiKeyUpdated = 'apiKeyUpdated',
   apiKeyDeleted = 'apiKeyDeleted',
+  apiKeyReavealExpired = 'apiKeyReavealExpired',
   sessionExpired = 'sessionExpired',
 }
 
 export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.isSuccess]: 'success',
   [ToastMessages.isError]: 'error',
+  [ToastMessages.isInfo]: 'info',
   [ToastMessages.serviceAssigned]: 'Service assigned successfully.',
   [ToastMessages.serviceCreated]: 'Service created successfully.',
   [ToastMessages.serviceUpdated]: 'Service updated successfully.',
@@ -44,5 +47,6 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.apiKeyCreated]: 'API key created successfully.',
   [ToastMessages.apiKeyUpdated]: 'API key updated successfully.',
   [ToastMessages.apiKeyDeleted]: 'API Key deleted successfully.',
+  [ToastMessages.apiKeyReavealExpired]: 'Time to access API key has expired. If needed, please request it again.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
 };
