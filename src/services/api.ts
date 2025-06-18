@@ -74,4 +74,4 @@ api.interceptors.response.use(
   },
 );
 
-export {api, apiReauth};
+export { api, apiReauth };

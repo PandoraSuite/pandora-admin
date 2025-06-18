@@ -47,6 +47,7 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.apiKeyCreated]: 'API key created successfully.',
   [ToastMessages.apiKeyUpdated]: 'API key updated successfully.',
   [ToastMessages.apiKeyDeleted]: 'API Key deleted successfully.',
-  [ToastMessages.apiKeyReavealExpired]: 'Time to access API key has expired. If needed, please request it again.',
+  [ToastMessages.apiKeyReavealExpired]:
+    'Time to access API key has expired. If needed, please request it again.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
 };

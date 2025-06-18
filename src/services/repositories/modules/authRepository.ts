@@ -1,6 +1,7 @@
 import type { AxiosError } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
+import { api } from '@services/api';
 import type {
   ChangePasswordPayload,
   LoginPayload,
@@ -8,7 +9,6 @@ import type {
   ReauthenticatesPayload,
   ReauthenticatesResponse,
 } from '../../../types/authentication';
-import { api } from '@services/api';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
 

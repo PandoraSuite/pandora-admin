@@ -3,6 +3,7 @@ import {
   faArrowsRotate,
   faBars,
   faChartSimple,
+  faClipboard,
   faCodeBranch,
   faCubes,
   faDiagramProject,
@@ -25,7 +26,6 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
-  faClipboard,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -55,7 +55,7 @@ library.add(
   faKey,
   faCubes,
   faQuestion,
-  faClipboard
+  faClipboard,
 );
 
 export default FontAwesomeIcon;

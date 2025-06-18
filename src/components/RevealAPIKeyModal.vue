@@ -139,7 +139,7 @@ function resetAllValues() {
   isVisible.value = false;
 
   passwordError.value = null;
-  cancelScheduledDataReset()
+  cancelScheduledDataReset();
 }
 
 // Method to cancel the visibility of the API key and clear the values.
