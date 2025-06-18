@@ -7,6 +7,7 @@ import type {
   ChangePasswordPayload,
   LoginPayload,
   LoginResponse,
+  ReauthenticatesPayload,
 } from '../types/authentication';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -48,6 +49,18 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = false;
   };
 
+  const reauthenticate = async (payload: ReauthenticatesPayload) => {
+    isLoading.value = true;
+    const response = await repositories.auth.reauthenticate(payload);
+    if (response.success) {
+      isLoading.value = false;
+      return response.data;
+    } else {
+      isLoading.value = false;
+      error.value = response.error;
+    }
+  };
+
   const logout = () => {
     clearToken();
     token.value = null;
@@ -70,6 +83,7 @@ export const useAuthStore = defineStore('auth', () => {
     redirectPath,
     login,
     changePassword,
+    reauthenticate,
     logout,
     setRedirectPath,
     clearRedirectPath,
