@@ -82,7 +82,7 @@ async function updateService(data: unknown): Promise<void> {
 
 async function resetServiceQuota(): Promise<void> {
   const response = await environmentStore.resetServiceQuota(
-    props.projectId,
+    props.environmentId,
     props.serviceId,
   );
   if (response) {
