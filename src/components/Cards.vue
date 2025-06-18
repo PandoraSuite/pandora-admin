@@ -48,14 +48,14 @@
             <p class="text-text-primary text-end">{{ card.next_reset }}</p>
           </span>
           <span
-            v-if="'available_request' in card"
+            v-if="'available_requests' in card"
             class="flex flex-row items-center gap-2"
           >
             <p class="text-text-primary text-start font-bold">
-              Available request:
+              Available requests:
             </p>
             <p class="text-text-primary text-end">
-              {{ card.available_request }}
+              {{ card.available_requests }}
             </p>
           </span>
           <span
@@ -70,6 +70,7 @@
               :is="props.quickActionComponent"
               :service-id="card.id"
               :project-id="projectId"
+              :environment-id="environmentId"
               @itemUpdated="emit('itemUpdated')"
             />
           </div>
@@ -93,6 +94,7 @@ import type { ProjectServicesToRender } from '../types/projects';
 
 const props = defineProps<{
   projectId: number;
+  environmentId: number;
   cardsData: ProjectServicesToRender[] | EnvironmentServiceToRender[];
   buttonText: string;
   quickActionComponent: DefineComponent<{}, {}, any>;

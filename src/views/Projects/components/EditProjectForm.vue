@@ -18,7 +18,7 @@
       class="input w-full border bg-background outline-1"
     />
 
-    <p v-if="projectNameError" class="text-sm text-error mr-auto">
+    <p v-if="projectNameError" class="mr-auto text-sm text-error">
       {{ projectNameError }}
     </p>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">

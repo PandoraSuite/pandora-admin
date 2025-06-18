@@ -30,6 +30,7 @@
         :create-action-component="CreateServiceModal"
         :assing-form-component="AssingProjectService"
         :project-id="projectId"
+        :environment-id="0"
         :button-text="ModalButtonTextLabels.assign"
         @submit-form="assignService"
         @item-updated="handleServiceUpdated"
@@ -50,10 +51,7 @@
         :form-component="CreateEnvironmentForm"
         @submit-form="createEnvironment"
       />
-      <SearchInput
-        placeholder="Filter by Status"
-        disabled
-      />
+      <SearchInput placeholder="Filter by Status" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table

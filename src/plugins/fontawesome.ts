@@ -3,6 +3,7 @@ import {
   faArrowsRotate,
   faBars,
   faChartSimple,
+  faClipboard,
   faCodeBranch,
   faCubes,
   faDiagramProject,
@@ -54,6 +55,7 @@ library.add(
   faKey,
   faCubes,
   faQuestion,
+  faClipboard,
 );
 
 export default FontAwesomeIcon;

@@ -20,10 +20,10 @@ import EditModal from '@components/EditModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
-import { useToastStore } from '@store/useToastStore';
-import EditProjectForm from './EditProjectForm.vue';
 import { useProjectsStore } from '@store/useProjectsStore';
+import { useToastStore } from '@store/useToastStore';
 import type { UpdateProjectName } from '../../../types/projects';
+import EditProjectForm from './EditProjectForm.vue';
 
 const projectsStore = useProjectsStore();
 

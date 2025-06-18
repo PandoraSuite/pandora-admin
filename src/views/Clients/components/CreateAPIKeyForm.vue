@@ -71,15 +71,22 @@ const emit = defineEmits<{
 }>();
 
 function submitForm() {
-  if (!apiExpiresAt.value || !idsStore.environmentId) {
-    apiExpiresAtError.value = 'API expires at date is required';
+  apiExpiresAtError.value = null;
 
+  let isValid = true;
+
+  if (!apiExpiresAt.value) {
+    apiExpiresAtError.value = 'API expires at date is required';
+    isValid = false;
+  }
+
+  if (!isValid) {
     return;
   }
 
   emit('submit', {
-    environment_id: idsStore.environmentId,
-    expires_at: apiExpiresAt.value,
+    environment_id: idsStore.environmentId ?? 0,
+    expires_at: apiExpiresAt.value ?? new Date(),
   });
   resetForm();
 }

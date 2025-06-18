@@ -1,8 +1,13 @@
 import type { AxiosError } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/api';
-import type { APIKey, NewAPIKey, UpdateAPIKey } from '../../../types/apiKeys';
+import { api, apiReauth } from '@services/api';
+import type {
+  APIKey,
+  NewAPIKey,
+  RevealAPIKey,
+  UpdateAPIKey,
+} from '../../../types/apiKeys';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
 
@@ -14,6 +19,11 @@ export interface APIKeyRequests {
     id: number,
     body: UpdateAPIKey,
   ): Promise<StandardResponse<APIKey>>;
+  deleteAPIKey(id: number): Promise<StandardResponse<true>>;
+  revealAPIKey(
+    id: number,
+    reauthAccessToken: string,
+  ): Promise<StandardResponse<RevealAPIKey>>;
 }
 
 export default <APIKeyRequests>{
@@ -36,6 +46,7 @@ export default <APIKeyRequests>{
     }
   },
 
+  // Update an API Key by its id.
   async updateAPIKey(
     id: number,
     body: UpdateAPIKey,
@@ -53,6 +64,45 @@ export default <APIKeyRequests>{
       return {
         success: true,
         data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Deletes an API Keys from an environment by its id.
+  async deleteAPIKey(id: number): Promise<StandardResponse<true>> {
+    try {
+      await api.delete<true>(`${RESOURCE}/${id}`);
+      return {
+        success: true,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  // Reveals the protected key.
+  async revealAPIKey(
+    id: number,
+    reauthAccessToken: string,
+  ): Promise<StandardResponse<RevealAPIKey>> {
+    try {
+      const response = await apiReauth.get<RevealAPIKey>(
+        `${RESOURCE}/${id}/reveal/key`,
+        {
+          headers: {
+            Authorization: `Bearer ${reauthAccessToken}`,
+          },
+        },
+      );
+      return {
+        success: true,
+        data: response.data,
       };
     } catch (err) {
       const error = err as AxiosError;

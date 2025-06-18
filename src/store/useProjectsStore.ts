@@ -135,6 +135,7 @@ export const useProjectsStore = defineStore('projects', () => {
     isLoading.value = false;
   };
 
+  //Resets the quota of a service in an project by its id.
   const resetRequestsServiceQuota = async (
     project_id: number,
     service_id: number,

@@ -2,14 +2,19 @@
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
     <EditModal
       :title="TitleMessagesLabels.service"
-      :form-component="EditProjectServicesForm"
+      :form-component="EditEnvironmentServicesForm"
       @submit-form="updateService"
     />
-    <RefreshModal
-      :title="TitleMessagesLabels.service"
-      :form-component="RecalculateNextResetForm"
-      @submit-form="resetServiceQuota"
-    />
+    <button
+      class="tooltip btn tooltip-top bg-quick-action btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
+      :data-tip="TooltipMessagesLabels.refreshService"
+      @click="resetServiceQuota"
+    >
+      <font-awesome-icon
+        :icon="['fas', 'arrows-rotate']"
+        class="text text-white"
+      />
+    </button>
     <button
       class="tooltip btn tooltip-top bg-error btn-xs sm:btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
       :data-tip="TooltipMessagesLabels.removeService"
@@ -22,21 +27,20 @@
 
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
-import RefreshModal from '@components/RefreshModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
-import { useProjectsStore } from '@store/useProjectsStore';
+import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useToastStore } from '@store/useToastStore';
-import type { UpdateProjectServices } from '../../../types/projects';
-import EditProjectServicesForm from './EditProjectServicesForm.vue';
-import RecalculateNextResetForm from './RecalculateNextResetForm.vue';
+import type { UpdateEnvironmentServices } from '../../../types/environments';
+import EditEnvironmentServicesForm from './EditEnvironmentServicesForm.vue';
 
-const projectStore = useProjectsStore();
+const environmentStore = useEnvironmentsStore();
 
 const props = defineProps<{
   serviceId: number;
   projectId: number;
+  environmentId: number;
 }>();
 
 // This event is emitted when the project is updated successfully.
@@ -47,7 +51,7 @@ const emit = defineEmits<{
 }>();
 
 async function removeService() {
-  const response = await projectStore.deleteProjectService(
+  const response = await environmentStore.deleteEnvironmentService(
     props.projectId,
     props.serviceId,
   );
@@ -61,9 +65,9 @@ async function removeService() {
 }
 
 async function updateService(data: unknown): Promise<void> {
-  const payload = data as UpdateProjectServices;
-  const response = await projectStore.updateProjectService(
-    props.projectId,
+  const payload = data as UpdateEnvironmentServices;
+  const response = await environmentStore.updateEnvironmentService(
+    props.environmentId,
     props.serviceId,
     payload,
   );
@@ -76,12 +80,10 @@ async function updateService(data: unknown): Promise<void> {
   }
 }
 
-async function resetServiceQuota(data: unknown): Promise<void> {
-  const payload = data as boolean;
-  const response = await projectStore.resetRequestsServiceQuota(
+async function resetServiceQuota(): Promise<void> {
+  const response = await environmentStore.resetServiceQuota(
     props.projectId,
     props.serviceId,
-    payload,
   );
   if (response) {
     useToastStore().showToast(

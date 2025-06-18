@@ -129,7 +129,7 @@ function submitForm() {
   if (!isValid) {
     return;
   }
-  
+
   if (!clientEmail.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
     clientEmailError.value = 'Invalid email format';
     return;

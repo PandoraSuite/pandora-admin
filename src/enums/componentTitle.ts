@@ -5,6 +5,8 @@ export enum TitleMessages {
   project = 'project',
   client = 'client',
   environment = 'environment',
+  reauthenticate = 'reauthenticate',
+  apiKeyVisible = 'apiKeyVisible',
 }
 
 export const TitleMessagesLabels: Record<TitleMessages, string> = {
@@ -14,4 +16,7 @@ export const TitleMessagesLabels: Record<TitleMessages, string> = {
   [TitleMessages.project]: 'project',
   [TitleMessages.client]: 'client',
   [TitleMessages.environment]: 'environment',
+  [TitleMessages.reauthenticate]:
+    'Please enter your password to confirm your identity.',
+  [TitleMessages.apiKeyVisible]: 'This is the API key:',
 };

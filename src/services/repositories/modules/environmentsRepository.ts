@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/api';
+import { api } from '@services/api';
 import type { APIKey } from '../../../types/apiKeys';
 import type {
   Environment,
@@ -9,6 +9,7 @@ import type {
   NewEnvironment,
   NewEnvironmentService,
   UpdateEnvironmentName,
+  UpdateEnvironmentServices,
 } from '../../../types/environments';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
@@ -32,11 +33,16 @@ export interface EnvironmentsRequests {
   resetServiceQuota(
     id: number,
     service_id: number,
-  ): Promise<StandardResponse<EnvironmentService>>;
+  ): Promise<StandardResponse<true>>;
   updateEnvironment(
     id: number,
     body: UpdateEnvironmentName,
   ): Promise<StandardResponse<Environment>>;
+  updateEnvironmentService(
+    environment_id: number,
+    service_id: number,
+    body: UpdateEnvironmentServices,
+  ): Promise<StandardResponse<EnvironmentService>>;
   deleteEnvironment(id: number): Promise<StandardResponse<true>>;
 }
 
@@ -145,16 +151,15 @@ export default <EnvironmentsRequests>{
 
   // Resets the quota of a service in an environment by its id.
   async resetServiceQuota(
-    id: number,
+    environment_id: number,
     service_id: number,
-  ): Promise<StandardResponse<EnvironmentService>> {
+  ): Promise<StandardResponse<true>> {
     try {
-      const response = await api.post<EnvironmentService>(
-        `${RESOURCE}/${id}/services/${service_id}/reset-requests`,
+      await api.post<EnvironmentService>(
+        `${RESOURCE}/${environment_id}/services/${service_id}/reset-requests`,
       );
       return {
         success: true,
-        data: response.data,
       };
     } catch (err) {
       const error = err as AxiosError;
@@ -180,6 +185,32 @@ export default <EnvironmentsRequests>{
           ...service,
           assigned_at: datetimeFormatter.format(new Date(service.assigned_at)),
         }),
+      );
+      return {
+        success: true,
+        data: processedResponse,
+      };
+    } catch (err) {
+      const error = err as AxiosError;
+
+      return handleHttpError(error);
+    }
+  },
+
+  async updateEnvironmentService(
+    environment_id: number,
+    service_id: number,
+    body: UpdateEnvironmentServices,
+  ): Promise<StandardResponse<EnvironmentService>> {
+    try {
+      const response = await api.patch<EnvironmentService>(
+        `${RESOURCE}/${environment_id}/services/${service_id}`,
+        body,
+      );
+      const processedResponse = response.data;
+      // Access the backend response to capture 'assigned_at' and format it to local time and date.
+      processedResponse.assigned_at = datetimeFormatter.format(
+        new Date(processedResponse.assigned_at),
       );
       return {
         success: true,

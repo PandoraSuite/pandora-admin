@@ -69,14 +69,21 @@ const emit = defineEmits<{
 }>();
 
 function submitForm() {
+  apiExpiresAtError.value = null;
+
+  let isValid = true;
+
   if (!apiExpiresAt.value) {
     apiExpiresAtError.value = 'API expires at date is required';
+    isValid = false;
+  }
 
+  if (!isValid) {
     return;
   }
 
   emit('submit', {
-    expires_at: apiExpiresAt.value,
+    expires_at: apiExpiresAt.value ?? new Date(),
   });
   resetForm();
 }

@@ -25,13 +25,15 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Cards
-        :cardsData="servicesData"
-        :quickActionComponent="ProjectServiceQuickActions"
-        :createActionComponent="CreateServiceModal"
-        :assingFormComponent="AssingEnvironmentService"
-        :projectId="projectId"
-        :buttonText="ModalButtonTextLabels.assign"
-        @submitForm="assignService"
+        :cards-data="servicesData"
+        :quick-action-component="EnvironmentServiceQuickActions"
+        :create-action-component="CreateServiceModal"
+        :assing-form-component="AssingEnvironmentService"
+        :project-id="projectId"
+        :environment-id="environmentId"
+        :button-text="ModalButtonTextLabels.assign"
+        @submit-form="assignService"
+        @item-updated="handleServiceUpdated"
       />
     </section>
     <div class="divider"></div>
@@ -45,20 +47,17 @@
     <section class="flex w-[90%] flex-row justify-between gap-x-8 self-center">
       <CreateModal
         :title="TitleMessagesLabels.apiKey"
-        :buttonText="ModalButtonTextLabels.create"
-        :formComponent="CreateAPIKeyForm"
-        @submitForm="createAPIKey"
+        :button-text="ModalButtonTextLabels.create"
+        :form-component="CreateAPIKeyForm"
+        @submit-form="createAPIKey"
       />
-      <SearchInput
-        placeholder="Filter by Type"
-        @search="handleSearch"
-        disabled
-      />
+      <SearchInput placeholder="Filter by Type" disabled />
     </section>
     <section class="flex w-[90%] self-center">
       <Table
         :tableData="apiKeysToRender"
-        :quickActionsComponent="APIKeyQuickActions"
+        :quick-actionsComponent="APIKeyQuickActions"
+        @item-updated="handleAPIKeyUpdated"
       />
     </section>
   </div>
@@ -99,7 +98,7 @@ import type { EnvironmentAPiKeysLoadData } from '../../../types/loadData';
 import type { Project } from '../../../types/projects';
 import APIKeyQuickActions from './APIKeyQuickActions.vue';
 import AssingEnvironmentService from './AssingEnvironmentService.vue';
-import ProjectServiceQuickActions from './CardsProjectServiceQuickActions.vue';
+import EnvironmentServiceQuickActions from './CardsEnvironmentServiceQuickActions.vue';
 import CreateAPIKeyForm from './CreateAPIKeyForm.vue';
 
 const CreateModal = _CreateModal as typeof _CreateModal<NewEnvironment>;
@@ -202,7 +201,9 @@ function manageIds(
   idsStore.setEnvironmentId(environmentId);
   if (!idsStore.projectId) {
     idsStore.setProjectId(projectId);
-  } else if (!idsStore.clientId) {
+  }
+
+  if (!idsStore.clientId) {
     idsStore.setClientId(clientId);
   }
 }
@@ -226,6 +227,14 @@ async function refreshData(): Promise<void> {
   });
 
   scatterCrumbs();
+}
+
+function handleServiceUpdated() {
+  refreshData();
+}
+
+function handleAPIKeyUpdated() {
+  refreshData();
 }
 
 onMounted(async () => {
@@ -252,10 +261,10 @@ watch(
             card.max_requests === -1
               ? ServiceRequestsLabels.unlimited
               : card.max_requests,
-          available_request:
-            card.available_request === -1
+          available_requests:
+            card.available_requests === -1
               ? ServiceRequestsLabels.unlimited
-              : card.available_request,
+              : card.available_requests,
         }),
       );
       idsStore.setEnvironmentServices(environmentData.value?.services || []);
@@ -269,16 +278,5 @@ watch(error, (value, _) => {
     useToastStore().showToast(value, ToastMessages.isError);
   }
 });
-
-// Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
-async function handleSearch(searchValue: string): Promise<void> {
-  // Check if the received searchValue is "truthy" (i.e., not an empty string "").
-  if (searchValue) {
-    await clientStore.getClients();
-  } else {
-    // If searchValue is empty (e.g., user cleared the input).
-    await clientStore.getClients();
-  }
-}
 </script>
 <style scoped></style>
