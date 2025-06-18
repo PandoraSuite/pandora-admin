@@ -25,6 +25,7 @@ import {
   faTrashCan,
   faUser,
   faUserGroup,
+  faClipboard,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -54,6 +55,7 @@ library.add(
   faKey,
   faCubes,
   faQuestion,
+  faClipboard
 );
 
 export default FontAwesomeIcon;
