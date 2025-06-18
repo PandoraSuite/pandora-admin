@@ -16,6 +16,7 @@ export const TitleMessagesLabels: Record<TitleMessages, string> = {
   [TitleMessages.project]: 'project',
   [TitleMessages.client]: 'client',
   [TitleMessages.environment]: 'environment',
-  [TitleMessages.reauthenticate]: 'Please enter your password to confirm your identity.',
+  [TitleMessages.reauthenticate]:
+    'Please enter your password to confirm your identity.',
   [TitleMessages.apiKeyVisible]: 'This is the API key:',
 };

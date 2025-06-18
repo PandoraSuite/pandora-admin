@@ -1,9 +1,6 @@
 <template>
   <div class="justify-centera flex flex-row items-center gap-2 self-center">
-    <RevealAPIKeyModal 
-      :title="TitleMessagesLabels.apiKey"
-      :id="props.id"
-      />
+    <RevealAPIKeyModal :title="TitleMessagesLabels.apiKey" :id="props.id" />
     <EditModal
       :title="TitleMessagesLabels.apiKey"
       :form-component="UpdateAPIKeyForm"
@@ -21,6 +18,7 @@
 
 <script setup lang="ts">
 import EditModal from '@components/EditModal.vue';
+import RevealAPIKeyModal from '@components/RevealAPIKeyModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
@@ -28,7 +26,6 @@ import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useToastStore } from '@store/useToastStore';
 import type { UpdateAPIKey } from '../../../types/apiKeys';
 import UpdateAPIKeyForm from './UpdateAPIKeyForm.vue';
-import RevealAPIKeyModal from '@components/RevealAPIKeyModal.vue';
 
 const props = defineProps<{
   id: number;

@@ -39,7 +39,7 @@
           <p v-if="passwordError" class="my-2 text-sm text-error">
             {{ passwordError }}
           </p>
-  
+
           <button
             class="btn mx-auto my-3 block w-1/3 text-white btn-primary"
             type="submit"
@@ -70,6 +70,7 @@ import { ref } from 'vue';
 
 import { TitleMessagesLabels } from '@enums/componentTitle';
 import { RevealAPIKeyActionLabels } from '@enums/revealAPIKey';
+import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useAuthStore } from '@store/useAuthStore';
 import PasswordInput from '@views/Login/components/PasswordInput.vue';
 import type { RevealAPIKey } from '../types/apiKeys';
@@ -77,7 +78,6 @@ import type {
   ReauthenticatesPayload,
   ReauthenticatesResponse,
 } from '../types/authentication';
-import { useAPIKeysStore } from '@store/useAPIKeysStore';
 
 const isVisible = ref<boolean>(false);
 const password = ref<string>('');
@@ -126,7 +126,6 @@ async function revealAPIKey(id: number): Promise<RevealAPIKey> {
     APIKey.value = response.data;
     isVisible.value = true;
   }
-
 }
 
 async function handleReauthenticate(): Promise<ReauthenticatesResponse> {
@@ -150,7 +149,7 @@ async function handleReauthenticate(): Promise<ReauthenticatesResponse> {
 
   const response = await authStore.reauthenticate(reauthenticateData.value);
   if (response) {
-    revealAPIKey(props.id)
+    revealAPIKey(props.id);
   }
 }
 
