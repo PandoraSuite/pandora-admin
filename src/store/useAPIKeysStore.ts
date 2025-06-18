@@ -61,9 +61,9 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
   };
 
   // Reveals the protected key.
-  const revealAPIKey = async (id: number) => {
+  const revealAPIKey = async (id: number, reauthAccessToken: string) => {
     isLoading.value = true;
-    const response = await repositories.apiKeys.revealAPIKey(id);
+    const response = await repositories.apiKeys.revealAPIKey(id, reauthAccessToken);
     if (response.success) {
       isLoading.value = false;
       return response.data;

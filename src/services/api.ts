@@ -16,6 +16,15 @@ const api = axios.create({
   },
 });
 
+const apiReauth = axios.create({
+  baseURL: 'http://localhost:8081/',
+  timeout: 10000, // Maximum wait time in milliseconds.
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+});
+
 // Interceptor to add the token if needed.
 api.interceptors.request.use(
   (config) => {
@@ -65,4 +74,4 @@ api.interceptors.response.use(
   },
 );
 
-export default api;
+export {api, apiReauth};

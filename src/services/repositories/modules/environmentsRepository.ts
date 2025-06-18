@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/api';
+import { api } from '@services/api';
 import type { APIKey } from '../../../types/apiKeys';
 import type {
   Environment,

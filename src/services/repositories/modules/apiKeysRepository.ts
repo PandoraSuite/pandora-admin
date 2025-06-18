@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/api';
+import { api, apiReauth } from '@services/api';
 import type {
   APIKey,
   NewAPIKey,
@@ -20,7 +20,7 @@ export interface APIKeyRequests {
     body: UpdateAPIKey,
   ): Promise<StandardResponse<APIKey>>;
   deleteAPIKey(id: number): Promise<StandardResponse<true>>;
-  revealAPIKey(id: number): Promise<StandardResponse<RevealAPIKey>>;
+  revealAPIKey(id: number, reauthAccessToken: string): Promise<StandardResponse<RevealAPIKey>>;
 }
 
 export default <APIKeyRequests>{
@@ -84,10 +84,15 @@ export default <APIKeyRequests>{
   },
 
   // Reveals the protected key.
-  async revealAPIKey(id: number): Promise<StandardResponse<RevealAPIKey>> {
+  async revealAPIKey(id: number, reauthAccessToken: string): Promise<StandardResponse<RevealAPIKey>> {
     try {
-      const response = await api.get<RevealAPIKey>(
+      const response = await apiReauth.get<RevealAPIKey>(
         `${RESOURCE}/${id}/reveal/key`,
+        {
+          headers: {
+            Authorization: `Bearer ${reauthAccessToken}`
+          }
+        }
       );
       return {
         success: true,

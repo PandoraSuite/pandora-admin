@@ -1,7 +1,7 @@
 import type { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { datetimeFormatter } from '@composables/datetimeFormatter';
-import api from '@services/api';
+import { api } from '@services/api';
 import type {
   Client,
   ClientFilterParams,

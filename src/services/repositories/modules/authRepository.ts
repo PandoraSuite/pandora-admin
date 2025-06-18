@@ -8,7 +8,7 @@ import type {
   ReauthenticatesPayload,
   ReauthenticatesResponse,
 } from '../../../types/authentication';
-import api from '../../api';
+import { api } from '@services/api';
 import { handleHttpError } from '../errors/handler';
 import type { StandardResponse } from '../types/response';
 
