@@ -21,8 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -42,7 +41,6 @@ import ProjectsQuickActions from './ProjectsQuickActions.vue';
 const CreateModal = _CreateModal as typeof _CreateModal<NewProject>;
 
 const projectStore = useProjectsStore();
-const { error } = storeToRefs(projectStore);
 const clientStore = useClientsStore();
 
 const projectsList = ref<Project[]>([]);
@@ -80,12 +78,6 @@ function handleProjectUpdated() {
 
 onMounted(async () => {
   loadProjectsData();
-});
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, ToastMessages.isError);
-  }
 });
 </script>
 

@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -70,7 +70,6 @@ import { useClientsStore } from '@store/useClientsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
-import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
 import type { ClientProjectsLoadData } from '../../../types/loadData';
 import type {
@@ -90,7 +89,6 @@ const props = defineProps<{
 const clientId = Number(props.client_id);
 const projectStore = useProjectsStore();
 const clientStore = useClientsStore();
-const { error } = storeToRefs(clientStore);
 const idsStore = useIdsStore();
 const breadcrumbStore = useBreadcrumbStore();
 
@@ -163,12 +161,6 @@ function handleProjectUpdated() {
 onMounted(async () => {
   refreshData();
   manageIds(clientId);
-});
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, ToastMessages.isError);
-  }
 });
 </script>
 <style scoped></style>

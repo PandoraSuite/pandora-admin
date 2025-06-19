@@ -84,7 +84,6 @@ import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
-import { storeToRefs } from 'pinia';
 import type { APIKey, APIKeyToRender, NewAPIKey } from '../../../types/apiKeys';
 import type { Client } from '../../../types/clients';
 import type {
@@ -117,7 +116,6 @@ const environmentId = Number(props.environment_id);
 
 const clientStore = useClientsStore();
 const projectStore = useProjectsStore();
-const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const apiKeysStore = useAPIKeysStore();
 const idsStore = useIdsStore();
@@ -272,11 +270,5 @@ watch(
   },
   { immediate: true },
 );
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, ToastMessages.isError);
-  }
-});
 </script>
 <style scoped></style>

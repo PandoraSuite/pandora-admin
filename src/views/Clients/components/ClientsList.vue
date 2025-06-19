@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -42,7 +41,6 @@ const CreateModal = _CreateModal as typeof _CreateModal<ClientPayload>;
 const clientsList = ref<Client[]>([]);
 
 const clientsStore = useClientsStore();
-const { error } = storeToRefs(clientsStore);
 const idsStore = useIdsStore();
 const breadcrumbStore = useBreadcrumbStore();
 
@@ -76,12 +74,6 @@ onMounted(async () => {
   loadClientsData();
   clearIds();
   resetClientData();
-});
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, 'error');
-  }
 });
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.

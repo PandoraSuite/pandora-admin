@@ -20,8 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import _CreateModal from '@components/CreateModal.vue';
 import SearchInput from '@components/SearchInput.vue';
@@ -40,7 +39,6 @@ const CreateModal = _CreateModal as typeof _CreateModal<ServicePayload>;
 const servicesList = ref<Service[]>([]);
 
 const servicesStore = useServicesStore();
-const { error } = storeToRefs(servicesStore);
 
 async function loadServicesData(): Promise<void> {
   await servicesStore.getServices();
@@ -60,12 +58,6 @@ async function createService(payload: ServicePayload): Promise<void> {
 
 onMounted(async () => {
   loadServicesData();
-});
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, ToastMessages.isError);
-  }
 });
 
 // Define the asynchronous function 'handleSearch' which receives the search term from the emitted event.
