@@ -23,7 +23,7 @@
         X
       </button>
       <h3 class="justify-self-start text-xl font-bold">
-        Refresh available requests for this {{ props.title }}.
+        Refresh available requests for this {{ props.title }}
       </h3>
 
       <component
