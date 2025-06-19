@@ -191,6 +191,11 @@ async function handleReauthenticate(): Promise<void> {
     isValid = false;
   }
 
+  if (password.value.length < 12) {
+    passwordError.value = 'The password must be at least 12 characters long.';
+    isValid = false;
+  }
+
   if (!isValid) {
     return;
   }
