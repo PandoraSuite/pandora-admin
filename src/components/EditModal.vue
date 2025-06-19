@@ -11,7 +11,7 @@
   </button>
 
   <dialog
-    id="create_modal"
+    id="edit_modal"
     ref="toggleModal"
     class="modal modal-bottom sm:modal-middle"
   >

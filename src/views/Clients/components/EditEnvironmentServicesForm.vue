@@ -1,18 +1,18 @@
 <template>
   <form
-    id="edit-project-services-form"
+    id="edit_environment_services_form"
     class="mx-auto mt-8 mb-5 flex w-[90%] flex-col gap-4"
     @submit.prevent="submitForm"
   >
     <span class="flex flex-row items-center justify-between">
       <label
-        for="service_max_requests"
+        for="edit_environment_service_max_requests"
         class="text text-lg"
         :class="[projectServiceMaxRequestsError ? 'text-error' : 'text-text']"
         >Max Requests:</label
       >
       <span class="flex flex-row items-center gap-2">
-        <label for="unlimited_requests" class="text-lg text-text"
+        <label for="edit_environment_service_unlimited_requests" class="text-lg text-text"
           >Unlimited</label
         >
         <span
@@ -25,7 +25,7 @@
           />
         </span>
         <input
-          id="unlimited_requests"
+          id="edit_environment_service_unlimited_requests"
           type="checkbox"
           v-model="isUnlimited"
           class="checkbox my-auto checkbox-sm"
@@ -35,7 +35,7 @@
       </span>
     </span>
     <input
-      id="service_max_requests"
+      id="edit_environment_service_max_requests"
       v-model="displayedProjectServiceMaxRequests"
       type="number"
       :placeholder="isUnlimited ? 'Unlimited' : ''"
@@ -67,7 +67,7 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'service_max_requests':
+    case 'edit_environment_service_max_requests':
       projectServiceMaxRequestsError.value = null;
       break;
   }

@@ -7,7 +7,7 @@
     <font-awesome-icon :icon="['fas', 'eye']" class="text text-white" />
   </button>
 
-  <dialog id="create_modal" ref="toggleModal" class="modal">
+  <dialog id="reveal_modal" ref="toggleModal" class="modal">
     <div class="modal-box w-1/3 max-w-4xl bg-background">
       <button
         class="btn absolute top-2 right-2 btn-circle bg-error text-white btn-ghost btn-sm"

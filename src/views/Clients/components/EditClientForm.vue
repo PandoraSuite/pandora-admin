@@ -3,22 +3,22 @@
     class="mx-auto mt-8 mb-5 flex w-[90%] flex-col gap-4"
     @submit.prevent="submitForm"
   >
-    <label for="client_name" class="mr-auto">Name:</label>
+    <label for="edit_client_name" class="mr-auto">Name:</label>
     <input
-      id="client_name"
+      id="edit_client_name"
       v-model="clientName"
       type="text"
       placeholder=""
       class="input w-full bg-background outline-1"
     />
     <label
-      for="client_email"
+      for="edit_client_email"
       class="mr-auto"
       :class="[clientEmailError ? 'text-error' : 'text']"
       >Email:</label
     >
     <input
-      id="client_email"
+      id="edit_client_email"
       v-model="clientEmail"
       type="email"
       placeholder=""
@@ -28,9 +28,9 @@
     <p v-if="clientEmailError" class="text-sm text-error">
       {{ clientEmailError }}
     </p>
-    <label for="client_type" class="mr-auto">Type:</label>
+    <label for="edit_client_type" class="mr-auto">Type:</label>
     <select
-      id="client_type"
+      id="edit_client_type"
       v-model="clientType"
       placeholder=""
       class="select w-full bg-background outline-1"
@@ -65,7 +65,7 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'client_email':
+    case 'edit_client_email':
       clientEmailError.value = null;
       break;
   }

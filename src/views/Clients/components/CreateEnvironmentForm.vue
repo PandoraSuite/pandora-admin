@@ -70,12 +70,12 @@
         class="flex flex-col gap-4 transition-discrete ease-in-out"
       >
         <label
-          for="service_id"
+          for="environment_service_id"
           :class="[environmentServiceIdError ? 'text-error' : 'text']"
           >Service:</label
         >
         <select
-          id="service_id"
+          id="environment_service_id"
           v-model="environmentServiceId"
           placeholder=""
           @input="clearErrors($event)"
@@ -104,7 +104,7 @@
               />
             </span>
             <label
-              for="services_max_requests"
+              for="environment_services_max_requests"
               :class="[
                 environmentServiceMaxRequestsError ? 'text-error' : 'text',
               ]"
@@ -112,7 +112,7 @@
             >
           </span>
           <span class="flex flex-row items-center gap-2">
-            <label for="unlimited_requests">Unlimited</label>
+            <label for="environment_services_unlimited_requests">Unlimited</label>
             <span
               class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
               data-tip="If checked, the service will have unlimited requests."
@@ -123,7 +123,7 @@
               />
             </span>
             <input
-              id="unlimited_requests"
+              id="environment_services_unlimited_requests"
               type="checkbox"
               v-model="isUnlimited"
               class="checkbox my-auto checkbox-sm"
@@ -133,7 +133,7 @@
           </span>
         </span>
         <input
-          id="services_max_requests"
+          id="environment_services_max_requests"
           v-model="displayedEnvironmentServiceMaxRequests"
           type="number"
           :placeholder="isUnlimited ? 'Unlimited' : ''"
@@ -272,10 +272,10 @@ function clearErrors(event: Event) {
     case 'environment_name':
       environmentNameError.value = null;
       break;
-    case 'service_id':
+    case 'environment_service_id':
       environmentServiceIdError.value = null;
       break;
-    case 'services_max_requests':
+    case 'environment_services_max_requests':
       environmentServiceMaxRequestsError.value = null;
       isUnlimited.value = false; // Reset unlimited state when the user interacts with the input.
       break;

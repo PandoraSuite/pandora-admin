@@ -70,8 +70,8 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'recalculate_next_reset_checkbox_1':
-    case 'recalculate_next_reset_checkbox_0':
+    case 'recalculate_next_reset_checkbox_yes':
+    case 'recalculate_next_reset_checkbox_no':
       recalculateNextResetError.value = null;
       break;
   }
@@ -92,7 +92,7 @@ function submitForm() {
     recalculateNextReset.value === null ||
     recalculateNextReset.value === undefined
   ) {
-    recalculateNextResetError.value = 'Recalculate next reset is required';
+    recalculateNextResetError.value = 'Recalculate next reset is required.';
     return;
   }
 
