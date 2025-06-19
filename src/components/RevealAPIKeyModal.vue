@@ -8,7 +8,7 @@
   </button>
 
   <dialog id="reveal_modal" ref="toggleModal" class="modal">
-    <div class="modal-box w-1/3 max-w-4xl bg-background">
+    <div class="modal-box sm:w-2/3 md:w-2/3 lg:w-2/4 xl:w-2/4 2xl:w-2/4 2xl:max-w-xl max-w-4xl bg-background">
       <button
         class="btn absolute top-2 right-2 btn-circle bg-error text-white btn-ghost btn-sm"
         @click="closeModal()"
@@ -16,14 +16,14 @@
         X
       </button>
       <h3 class="justify-self-start text-xl font-bold">
-        Reveal {{ props.title }}.
+        Reveal {{ props.title }}
       </h3>
 
       <section
         v-if="!isVisible"
         class="mx-auto my-10 flex w-3/4 max-w-2xl flex-col gap-3.5"
       >
-        <h4 class="text-left">
+        <h4 class="text-center xl:text-left">
           {{ TitleMessagesLabels.reauthenticate }}
         </h4>
 
@@ -57,7 +57,7 @@
 
       <section
         v-else
-        class="mx-auto my-10 flex w-4/5 max-w-2xl flex-col gap-3.5"
+        class="mx-auto my-10 flex xl:w-[90%] 2xl:w-[80%] max-w-3xl flex-col gap-3.5"
       >
         <h4 class="text-left">
           {{ TitleMessagesLabels.apiKeyVisible }}
