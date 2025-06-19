@@ -84,7 +84,6 @@ import { useEnvironmentsStore } from '@store/useEnvironmentsStore';
 import { useIdsStore } from '@store/useIdsStore';
 import { useProjectsStore } from '@store/useProjectsStore';
 import { useToastStore } from '@store/useToastStore';
-import { storeToRefs } from 'pinia';
 import type { Client } from '../../../types/clients';
 import type { NewEnvironment } from '../../../types/environments';
 import type { ProjectEnvironmentsLoadData } from '../../../types/loadData';
@@ -115,7 +114,6 @@ const projectId = Number(props.project_id);
 
 const clientStore = useClientsStore();
 const projectStore = useProjectsStore();
-const { error } = storeToRefs(projectStore);
 const environmentStore = useEnvironmentsStore();
 const idsStore = useIdsStore();
 const breadcrumbStore = useBreadcrumbStore();
@@ -253,11 +251,5 @@ watch(
   },
   { immediate: true },
 );
-
-watch(error, (value, _) => {
-  if (value) {
-    useToastStore().showToast(value, ToastMessages.isError);
-  }
-});
 </script>
 <style scoped></style>
