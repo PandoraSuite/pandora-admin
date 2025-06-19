@@ -39,7 +39,7 @@ api.interceptors.request.use(
   },
 );
 
-//  Response interceptor to handle errors globally.
+// Response interceptor to handle errors globally.
 api.interceptors.response.use(
   (response) => response,
 
@@ -47,30 +47,52 @@ api.interceptors.response.use(
     const toastStore = useToastStore();
     const authStore = useAuthStore();
     const currentRoute = router.currentRoute.value.fullPath;
-    let message: string;
 
-    if (currentRoute === '/login' && error.status === 401) {
-      // Handle invalid login.
-      message = error.response.data.error;
+    const statusCode = error.response ? error.response.status : null;
+    const errorData = error.response ? error.response.data : null;
 
-      toastStore.showToast(message, ToastMessages.isError);
-    } else if (error.status === 401) {
-      // Handle 401 errors and log out user.
-      toastStore.showToast(
-        ToastMessagesLabels.sessionExpired,
-        ToastMessages.isError,
-      );
+    let message: string = ToastMessagesLabels.genericError;
 
-      authStore.setRedirectPath(currentRoute);
-
-      authStore.logout();
-
-      setTimeout(() => {
-        router.push('/login');
-      }, 1000); // Short delay to display the toast.
+    // Try to get the error message from the error structure.
+    if (errorData && errorData.message) {
+        message = errorData.message;
+    } else if (error.message) { // Fallback for network errors or Axios no server response.
+        message = error.message;
     }
 
-    return Promise.reject(error);
+    // --- Handling 401 (Unauthorized) errors ---
+    if (statusCode === 401) {
+      if (currentRoute === '/login') {
+        // Specific case: Error 401 on the login page (invalid credentials).
+        toastStore.showToast(message, ToastMessages.isError);
+      } else {
+        // General case: 401 error on any other page (session expired/invalid).
+        toastStore.showToast(
+          ToastMessagesLabels.sessionExpired,
+          ToastMessages.isError,
+        );
+
+        authStore.setRedirectPath(currentRoute); // Save the route to redirect after login.
+        authStore.logout();
+
+        setTimeout(() => {
+          router.push('/login');
+        }, 1000); // Slight delay for toast to be visible.
+      }
+    } else {
+        // --- Other errors (not 401) ---
+        if (errorData && errorData.code === "NOT_FOUND") {
+            toastStore.showToast(message, ToastMessages.isError);
+        } else if (statusCode === 400 && errorData && errorData.errors) {
+            // If there is a 400 and the backend returns a list of validation errors.
+            message = errorData.errors.join(', ') || message;
+            toastStore.showToast(message, ToastMessages.isError);
+        } else {
+            toastStore.showToast(message, ToastMessages.isError);
+        }
+    }
+
+    return Promise.reject(error); // Rejects the promise so that the error can be handled in the component.
   },
 );
 
