@@ -1,5 +1,20 @@
 <template>
-  <div class="justify-centera flex flex-row items-center gap-2 self-center">
+  <div class="flex flex-row items-center justify-center gap-2 self-center">
+    <span
+      :data-tip="
+        isEnabled
+          ? TooltipMessagesLabels.disableAPIKey
+          : TooltipMessagesLabels.enableAPIKey
+      "
+      class="tooltip tooltip-top"
+    >
+      <input
+        type="checkbox"
+        v-model="isEnabled"
+        @change="handleEnableAPIKey"
+        class="toggle toggle-sm checked:border-quick-action checked:bg-quick-action checked:text-white"
+      />
+    </span>
     <RevealAPIKeyModal :title="TitleMessagesLabels.apiKey" :id="props.id" />
     <EditModal
       :title="TitleMessagesLabels.apiKey"
@@ -24,6 +39,7 @@ import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useToastStore } from '@store/useToastStore';
+import { ref } from 'vue';
 import type { UpdateAPIKey } from '../../../types/apiKeys';
 import UpdateAPIKeyForm from './UpdateAPIKeyForm.vue';
 
@@ -39,6 +55,18 @@ const emit = defineEmits<{
 }>();
 
 const apiKeysStore = useAPIKeysStore();
+
+const isEnabled = ref<boolean>(false);
+
+async function handleEnableAPIKey() {
+  const response = await apiKeysStore.enableAPIKey(props.id, isEnabled.value);
+  if (response) {
+    useToastStore().showToast(
+    ToastMessagesLabels.apiKeyEnabled, ToastMessages.isSuccess,
+  );
+    emit('itemUpdated');
+  }
+}
 
 async function updateAPIKey(data: unknown) {
   // Assinging the data to a variable of type UpdateClient
