@@ -76,6 +76,14 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
     }
   };
 
+  // Toggle enable or disable an API key by its id.
+  const enableAPIKey = async (id: number, isEnable: boolean) => {
+    isLoading.value = true;
+    const response = await repositories.apiKeys.enableAPIKey(id, isEnable);
+    isLoading.value = false;
+    return response.success;
+  };
+
   return {
     error,
     apiKeys,
@@ -84,5 +92,6 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
     updateAPIKey,
     deleteAPIKey,
     revealAPIKey,
+    enableAPIKey,
   };
 });
