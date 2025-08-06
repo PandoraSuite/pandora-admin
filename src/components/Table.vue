@@ -32,6 +32,7 @@
               ref="formComponentRef"
               :is="props.quickActionsComponent"
               :id="item.id"
+              :quick-action-data="item"
               @item-updated="$emit('itemUpdated')"
             />
           </td>

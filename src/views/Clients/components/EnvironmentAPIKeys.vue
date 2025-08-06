@@ -55,7 +55,7 @@
     </section>
     <section class="flex w-[90%] self-center">
       <Table
-        :tableData="apiKeysToRender"
+        :table-data="apiKeysToRender"
         :quick-actionsComponent="APIKeyQuickActions"
         @item-updated="handleAPIKeyUpdated"
       />
@@ -223,7 +223,6 @@ async function refreshData(): Promise<void> {
           : 'Unknown API Keys',
     };
   });
-
   scatterCrumbs();
 }
 

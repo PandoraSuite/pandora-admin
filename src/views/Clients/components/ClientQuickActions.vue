@@ -39,6 +39,7 @@ const router = useRouter();
 
 const props = defineProps<{
   id: number;
+  quickActionData?: any;
 }>();
 
 // This event is emitted when the project is updated successfully.

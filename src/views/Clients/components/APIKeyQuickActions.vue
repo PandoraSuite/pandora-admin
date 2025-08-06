@@ -32,6 +32,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import EditModal from '@components/EditModal.vue';
 import RevealAPIKeyModal from '@components/RevealAPIKeyModal.vue';
 import { TitleMessagesLabels } from '@enums/componentTitle';
@@ -39,12 +41,12 @@ import { ToastMessages, ToastMessagesLabels } from '@enums/toastMessages';
 import { TooltipMessagesLabels } from '@enums/tooltipsTexts';
 import { useAPIKeysStore } from '@store/useAPIKeysStore';
 import { useToastStore } from '@store/useToastStore';
-import { ref } from 'vue';
 import type { UpdateAPIKey } from '../../../types/apiKeys';
 import UpdateAPIKeyForm from './UpdateAPIKeyForm.vue';
 
 const props = defineProps<{
   id: number;
+  quickActionData: any;
 }>();
 
 // This event is emitted when the project is updated successfully.
@@ -56,14 +58,22 @@ const emit = defineEmits<{
 
 const apiKeysStore = useAPIKeysStore();
 
-const isEnabled = ref<boolean>(false);
+const isEnabled = ref<boolean>(props.quickActionData.status === 'enabled' ? true : false);
 
 async function handleEnableAPIKey() {
   const response = await apiKeysStore.enableAPIKey(props.id, isEnabled.value);
-  if (response) {
+  if (response?.status === 'enabled') {
     useToastStore().showToast(
-    ToastMessagesLabels.apiKeyEnabled, ToastMessages.isSuccess,
-  );
+      ToastMessagesLabels.apiKeyEnabled,
+      ToastMessages.isSuccess,
+    );
+    emit('itemUpdated');
+  }
+  if (response?.status === 'disabled') {
+    useToastStore().showToast(
+      ToastMessagesLabels.apiKeyDisabled,
+      ToastMessages.isSuccess,
+    );
     emit('itemUpdated');
   }
 }

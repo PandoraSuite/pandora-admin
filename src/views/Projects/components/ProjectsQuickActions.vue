@@ -29,6 +29,7 @@ const projectsStore = useProjectsStore();
 
 const props = defineProps<{
   id: number;
+  quickActionData?: any;
 }>();
 
 // This event is emitted when the project is updated successfully.
