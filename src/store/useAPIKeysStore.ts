@@ -80,8 +80,13 @@ export const useAPIKeysStore = defineStore('apiKeys', () => {
   const enableAPIKey = async (id: number, isEnable: boolean) => {
     isLoading.value = true;
     const response = await repositories.apiKeys.enableAPIKey(id, isEnable);
-    isLoading.value = false;
-    return response.success;
+    if (response.success) {
+      isLoading.value = false;
+      return response;
+    } else {
+      isLoading.value = false;
+      error.value = response.error;
+    }
   };
 
   return {

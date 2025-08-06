@@ -122,6 +122,7 @@ export default <APIKeyRequests>{
         await api.post<true>(`${RESOURCE}/${id}/enable`);
         return {
           success: true,
+          status: 'enabled',
         };
       } catch (err) {
         const error = err as AxiosError;
@@ -133,6 +134,7 @@ export default <APIKeyRequests>{
         await api.post<true>(`${RESOURCE}/${id}/disable`);
         return {
           success: true,
+          status: 'disabled',
         };
       } catch (err) {
         const error = err as AxiosError;
