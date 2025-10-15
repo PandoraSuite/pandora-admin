@@ -12,7 +12,9 @@
         >Max Requests:</label
       >
       <span class="flex flex-row items-center gap-2">
-        <label for="edit_environment_service_unlimited_requests" class="text-lg text-text"
+        <label
+          for="edit_environment_service_unlimited_requests"
+          class="text-lg text-text"
           >Unlimited</label
         >
         <span

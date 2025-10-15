@@ -58,7 +58,9 @@ const emit = defineEmits<{
 
 const apiKeysStore = useAPIKeysStore();
 
-const isEnabled = ref<boolean>(props.quickActionData.status === 'enabled' ? true : false);
+const isEnabled = ref<boolean>(
+  props.quickActionData.status === 'enabled' ? true : false,
+);
 
 async function handleEnableAPIKey() {
   const response = await apiKeysStore.enableAPIKey(props.id, isEnabled.value);

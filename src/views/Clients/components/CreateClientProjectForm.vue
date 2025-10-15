@@ -126,7 +126,9 @@
             >Max Requests:</label
           >
           <span class="flex flex-row items-center gap-2">
-            <label for="client_project_services_unlimited_requests">Unlimited</label>
+            <label for="client_project_services_unlimited_requests"
+              >Unlimited</label
+            >
             <span
               class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
               data-tip="If checked, the service will have unlimited requests."

@@ -32,7 +32,10 @@ export function getItem<T>(key: string): T | null {
     return JSON.parse(value) as T;
   } catch (error) {
     // Invalid JSON or other parsing error
-    console.error(`Failed to parse localStorage value for key "${key}":`, error);
+    console.error(
+      `Failed to parse localStorage value for key "${key}":`,
+      error,
+    );
     return null;
   }
 }

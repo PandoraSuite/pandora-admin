@@ -3,7 +3,7 @@ export enum TooltipMessages {
   deleteAPIKey = 'deleteAPIKey',
   revealAPIKey = 'revealAPIKey',
   enableAPIKey = 'enableAPIKey',
-  disableAPIKey= 'disableAPIKey',
+  disableAPIKey = 'disableAPIKey',
   editModalTitle = 'editModalTitle',
   refreshService = 'refreshService',
   removeService = 'removeService',

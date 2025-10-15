@@ -55,5 +55,6 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.apiKeyEnabled]: 'API key enabled successfully.',
   [ToastMessages.apiKeyDisabled]: 'API key disabled successfully.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
-  [ToastMessages.genericError]: 'An unexpected error has occurred. Please try again.'
+  [ToastMessages.genericError]:
+    'An unexpected error has occurred. Please try again.',
 };

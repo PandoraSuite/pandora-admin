@@ -8,7 +8,9 @@
   </button>
 
   <dialog id="reveal_modal" ref="toggleModal" class="modal">
-    <div class="modal-box sm:w-2/3 md:w-2/3 lg:w-2/4 xl:w-2/4 2xl:w-2/4 2xl:max-w-xl max-w-4xl bg-background">
+    <div
+      class="modal-box max-w-4xl bg-background sm:w-2/3 md:w-2/3 lg:w-2/4 xl:w-2/4 2xl:w-2/4 2xl:max-w-xl"
+    >
       <button
         class="btn absolute top-2 right-2 btn-circle bg-error text-white btn-ghost btn-sm"
         @click="closeModal()"
@@ -57,7 +59,7 @@
 
       <section
         v-else
-        class="mx-auto my-10 flex xl:w-[90%] 2xl:w-[80%] max-w-3xl flex-col gap-3.5"
+        class="mx-auto my-10 flex max-w-3xl flex-col gap-3.5 xl:w-[90%] 2xl:w-[80%]"
       >
         <h4 class="text-left">
           {{ TitleMessagesLabels.apiKeyVisible }}

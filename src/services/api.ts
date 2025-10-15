@@ -55,9 +55,10 @@ api.interceptors.response.use(
 
     // Try to get the error message from the error structure.
     if (errorData && errorData.message) {
-        message = errorData.message;
-    } else if (error.message) { // Fallback for network errors or Axios no server response.
-        message = error.message;
+      message = errorData.message;
+    } else if (error.message) {
+      // Fallback for network errors or Axios no server response.
+      message = error.message;
     }
 
     // --- Handling 401 (Unauthorized) errors ---
@@ -80,16 +81,16 @@ api.interceptors.response.use(
         }, 1000); // Slight delay for toast to be visible.
       }
     } else {
-        // --- Other errors (not 401) ---
-        if (errorData && errorData.code === "NOT_FOUND") {
-            toastStore.showToast(message, ToastMessages.isError);
-        } else if (statusCode === 400 && errorData && errorData.errors) {
-            // If there is a 400 and the backend returns a list of validation errors.
-            message = errorData.errors.join(', ') || message;
-            toastStore.showToast(message, ToastMessages.isError);
-        } else {
-            toastStore.showToast(message, ToastMessages.isError);
-        }
+      // --- Other errors (not 401) ---
+      if (errorData && errorData.code === 'NOT_FOUND') {
+        toastStore.showToast(message, ToastMessages.isError);
+      } else if (statusCode === 400 && errorData && errorData.errors) {
+        // If there is a 400 and the backend returns a list of validation errors.
+        message = errorData.errors.join(', ') || message;
+        toastStore.showToast(message, ToastMessages.isError);
+      } else {
+        toastStore.showToast(message, ToastMessages.isError);
+      }
     }
 
     return Promise.reject(error); // Rejects the promise so that the error can be handled in the component.
