@@ -1,11 +1,11 @@
 <template>
   <form
-    id="edit-project-services-form"
+    id="edit_project_services_form"
     class="mx-auto mt-8 mb-5 flex w-[90%] flex-col gap-4"
     @submit.prevent="submitForm"
   >
     <label
-      for="service_next_reset"
+      for="edit_project_service_next_reset"
       class="text text-lg"
       :class="[projectServiceNextResetError ? 'text-error' : 'text-text']"
       >Next reset:</label
@@ -36,13 +36,15 @@
 
     <span class="flex flex-row items-center justify-between">
       <label
-        for="service_max_requests"
+        for="edit_project_service_max_requests"
         class="text text-lg"
         :class="[projectServiceMaxRequestsError ? 'text-error' : 'text-text']"
         >Max Requests:</label
       >
       <span class="flex flex-row items-center gap-2">
-        <label for="unlimited_requests" class="text-lg text-text"
+        <label
+          for="edit_project_services_unlimited_requests"
+          class="text-lg text-text"
           >Unlimited</label
         >
         <span
@@ -55,7 +57,7 @@
           />
         </span>
         <input
-          id="unlimited_requests"
+          id="edit_project_services_unlimited_requests"
           type="checkbox"
           v-model="isUnlimited"
           class="checkbox my-auto checkbox-sm"
@@ -65,7 +67,7 @@
       </span>
     </span>
     <input
-      id="service_max_requests"
+      id="edit_project_service_max_requests"
       v-model="displayedProjectServiceMaxRequests"
       type="number"
       :placeholder="isUnlimited ? 'Unlimited' : ''"
@@ -78,13 +80,13 @@
     </p>
 
     <label
-      for="service_reset_frequency"
+      for="edit_project_service_reset_frequency"
       class="text text-lg"
       :class="[projectServiceResetFrequencyError ? 'text-error' : 'text-text']"
       >Reset Frequency:</label
     >
     <select
-      id="service_reset_frequency"
+      id="edit_project_service_reset_frequency"
       v-model="projectServiceResetFrequency"
       placeholder=""
       @input="clearErrors($event)"
@@ -138,16 +140,16 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'service_max_requests':
+    case 'edit_project_service_max_requests':
       projectServiceMaxRequestsError.value = null;
       projectServiceResetFrequencyError.value = null;
       projectServiceNextResetError.value = null;
       break;
-    case 'service_reset_frequency':
+    case 'edit_project_service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
       projectServiceNextResetError.value = null;
       break;
-    case 'service_next_reset':
+    case 'edit_project_service_next_reset':
       projectServiceNextResetError.value = null;
       break;
   }

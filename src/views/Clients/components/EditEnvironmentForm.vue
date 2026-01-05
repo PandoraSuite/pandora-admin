@@ -4,13 +4,13 @@
     @submit.prevent="submitForm"
   >
     <label
-      for="environment_name"
+      for="edit_environment_name"
       class="mr-auto"
       :class="[environmentNameError ? 'text-error' : 'text']"
       >Name:</label
     >
     <input
-      id="environment_name"
+      id="edit_environment_name"
       v-model="environmentName"
       type="text"
       placeholder=""
@@ -41,7 +41,7 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'environment_name':
+    case 'edit_environment_name':
       environmentNameError.value = null;
       break;
   }

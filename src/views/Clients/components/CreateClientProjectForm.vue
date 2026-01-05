@@ -4,13 +4,13 @@
     @submit.prevent="submitForm"
   >
     <label
-      for="project_name"
+      for="client_project_name"
       class="mr-auto"
       :class="[projectNameError ? 'text-error' : 'text']"
       >Name:</label
     >
     <input
-      id="project_name"
+      id="client_project_name"
       v-model="projectName"
       type="text"
       placeholder=""
@@ -21,13 +21,13 @@
       {{ projectNameError }}
     </p>
     <label
-      for="project_status"
+      for="client_project_status"
       class="mr-auto"
       :class="[projectNameError ? 'text-error' : 'text']"
       >Status:</label
     >
     <select
-      id="project_status"
+      id="client_project_status"
       v-model="projectStatus"
       placeholder=""
       @input="clearErrors($event)"
@@ -95,13 +95,13 @@
         class="flex flex-col gap-4 transition-discrete ease-in-out"
       >
         <label
-          for="service_id"
+          for="client_project_service_id"
           class="mr-auto"
           :class="[projectServiceIdError ? 'text-error' : 'text']"
           >Service:</label
         >
         <select
-          id="service_id"
+          id="client_project_service_id"
           v-model="projectServiceId"
           placeholder=""
           @input="clearErrors($event)"
@@ -120,13 +120,15 @@
         </p>
         <span class="flex flex-row items-center justify-between">
           <label
-            for="services_max_requests"
+            for="client_project_services_max_requests"
             class="mr-auto"
             :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
             >Max Requests:</label
           >
           <span class="flex flex-row items-center gap-2">
-            <label for="unlimited_requests">Unlimited</label>
+            <label for="client_project_services_unlimited_requests"
+              >Unlimited</label
+            >
             <span
               class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
               data-tip="If checked, the service will have unlimited requests."
@@ -137,7 +139,7 @@
               />
             </span>
             <input
-              id="unlimited_requests"
+              id="client_project_services_unlimited_requests"
               type="checkbox"
               v-model="isUnlimited"
               class="checkbox my-auto checkbox-sm"
@@ -147,7 +149,7 @@
           </span>
         </span>
         <input
-          id="services_max_requests"
+          id="client_project_services_max_requests"
           v-model="displayedProjectServiceMaxRequests"
           type="number"
           :placeholder="isUnlimited ? 'Unlimited' : ''"
@@ -159,13 +161,13 @@
           {{ projectServiceMaxRequestsError }}
         </p>
         <label
-          for="service_reset_frequency"
+          for="client_project_service_reset_frequency"
           class="mr-auto"
           :class="[projectServiceResetFrequencyError ? 'text-error' : 'text']"
           >Reset Frequency:</label
         >
         <select
-          id="service_reset_frequency"
+          id="client_project_service_reset_frequency"
           v-model="projectServiceResetFrequency"
           placeholder=""
           @input="clearErrors($event)"
@@ -367,20 +369,20 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'project_name':
+    case 'client_project_name':
       projectNameError.value = null;
       break;
-    case 'project_status':
+    case 'client_project_status':
       projectStatusError.value = null;
       break;
-    case 'service_id':
+    case 'client_project_service_id':
       projectServiceIdError.value = null;
       break;
-    case 'services_max_requests':
+    case 'client_project_services_max_requests':
       projectServiceMaxRequestsError.value = null;
       isUnlimited.value = false;
       break;
-    case 'service_reset_frequency':
+    case 'client_project_service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
       break;
   }

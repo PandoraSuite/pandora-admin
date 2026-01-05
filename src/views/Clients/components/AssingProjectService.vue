@@ -4,12 +4,12 @@
     @submit.prevent="submitForm"
   >
     <label
-      for="service_id"
+      for="project_service_id"
       :class="[projectServiceIdError ? 'text-error' : 'text']"
       >Service:</label
     >
     <select
-      id="service_id"
+      id="project_service_id"
       v-model="projectServiceId"
       placeholder=""
       @input="clearErrors($event)"
@@ -37,12 +37,12 @@
     </p>
     <span class="flex flex-row items-center justify-between">
       <label
-        for="services_max_requests"
+        for="project_services_max_requests"
         :class="[projectServiceMaxRequestsError ? 'text-error' : 'text']"
         >Max Requests:</label
       >
       <span class="flex flex-row items-center gap-2">
-        <label for="unlimited_requests">Unlimited</label>
+        <label for="project_services_unlimited_requests">Unlimited</label>
         <span
           class="tooltip tooltip-left flex btn-circle h-4 w-4 bg-quick-action object-center"
           data-tip="If checked, the service will have unlimited requests."
@@ -53,7 +53,7 @@
           />
         </span>
         <input
-          id="unlimited_requests"
+          id="project_services_unlimited_requests"
           type="checkbox"
           v-model="isUnlimited"
           class="checkbox my-auto checkbox-sm"
@@ -63,7 +63,7 @@
       </span>
     </span>
     <input
-      id="services_max_requests"
+      id="project_services_max_requests"
       v-model="displayedProjectServiceMaxRequests"
       type="number"
       :placeholder="isUnlimited ? 'Unlimited' : ''"
@@ -76,12 +76,12 @@
     </p>
 
     <label
-      for="service_reset_frequency"
+      for="project_service_reset_frequency"
       :class="[projectServiceResetFrequencyError ? 'text-error' : 'text']"
       >Reset Frequency:</label
     >
     <select
-      id="service_reset_frequency"
+      id="project_service_reset_frequency"
       v-model="projectServiceResetFrequency"
       placeholder=""
       @input="clearErrors($event)"
@@ -191,14 +191,14 @@ function clearErrors(event: Event) {
   const field = target.id;
 
   switch (field) {
-    case 'service_id':
+    case 'project_service_id':
       projectServiceIdError.value = null;
       break;
-    case 'services_max_requests':
+    case 'project_services_max_requests':
       projectServiceMaxRequestsError.value = null;
       isUnlimited.value = false; // Reset unlimited state when the user interacts with the input.
       break;
-    case 'service_reset_frequency':
+    case 'project_service_reset_frequency':
       projectServiceResetFrequencyError.value = null;
       break;
   }

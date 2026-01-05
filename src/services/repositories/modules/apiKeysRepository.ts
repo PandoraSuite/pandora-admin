@@ -24,6 +24,7 @@ export interface APIKeyRequests {
     id: number,
     reauthAccessToken: string,
   ): Promise<StandardResponse<RevealAPIKey>>;
+  enableAPIKey(id: number, isEnable: boolean): Promise<StandardResponse<true>>;
 }
 
 export default <APIKeyRequests>{
@@ -108,6 +109,38 @@ export default <APIKeyRequests>{
       const error = err as AxiosError;
 
       return handleHttpError(error);
+    }
+  },
+
+  // Toggle enable or disable an API key by its id.
+  async enableAPIKey(
+    id: number,
+    isEnable: boolean,
+  ): Promise<StandardResponse<true>> {
+    if (isEnable) {
+      try {
+        await api.post<true>(`${RESOURCE}/${id}/enable`);
+        return {
+          success: true,
+          status: 'enabled',
+        };
+      } catch (err) {
+        const error = err as AxiosError;
+
+        return handleHttpError(error);
+      }
+    } else {
+      try {
+        await api.post<true>(`${RESOURCE}/${id}/disable`);
+        return {
+          success: true,
+          status: 'disabled',
+        };
+      } catch (err) {
+        const error = err as AxiosError;
+
+        return handleHttpError(error);
+      }
     }
   },
 };

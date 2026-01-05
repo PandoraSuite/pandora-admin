@@ -29,6 +29,7 @@ const serviceStore = useServicesStore();
 
 const props = defineProps<{
   id: number;
+  quickActionData?: any;
 }>();
 
 async function updateServiceStatus(data: unknown): Promise<void> {

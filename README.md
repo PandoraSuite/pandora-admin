@@ -1,4 +1,178 @@
-# pandora-admin
+# Pandora Admin
+
+> A modern, efficient, type-safe, and secure admin panel for managing API Keys, quotas, and access to services.
+
+Pandora Admin is a Vue 3-based Single Page Application (SPA) that provides a centralized dashboard for managing your API infrastructure. Built with TypeScript, Vite, and Tailwind CSS v4, it offers a robust and scalable solution for API key management and service administration.
+
+## :sparkles: Features
+
+- **Authentication & Security**: Secure login with JWT token management and automatic session handling
+- **API Key Management**: Create, edit, enable/disable, refresh, and reveal API keys with expiration tracking
+- **Service Administration**: Manage microservices with status monitoring (active, development, deprecated, discontinued)
+- **Client Management**: Organize clients and associate them with projects and environments
+- **Project Organization**: Create and manage projects with client associations
+- **Environment Control**: Handle multiple environments (development, staging, production) per project
+- **Real-time Notifications**: Toast-based feedback system for all operations
+- **Theme Support**: Dark/light mode toggle with persistent preferences
+- **Breadcrumb Navigation**: Clear hierarchical navigation throughout the application
+- **Responsive Design**: Mobile-friendly interface built with Tailwind CSS and DaisyUI
+
+## :hammer_and_wrench: Tech Stack
+
+- **Frontend Framework**: Vue 3 (Composition API)
+- **Language**: TypeScript (strict mode)
+- **Build Tool**: Vite
+- **State Management**: Pinia
+- **Routing**: Vue Router
+- **Styling**: Tailwind CSS v4 + DaisyUI
+- **HTTP Client**: Axios
+- **Icons**: FontAwesome
+- **Date Picker**: @vuepic/vue-datepicker
+- **Code Quality**: Prettier with auto-import organization
+
+## :rocket: Quick Start
+
+### Prerequisites
+
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd pandora-admin
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env .env.local  # and configure your variables
+```
+
+### Environment Configuration
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_APP_NAME=Pandora-Admin
+VITE_DEFAULT_TIMEOUT=10000
+VITE_BASE_URL=http://localhost:8081/
+```
+
+### Development
+
+```bash
+npm run dev          # Start dev server on http://localhost:5173
+npm run build        # Type-check and build for production
+npm run preview      # Preview production build
+npm run format       # Format code with Prettier
+```
+
+## :building_construction: Project Architecture
+
+### Directory Structure
+
+```
+src/
+├── components/          # Reusable Vue components
+│   ├── Layout.vue      # Main app layout
+│   ├── Header.vue      # Top navigation
+│   ├── Sidebar.vue     # Side navigation
+│   ├── Table.vue       # Generic data table
+│   └── modals/         # Modal components
+├── views/              # Page views organized by feature
+│   ├── Login/          # Authentication views
+│   ├── Dashboard/      # Dashboard view
+│   ├── Services/       # Service management
+│   ├── Clients/        # Client management
+│   └── Projects/       # Project management
+├── store/              # Pinia stores
+├── router/             # Vue Router configuration
+│   └── modules/        # Route modules
+├── services/           # API layer
+│   ├── api.ts         # Axios instances
+│   └── repositories/   # Repository pattern
+│       └── modules/    # Feature-specific repositories
+├── types/              # TypeScript type definitions
+├── enums/              # Enumerations and constants
+├── composables/        # Composable functions
+└── plugins/            # Vue plugins
+```
+
+### Path Aliases
+
+The project uses TypeScript path aliases for cleaner imports:
+
+- `@enums/*` - Enumerations and constants
+- `@store/*` - Pinia stores
+- `@views/*` - Page views
+- `@types/*` - TypeScript type definitions
+- `@router/*` - Vue Router configuration
+- `@plugins/*` - Vue plugins
+- `@services/*` - API services and repositories
+- `@components/*` - Vue components
+- `@composables/*` - Composable functions
+
+Example usage:
+
+```typescript
+import { useAuthStore } from '@store/useAuthStore';
+import { ServiceStatus } from '@enums/serviceStatus';
+import type { Service } from '@types/services';
+```
+
+## :handshake: Contributing
+
+This is a community-driven project. We welcome contributions!
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run `npm run format` to ensure code style consistency
+5. Commit your changes following [conventional commits](https://www.conventionalcommits.org/)
+6. Push to your branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
+
+### Code Style
+
+- Follow the existing code patterns
+- Use TypeScript strict mode
+- Write descriptive variable and function names
+- Add JSDoc comments for complex functions
+- Ensure all types are properly defined
+- Run Prettier before committing
+
+### Adding New Features
+
+**Repository**:
+
+1. Create repository module in `src/services/repositories/modules/`
+2. Define typed interface for API methods
+3. Export and add to `repositories` object in `src/services/repositories/index.ts`
+
+**Store**:
+
+1. Use `defineStore` with Composition API
+2. Separate state (refs), getters (computed), and actions (functions)
+3. Handle loading states and errors
+4. Import and use repositories for API calls
+
+**Route**:
+
+1. Create route config in `src/router/modules/`
+2. Add to parent route's children or main routes array
+3. Set `meta: { requiresAuth: true }` for protected routes
+4. Create corresponding view in `src/views/`
+
+**Types**:
+
+1. Add type definitions in `src/types/`
+2. Use interfaces for objects, types for unions/primitives
+3. Export all types for reuse
 
 ## :bug: Debugging
 
@@ -41,7 +215,7 @@ In the replaced json, the following fields must be confirmed:
 
 - **\<web app>:** this should be the type of browser to use, the most common options are chrome or firefox
   > **_Note: any chomium-based browser falls under the chrome type._**
-- **\<browser ececutable>:** this should be the path of the browser executable.
+- **\<browser executable>:** this should be the path of the browser executable.
 
   > Find it by running:
   >
@@ -77,3 +251,30 @@ If you configure debugging for another IDE (like WebStorm, Neovim, Emacs, or Ecl
 
 - Keep the configuration scoped to your IDE.
 - Avoid modify project-specific files.
+
+## :rocket: Developer Setup
+
+Ready to dive in? For a full guide on setting up your development environment, running the project, and debugging:
+
+:point_right: See our comprehensive [DEVELOPMENT.md](./DEVELOPMENT.md) guide.
+
+## :compass: Project Status
+
+**Pandora Admin** is under active development.
+
+We're continuously working to enhance its capabilities.
+
+## :page_facing_up: License
+
+This project is licensed under the terms of the MIT license.
+
+## :speech_balloon: Support
+
+For issues, questions, or contributions:
+
+- Open an issue on GitHub
+- Check existing issues for solutions
+- Join our community discussions
+- Submit pull requests for improvements
+
+**Made with :heart: by the Pandora community**

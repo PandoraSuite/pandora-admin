@@ -20,7 +20,7 @@
         X
       </button>
       <h3 class="text-lg font-bold">
-        {{ props.buttonText }} a new {{ props.title }}.
+        {{ props.buttonText }} a new {{ props.title }}
       </h3>
 
       <component

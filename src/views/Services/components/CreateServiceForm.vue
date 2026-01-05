@@ -92,6 +92,11 @@ function submitForm() {
     isValid = false;
   }
 
+  if (serviceVersion.value.length > 25) {
+    serviceVersionError.value = 'The maximum version length is 25 characters.';
+    isValid = false;
+  }
+
   if (!isValid) {
     return;
   }

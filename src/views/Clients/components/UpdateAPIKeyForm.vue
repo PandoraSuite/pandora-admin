@@ -4,7 +4,10 @@
     class="mx-auto mt-8 mb-5 flex h-fit w-[90%] flex-col gap-4"
     @submit.prevent="submitForm"
   >
-    <label for="expires_at" :class="[apiExpiresAtError ? 'text-error' : 'text']"
+    <label
+      for="expires_at"
+      :class="[apiExpiresAtError ? 'text-error' : 'text']"
+      class="mr-auto"
       >Expires at:</label
     >
     <Datepicker
@@ -27,7 +30,7 @@
       @open="expand"
       @closed="collapse"
     />
-    <p v-if="apiExpiresAtError" class="text-sm text-error">
+    <p v-if="apiExpiresAtError" class="mr-auto text-sm text-error">
       {{ apiExpiresAtError }}
     </p>
     <button type="submit" class="btn mx-auto mt-3 w-fit bg-accent text-white">

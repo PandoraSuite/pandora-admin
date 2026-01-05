@@ -11,7 +11,7 @@
   </button>
 
   <dialog
-    id="create_modal"
+    id="edit_modal"
     ref="toggleModal"
     class="modal modal-bottom sm:modal-middle"
   >
@@ -23,7 +23,7 @@
         X
       </button>
       <h3 class="justify-self-start text-xl font-bold">
-        Edit {{ props.title }}.
+        Edit {{ props.title }}
       </h3>
 
       <component

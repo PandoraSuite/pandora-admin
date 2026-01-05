@@ -21,6 +21,8 @@ export enum ToastMessages {
   apiKeyUpdated = 'apiKeyUpdated',
   apiKeyDeleted = 'apiKeyDeleted',
   apiKeyReavealExpired = 'apiKeyReavealExpired',
+  apiKeyEnabled = 'apiKeyEnabled',
+  apiKeyDisabled = 'apiKeyDisabled',
   sessionExpired = 'sessionExpired',
   genericError = 'genericError',
 }
@@ -50,6 +52,9 @@ export const ToastMessagesLabels: Record<ToastMessages, string> = {
   [ToastMessages.apiKeyDeleted]: 'API Key deleted successfully.',
   [ToastMessages.apiKeyReavealExpired]:
     'Time to access API key has expired. If needed, please request it again.',
+  [ToastMessages.apiKeyEnabled]: 'API key enabled successfully.',
+  [ToastMessages.apiKeyDisabled]: 'API key disabled successfully.',
   [ToastMessages.sessionExpired]: 'Session expired. Please log in again.',
-  [ToastMessages.genericError]: 'An unexpected error has occurred. Please try again.'
+  [ToastMessages.genericError]:
+    'An unexpected error has occurred. Please try again.',
 };

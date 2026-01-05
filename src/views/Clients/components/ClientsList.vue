@@ -11,10 +11,7 @@
       <SearchInput placeholder="Filter by Type" @search="handleSearch" />
     </section>
     <section class="flex w-[90%] self-center">
-      <Table
-        :tableData="clientsList"
-        :quickActionsComponent="QuickActions"
-      />
+      <Table :tableData="clientsList" :quickActionsComponent="QuickActions" />
     </section>
   </div>
 </template>
