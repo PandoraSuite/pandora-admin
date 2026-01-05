@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide provides comprehensive information for developers working on the Pandora Admin project. For a general overview, see [README.md](./README.md). For AI assistant guidance, see [CLAUDE.md](./CLAUDE.md).
+This guide provides comprehensive information for developers working on the Pandora Admin project. For a general overview, see [README.md](./README.md).
 
 ## Table of Contents
 
