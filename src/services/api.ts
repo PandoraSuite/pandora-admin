@@ -106,7 +106,7 @@ api.interceptors.response.use(
       // If there is a 400 and the backend returns a list of validation errors.
       message = errorData.errors.join(', ') || message;
     }
-    
+
     // --- Other errors ---
     toastStore.showToast(message, ToastMessages.isError);
     return Promise.reject(error); // Rejects the promise so that the error can be handled in the component.
